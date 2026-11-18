@@ -1,0 +1,915 @@
+WISBOX VESPERON × C O N F I D E N T I A L · v 1 . 0
+Mira
+P R O D U C T R E Q U I R E M E N T S D O C U M E N T
+Te Conence Mirror
+An on-device AI mirror that leads with condence and never grades.
+Engineered so she walks out feeling good at least 7 in 10 times — by
+design, not by chance.
+On-device AI Flutter · Web + Mobile DPDP & GDPR-safe Aliate + SaaS + White-label Zero beauty score
+Prepared by Vesperon Tech × Wisbox · Bengaluru, India 04 July 2026 · The single source of truth
+
+-- 1 of 23 --
+
+02 Cotet ow to ue ti docuet Mira
+What's inside
+S T R AT E G Y & M A R K E T
+03 Executive summary 03 04 Problem & market gap 04
+05 Target customers & personas 05 06 Market sizing — TAM / SAM / SOM 06
+07 Solution & the emotional contract 07
+T H E P R O D U C T E N G I N E
+08 Condence Engine I — Session Director 08 09 Condence Engine II — rules & safeguards 09
+10 The Copy Engine 10
+T E C H N O L O G Y
+11 System architecture 11 12 On-device pipeline & data ow 12
+13 Frontend & design system 13 14 Web + mobile integration logic 14
+15 Backend, APIs & data model 15 16 Recommendation engine & catalog 16
+17 Business logic — state machine 17
+T R U S T , G R O W T H & M O N E Y
+18 Privacy, consent & compliance 18 19 Engagement analysis & retention 19
+20 Revenue model & unit economics 20 21 Go-to-market strategy 21
+22 Phased delivery plan 22 23 Risks, decision log & glossary 23
+How to use this document
+This is the one source of truth. If something about Mira is
+true, it lives here. If two documents disagree, this wins.
+Read the section you're touching before you build. When a
+decision changes, update the Decision Log (p.23) — never
+let the truth scatter across chats.
+The 🧒 box on every page
+Every page carries a plain-language box that explains that
+page as if to a six-year-old. It exists so a new engineer, a
+designer, an investor, or a Claude session can grasp any
+part in ten seconds — no jargon required to get the gist.
+🧒 Explain like I'm 6 This page is the table of contents — a map of the whole rule book. And it promises that every page has a tiny
+"easy words" box like this one.
+Mira · Product Requirements Document · Confidential 02 / 23
+W I S B O X × V E S P E R O N
+
+-- 2 of 23 --
+
+03 Executive uary Mira
+A irror tat i on er sie.
+Mira is an AI mirror a woman opens for a nal check before leaving home. Most of the time it simply tells her she
+looks good and gets out of her way. Sometimes it oers one genuine tip — but only when she reaches for it. Every
+competitor builds a "rate-your-face" scanner or an AR try-on. Scanners quietly make women feel worse, so they
+don't retain and brands won't co-brand them. Mira's moat is not the computer vision — it is the emotional
+contract: lead with condence, never grade.
+7 / 10
+sessions engineered to end in
+condence — by design
+0
+beauty scores shown, ever
+100%
+face analysis on-device — no
+image uploaded
+3
+revenue lines: aliate, SaaS, white-
+label
+What it is Why it wins
+The one sentence for the whole company
+Build the only AI mirror women trust — because it makes them feel good rst, tells the truth only when asked, and
+never sends their face anywhere — then monetize that trust through aliate recommendations, a premium tier, and
+white-label licensing to beauty brands.
+🧒 Explain like I'm 6 Our magic mirror is a kind friend, not a test. Because it's kind, girls use it every day, they trust it, and makeup
+companies want their own copy of it. That's how we make money.
+Mira · Product Requirements Document · Confidential 03 / 23
+S T R A T E G Y & M A R K E T
+A cross-platform Flutter app (iOS, Android, Web) with an
+on-device face read.
+A Condence Engine that directs an emotional session,
+not a score.
+A Copy Engine that says earned, specic, non-repeating
+compliments.
+An opt-in recommendation layer that only appears when
+she asks.
+Retention: condence is a daily habit; grading is a one-
+time novelty.
+Trust: "your face never leaves your phone" is the
+headline, not a footnote.
+B2B unlock: zero body-image / biometric risk makes it
+safe to white-label.
+Defensible: the contract and tone system are the hard
+part, not the CV.
+
+-- 3 of 23 --
+
+04 Te proble te arket gap Mira
+Everyoe built te rong mirror.
+Getting ready is an emotional moment, not a diagnostic one. Yet the tools built for it treat the face like a defect
+list. That mismatch is the opening.
+The problem, from her side
+The rushed check
+She's late, needs a quick "you're
+good," and instead gets a screen full
+of "improvements" that make her
+feel worse right before she walks
+out.
+The trust problem
+A mirror that only atters is useless
+when it matters; one that only
+critiques is painful. Nobody built the
+honest-but-kind middle.
+The privacy fear
+Uploading your face to a beauty app
+is a real, growing anxiety. Most apps
+do exactly that — and bury it in a
+policy.
+Why existing solutions fail
+Category What they do Why it falls short
+"Beauty score" scanners Grade symmetry / skin and give a
+number
+Erodes self-esteem → poor retention; toxic for a brand to attach its
+name
+AR virtual try-on Overlay makeup shades on a live face Fun, but a shopping funnel — not a condence habit; no emotional
+payo
+Generic sele / lter
+apps
+Beautify and retouch Distort reality; give no real, useful, or kind feedback
+Skin-analysis apps Clinical dermatology read Decit-framed and cloud-based; anxiety-inducing, privacy-heavy
+The gap Mira lls
+A condence-rst, on-device, honest-when-asked mirror. It is the only one designed around how the moment actually
+feels — reassurance by default, truth on request, privacy by architecture. No competitor occupies this position because
+the hard part isn't the vision model; it's having the discipline to not grade.
+🧒 Explain like I'm 6 Other face apps act like a strict teacher marking your homework. Nobody made a mirror that's just a nice
+friend who keeps your face secret. That empty spot is ours.
+Mira · Product Requirements Document · Confidential 04 / 23
+S T R A T E G Y & M A R K E T
+
+-- 4 of 23 --
+
+05 Target cutoer peroa Mira
+Tree people, tree jos-to-e-one.
+Two are the woman in dierent moments; the third is the business that licenses the mirror. Every feature traces to
+one of these jobs.
+The nal-check woman
+Primary. Getting ready, often late.
+Wants a fast, warm "you're good,"
+and occasionally a real tip.
+JTBD
+"Tell me I'm good to walk out — and
+if something's genuinely o and I ask,
+tell me kindly."
+The event woman
+Secondary. Wedding, date, big
+meeting. Stakes are real, so she opts
+into honesty.
+JTBD
+"Help me get this exactly right for
+tonight — gently, step by step."
+The beauty brand (B2B)
+Buyer. Wants a trustworthy branded
+mirror without body-image or
+biometric risk.
+JTBD
+"Give my customers a mirror with my
+products that my legal and PR teams
+can sign o on."
+Demographics & entry beachhead
+Core age 18–40, smartphone-rst
+Behaviour Daily makeup or grooming routine
+Mindset Wants condence, wary of being judged
+Beachhead geo India (metro + tier-1), then GCC & SE Asia
+Platform mix Mobile primary; web for reach & B2B demos
+Why India rst
+🧒 Explain like I'm 6 Three users: a girl in a hurry who wants a thumbs-up, a girl getting ready for something big who wants real
+help, and makeup companies who want their own mirror. We start in India because there are lots of phones
+and lots of makeup shopping here.
+Mira · Product Requirements Document · Confidential 05 / 23
+S T R A T E G Y & M A R K E T
+Huge, fast-growing beauty & personal-care market with
+mobile-rst buyers.
+Strong aliate infrastructure (Nykaa, Amazon, Myntra)
+for day-one revenue.
+Wisbox hyperlocal + Vesperon build capability already
+rooted here.
+DPDP Act creates demand for genuinely privacy-safe
+products.
+
+-- 5 of 23 --
+
+06 Market izig — TAM / SAM / SOM Mira
+A arge arket wit a arrow, wiable wedge.
+Figures below are directional estimates to frame ambition and must be validated against current market reports
+before fundraising. The method matters more than the exact number.
+TAM
+Global beauty consumers on smartphones
+SAM
+Beauty-app users, target geos
+SOM
+3-yr reach
+TAM — Total Addressable $40–60B
+Global beauty-tech & beauty-adjacent digital services, of
+which AR/AI beauty tooling is the fastest-growing slice.
+Reference frame: personal-care spend is a $500B+
+category.
+SAM — Serviceable $3–5B
+Women who actively use beauty apps in India, GCC & SE
+Asia, monetizable via aliate + subscription + brand
+licensing.
+SOM — 3-yr obtainable $15–40M
+A realistic capture: a few million installs, single-digit % paid
+conversion, plus 5–15 white-label brand deals.
+Tailwinds
+On-device AI
+Phones now run face mesh
+& CV locally — privacy
+without cloud cost.
+Privacy regulation
+DPDP & GDPR reward
+genuinely local processing.
+Creator beauty economy
+Huge organic surface for a
+"kind mirror" narrative.
+Brand ESG pressure
+Brands want body-positive,
+safe tech to license.
+🧒 Explain like I'm 6 Lots and lots of people wear makeup (the big triangle). A smaller group uses beauty apps (middle). We aim to
+win a slice of that in three years (bottom). The numbers are best guesses to check later.
+Mira · Product Requirements Document · Confidential 06 / 23
+S T R A T E G Y & M A R K E T
+
+-- 6 of 23 --
+
+07 Solutio te eotioal cotract Mira
+Six proie te irror ca neer break.
+These are non-negotiable. Every feature, screen, and line of copy must obey them. They are the specication of
+"kindness" that makes the 7/10 rule real.
+1 Never diagnose, only add
+Detection is internal; the voice is always additive. "A gloss
+would make these pop" — never "your lips look dry."
+2 Condence is default, critique is opt-in
+~80% of unprompted sessions are armation-forward.
+Feedback appears only when she asks.
+3 Praise must be earned & specic
+Armations come from actually-detected positives and
+rotate. No generic ller that rots into noise.
+4 Honest when asked
+A yes-only mirror is useless before a real event. Direct
+questions get truthful, kind answers.
+5 The face never leaves the phone
+Privacy is the architecture and the marketing, not a footer
+link buried in settings.
+6 Never invent a aw to sell
+Recommendations are genuinely relevant or absent. No
+manufactured insecurity, ever.
+Positioning statement
+For the woman doing a nal check before she leaves, Mira is the AI mirror that makes her feel condent rst and tells
+the truth only when she asks — unlike beauty-score scanners that grade her and AR apps that just sell to her. It earns
+trust by keeping her face on her own phone, and turns that trust into aliate, subscription, and licensing revenue.
+🧒 Explain like I'm 6 Six rules the mirror always follows: be kind rst, only give tips if asked, say true nice things, tell the truth when
+asked, keep her face secret, and never trick her into buying stu. Those rules ARE the product.
+Mira · Product Requirements Document · Confidential 07 / 23
+S T R A T E G Y & M A R K E T
+
+-- 7 of 23 --
+
+08 Codece Egie I — te Seio Director Mira
+7/10 i engineere, ot lucky.
+Before a single word is chosen, each scan is assigned an emotional session type. The mix is enforced by the
+Director — it does not depend on whatever the model happens to notice. That is what makes condence
+structural.
+Session types & target mix
+Type Share Behaviour
+Pure armation ~45% One earned compliment + a "go"
+line. No tip.
+Arm +
+optional tip
+~35% Compliment, then a tappable
+"want a tip?" pill.
+She asked ~20% She requested help → honesty
+invited.
+Bad-day warmth override Soft distress signals → tips forced
+to zero.
+Guardrails
+Decision flow
+Scan captured
+Bad-day?
+yesWarmth,
+no tips
+no
+Asked?
+yes Honest
++ kind
+no
+Weighted pick
+Pure armation
+~45%+ · "you're set"
+Arm + tip
+tip hidden till tapped
+Guardrail: last was a tip → drop tip odds 0.44 → 0.15
+🧒 Explain like I'm 6 A little director picks the mood before the mirror talks. Usually "just say something nice." If she seems sad, only
+comfort. If she asks a question, be honest but gentle. And it never gives two tips in a row.
+Mira · Product Requirements Document · Confidential 08 / 23
+T H E P R O D U C T E N G I N E
+Bad-day signals override everything → warmth.
+A direct question always routes to "she asked".
+No two tip-sessions back-to-back: after a tip, tip-probability
+drops 0.44 → 0.15.
+Net eect: ≥80% of unprompted sessions stay armation-
+forward.
+
+-- 8 of 23 --
+
+09 Codece Egie II — rule afeguard Mira
+Te irror ever ay te a or.
+Signals are detected internally to power recommendations, but the voice is bound to an additive frame — and to a
+hard-coded lexicon.
+The reframe map (deficit → additive, tip-gated only)
+Internal signal Never say May say (only if she taps a tip / asks)
+Dark under-eye anything, unprompted "A peach corrector brightens here — you'll read well-rested."
+Dry lips "dry" "A hydrating gloss will make these look juicy."
+Uneven base "uneven" "A setting spray locks this in all day."
+Sparse brows "sparse / thin" "A tinted gel adds a soft fullness, if you want it."
+Tone lexicon (hard-coded)
+BANNED
+tired dull uneven aw x correct aging
+wrinkle blemish you should you need to
+ALLOWED FRAMES
+would pop would love a touch more if you're going for…
+you're glowing this is working go as you are
+Four safeguards
+Specicity engine
+Praise drawn from real detected positives, rotated over the last 4
+so it never sounds robotic.
+Honesty valve
+Direct question → acknowledge → gentle truth → additive x.
+The requested "3/10" earns trust.
+Bad-day safeguard
+Soft behavioural signals only (never a claimed emotion) → more
+warmth, zero tips.
+Ethics rails
+No invented aws; no comment on weight or skin tone; no anti-
+aging framing; recs anchored to the event.
+🧒 Explain like I'm 6 The mirror can notice things like dry lips, but it never says the mean word. It turns it into a happy suggestion,
+and only if she taps for a tip. There's a list of banned words and happy words it must use instead.
+Mira · Product Requirements Document · Confidential 09 / 23
+T H E P R O D U C T E N G I N E
+
+-- 9 of 23 --
+
+10 Te Copy Egie Mira
+Te irror' mout, i pure Dart.
+On-device, zero network. The app makes one call per scan — CopyEngine.compose(read, dirIn) — and gets back
+a message. Reference implementation ships as mira_copy_engine.dart.
+The banks
+Bank Keyed by Purpose
+Armations Positive
+enum
+Earned, specic praise; {shade}
+slot
+Outros — "you're set — go" variants
+Tips TipSignal Additive lines + a product
+category
+Honest question key yesForm vs gentle tweakForm
+Bad-day — Warmth-only lines
+The two mechanisms
+Core logic
+ picks the emotional session type
+SessionType decide(DirectorInput i){
+if(i.badDaySignals) return badDayWarmth;
+if(i.userAskedDirectly) return sheAsked;
+final r = _rng.nextDouble();
+ guardrail: no two tips in a row
+final t = i.lastSessionWasTip ? 0.15 : 0.44;
+return r < t
+? affirmationPlusTip
+: pureAffirmation;
+}
+ never repeat within the window
+String pick(bucket, opts){
+final fresh = opts not-in recent[bucket];
+final line = randomOf(fresh opts);
+remember(bucket, line); return line;
+}
+The tip line is generated but hidden until she taps "want a tip?". The
+armation always shows rst.
+🧒 Explain like I'm 6 This is the real code with all the nice sentences typed in. The app asks it once per look, and it hands back the
+nice thing to say — plus a secret tip that only shows if she taps for one. It also remembers its last few lines so
+it never repeats.
+Mira · Product Requirements Document · Confidential 10 / 23
+T H E P R O D U C T E N G I N E
+RotationBuer — a per-bucket ring buer avoids the last K
+lines, resets when exhausted.
+SessionDirector — weighted type selection with the no-back-
+to-back-tips guardrail.
+
+-- 10 of 23 --
+
+11 Syte arcitecture Mira
+Everytig tat atter ru on te pone.
+One Flutter codebase serves iOS, Android and Web. The entire read-and-respond loop is on-device; the cloud
+only ever handles catalog, aliate links and anonymous analytics — never an image.
+CLIENT · one Flutter codebase
+iOS (Flutter) Android (Flutter) Web (Flutter/React)
+🔒 ON-DEVICE · the face never leaves the phone
+Camera (mirrored) Face Mesh
+ML Kit / MediaPipe
+Region Segmentation Attribute Read
+classical CV
+Condence Director Copy Engine Catalog Match
+local SQLite
+Renderer
+PRIVACY BOUNDARY — only derived text crosses, never an image
+CLOUD · Node.js — never receives a face
+Catalog / price sync Aliate resolver Anonymous analytics Skin analysis (v2)
+derived features only
+text only
+Client apps also read/write the cloud for catalog, links and opt-in aggregate metrics — all image-free.
+🧒 Explain like I'm 6 The phone does all the looking by itself, like a calculator — top box. It only talks to the internet to grab the
+makeup list and links — bottom box. A red dotted line in the middle means her face photo is NEVER allowed to
+cross it.
+Mira · Product Requirements Document · Confidential 11 / 23
+T E C H N O L O G Y
+
+-- 11 of 23 --
+
+12 O-device pipelie data ow Mira
+Motly colour at, not eavy AI.
+The key insight: most of v1 needs no ML model and no server. Undertone, shade, glow, symmetry and makeup-
+presence are landmark-region samples in Lab/HSV colour space — fast, private, cheap. Deep skin-texture is
+deferred to v2 as opt-in.
+Capture
+front cam
+Face mesh
+468 pts
+Segment
+regions
+Read
+Lab/HSV
+Direct
+session type
+Match
+catalog
+Render
+mirror UI
+ALL SEVEN STAGES RUN ON-DEVICE →
+What the attribute read computes (v1, classical CV)
+Attribute Method Feeds
+Undertone Cheek/jaw skin sampled in Lab; warm/cool/neutral from a·b ratios Shade matching, {shade} slot
+Dominant lip / eye shade Colour clustering in lip & lid regions → nearest catalog shade Armation + recommendation
+Glow Specular-highlight ratio on cheekbones / nose bridge "You're glowing" positive
+Symmetry Landmark mirror-distance across the vertical axis Balance positive
+Makeup presence / region Saturation & edge deltas vs a bare-skin baseline Bare-vs-done detection, tips
+Performance
+30fps preview; the heavy read runs on
+a captured still or a "check me" tap —
+protects battery & heat.
+No storage
+Frames live in memory only; nothing is
+written to disk unless she saves a look.
+v2 upgrade path
+Full MediaPipe 468-pt mesh + opt-in
+deep skin model, still derived-features-
+only o device.
+🧒 Explain like I'm 6 Seven quick steps, all on the phone: look, nd the face dots, split into lips/eyes/cheeks, measure the colours,
+pick the mood, nd matching makeup, show the mirror. It's mostly simple colour counting, so it's fast and stays
+secret.
+Mira · Product Requirements Document · Confidential 12 / 23
+T E C H N O L O G Y
+
+-- 12 of 23 --
+
+13 Froted deig yte Mira
+A war vaity, not a caer.
+The direction is a dressing-room at golden hour. Boldness is spent in one place — the halo — and everything else
+stays quiet. Display voice: Fraunces (italic for emphasis). UI/body: Hanken Grotesk.
+Palette — dark (flagship)
+Token Hex Use
+Room bg ■ #17100F Screen base
+Gold glow ■ #F0C89A Halo / accent
+Rose ■ #E8A3A0 "love" moments
+Ink ■ #F6EDE4 Text on dark
+Muted ■ #B6968B Secondary text
+Palette — light (Phase-2 daytime)
+Token Hex
+Porcelain bg ■ #F3EBE0
+Gold ■ #B98A4E
+Ink ■ #3A2C23
+Signature elements
+The halo
+A champagne glow that breathes, warmest at the armation
+moment. The light literally atters the reection.
+The mesh
+A whisper-faint landmark constellation on an abstract warm
+reection — shows on-device AI honestly, with no stock face.
+Quality floor
+Screen inventory
+# Screen Job Key states
+1–2 Onboarding + privacy promise Set the "on your side" tone; earn trust before the camera —
+3 Mirror (home) The core moment Pure armation · Arm+tip · Bad-day
+4 Tip sheet One additive tip + matched product Save · Shop
+5 Get me ready Occasion-led honest mode Picker · Active check
+6 My looks Saved looks & favourites (opt-in) Empty · Populated
+7 Privacy & data The switches Toggles · Delete-all
+🧒 Explain like I'm 6 The mirror looks like a cosy dressing room with a warm glowy light and gentle face dots. Fancy letters for nice
+sentences, plain letters for buttons. There are seven pages — hello, privacy, the mirror, a tip card, "where are
+you going?", saved looks, and settings.
+Mira · Product Requirements Document · Confidential 13 / 23
+T E C H N O L O G Y
+Responsive down to small mobile.
+Visible keyboard focus; prefers-reduced-motion stops the halo
+& pulse.
+Dark = agship; light shipped as a theme in Phase 2.
+
+-- 13 of 23 --
+
+14 Web + obile itegratio logic Mira
+Oe codebae, tree urface.
+Flutter compiles the same product to iOS, Android and Web. The engine (Director, Copy, rules) is platform-
+agnostic pure Dart; only the capture and storage layers dier per surface. A thin adapter isolates those
+dierences.
+Platform concerns, resolved by an adapter layer
+Concern Mobile (iOS / Android) Web
+Camera Native camera plugin, high fps getUserMedia / MediaStream
+Face mesh ML Kit → MediaPipe Tasks (native) MediaPipe Tasks for Web (WASM)
+Permissions OS camera prompt Browser camera prompt
+Local storage SQLite (sqite) IndexedDB
+Engine (Director/Copy/rules) Identical pure-Dart core — zero platform code
+Feature parity strategy B2B web embed / SDK
+Why this matters commercially
+A single Flutter codebase means the cost to add Web and the white-label SDK is marginal, not a second build. That is the
+leverage that turns a consumer app into a licensable platform — the highest-margin line in the revenue model.
+🧒 Explain like I'm 6 We write the app once and it works on iPhones, Android phones, and websites. The "brain" is the same
+everywhere; only the camera part changes a little. That lets us also rent a website version to makeup shops
+without building it twice.
+Mira · Product Requirements Document · Confidential 14 / 23
+T E C H N O L O G Y
+Mobile is the agship: best fps, native mesh, "before you
+go" habit.
+Web is reach + B2B: instant try, no install, brand demos.
+Save-a-look, tips and recs identical on all three.
+Web falls back gracefully if the browser blocks the
+camera.
+A white-label web widget a brand drops onto its product
+pages.
+Skinned palette + the brand's own catalog injected at
+runtime.
+Still on-device in the customer's browser — the brand
+never receives a face.
+Analytics dashboard for the partner (aggregate, image-
+free).
+
+-- 14 of 23 --
+
+15 Backed, API data odel Mira
+A tin backed, o purpoe.
+Node.js/TypeScript handles only what the phone can't: catalog distribution, aliate resolution, and anonymous
+analytics. It is deliberately small — no image ever touches it — which keeps cost, attack surface, and compliance
+load low.
+Core endpoints (REST)
+Endpoint Does
+GET /catalog?v= Delta-sync product catalog to
+device SQLite
+GET
+/product/:id/link
+Resolve aliate deep-link +
+tracking
+POST /events Anonymous aggregate events (no
+image, no PII)
+GET
+/copy/experiments
+Fetch A/B copy variants + weights
+GET
+/partner/:id/theme
+White-label palette + catalog
+bundle
+POST /skin/derive
+v2
+Opt-in: accepts derived features
+only
+Stack
+Data model (image-free by default)
+ on-device only — derived, no image
+Session {
+id, ts, occasion,
+sessionType, enum
+affirmationShown, tipShown,
+tipAccepted, productsShown[],
+productsClicked[]
+}
+SavedLook {
+id, ts, occasion, note,
+favourite:bool,
+imageRef ONLY if saved
+}
+ synced from backend
+CatalogProduct {
+id, brand, category, shade,
+undertoneMatch, finish,
+price, currency, affiliateUrl,
+occasionTags[]
+}
+Analytics events are anonymous & aggregate: session_start,
+tip_offered, tip_accepted, product_clicked, look_saved —
+never an image, never PII.
+🧒 Explain like I'm 6 The internet part is tiny. It only sends the makeup list and shopping links, and counts things anonymously (like
+"10 people liked a tip"). It never gets any face pictures. Small server = cheap and safe.
+Mira · Product Requirements Document · Confidential 15 / 23
+T E C H N O L O G Y
+Node.js + TypeScript, containerised.
+Managed Postgres (catalog, partners) + object store for catalog
+media.
+CDN for catalog & theme bundles.
+
+-- 15 of 23 --
+
+16 Recoedatio egie catalog Mira
+Rec oly we e reaces for te.
+Rules over a bundled shade/product catalog — runs on-device, resolves aliate links online. Products appear
+only after a tip is accepted or a look is requested. Never pushed, never invented.
+Matching logic
+Input Matches on
+Tip signal category (e.g. gloss)
+Detected undertone undertoneMatch
+Dominant shade shade nearest-neighbour
+Occasion occasionTags
+Finish preference finish
+Ranking
+Flow
+Tip accepted / look asked
+Match rules on local catalog
+Resolve aliate link
+Show hero product
+Revenue tie
+Every accepted-tip rec carries an aliate link. Conversion here is
+the oor revenue line and the signal that the specicity engine is
+working.
+🧒 Explain like I'm 6 When she wants a tip, the mirror looks in its little makeup list and picks one product that matches her colours
+and where she's going. It never shows products unless she asked. If she buys it, we earn a small cut.
+Mira · Product Requirements Document · Confidential 16 / 23
+T E C H N O L O G Y
+Score = undertone t × occasion t × shade proximity.
+Tie-break by user favourites, then price band.
+Show one hero product; "more options" is a tap away.
+
+-- 16 of 23 --
+
+17 Buie logic — eio tate acie Mira
+Every ca i oe session.
+The full lifecycle a session can take, and the edge cases each state must handle gracefully — always in the warm
+voice, never an error bark.
+Idle Scanning Director
+Pure armation
+Arm + tip
+She asked → honest
+Bad-day warmth
+Tip → product shown
+Save look?
+opt-in only
+exit / done → back to Idle
+Edge cases & graceful handling
+Situation Behaviour (warm voice)
+No face detected "I can't quite see you — bring me up to eye level?" No error code.
+Poor lighting "Let's nd better light — face a window?"
+Repeated re-scans Soft bad-day signal → warmth up, tips o.
+"Not feeling it" tapped Immediate warmth mode; no analysis pressure.
+Oine Full mirror still works; only aliate links defer.
+Camera denied Explain the on-device promise; oer a retry, never nag.
+🧒 Explain like I'm 6 Each look is a little journey: wake up, scan, pick a mood, say the right thing, maybe show a tip or a product,
+maybe save the look, then rest. If something goes wrong — bad light, no face — it asks nicely instead of
+showing a scary error.
+Mira · Product Requirements Document · Confidential 17 / 23
+T E C H N O L O G Y
+
+-- 17 of 23 --
+
+18 Privacy, coet copliace Mira
+Privacy i te arcitecture, ot a policy page.
+Facial data is sensitive-category biometric data under India's DPDP Act and the EU's GDPR. Mira's default of never
+uploading a face is simultaneously the compliance stance, the headline marketing line, and the B2B trust unlock.
+Default posture Consent Control
+Regulatory mapping
+Requirement DPDP (India) GDPR (EU) How Mira satises it
+Lawful basis / consent Explicit consent Art. 9 explicit consent Purpose-scoped prompts; opt-in only
+Data minimisation Yes Art. 5 Only derived features ever leave device
+Right to erasure Yes Art. 17 One-tap local wipe
+Biometric handling Sensitive Special category Never transmitted or stored server-side
+v2 skin analysis — the one exception, handled safely
+Premium deep-skin insights require an explicit, granular opt-in and send derived text features only ("warm undertone, dry-ish
+zone") — never a frame. The default experience never triggers it.
+🧒 Explain like I'm 6 Her face is private and stays on her phone. Nothing secret gets sent anywhere, she can erase it all with one
+tap, and the law is happy because we never even keep the picture. "We keep your face safe" is also our best
+advert.
+Mira · Product Requirements Document · Confidential 18 / 23
+T R U S T , G R O W T H & M O N E Y
+No image upload.
+No cloud face processing.
+No image storage — memory
+only.
+Clear camera-purpose prompt.
+Granular opt-ins for saving &
+tuning.
+No dark patterns, no pre-ticked
+boxes.
+One-tap delete-everything.
+Local-only saved looks.
+Export on request.
+
+-- 18 of 23 --
+
+19 Egageet aalyi retetio Mira
+Codece i a aiy abit.
+A grade is a one-time novelty; feeling good is a routine. Mira's loop is built to be opened every time she gets ready
+— the strongest retention primitive in beauty.
+The confidence loop
+Condence
+loop
+Open mirror
+Feel good
+Trust grows Daily habit
+Accept tip →
+buy / save
+Metrics that matter (never a score)
+Metric Target
+Felt-good rate ≥ 70%
+Time-to-reassurance < 5 s (pure armation)
+Sessions / week / active 4–7 (habit)
+Tip-acceptance stability (30d) at = no fatigue
+D30 retention > 30% (habit product)
+Aliate CTR on accepted tips track & grow
+Anti-fatigue
+The specicity engine + rotation window keep praise feeling real.
+Flat 30-day tip-acceptance is the proof it's working.
+Growth hooks
+Shareable "my look" cards (opt-in, no face), streaks for getting-ready routines, occasion reminders, and a referral that unlocks a
+premium theme — all reinforcing the daily open, none manufacturing insecurity.
+🧒 Explain like I'm 6 She opens the mirror, feels good, trusts it more, and comes back tomorrow — a happy circle. We measure if
+she felt good and if she returns, never a face-score.
+Mira · Product Requirements Document · Confidential 19 / 23
+T R U S T , G R O W T H & M O N E Y
+
+-- 19 of 23 --
+
+20 Reveue odel uit ecooic Mira
+Tree lie: oor, iddle, prize.
+Trust is the asset; these convert it. Figures are directional and must be validated post-launch with real cohort
+data.
+1 Aliate
+The oor. Commission on accepted-
+tip recs via Nykaa / Amazon /
+Myntra. Live from day one, zero
+friction.
+2 Freemium SaaS
+The middle. Free mirror forever;
+paid tier = occasion planner, precise
+shade-match, looks history, premium
+skin insights.
+3 White-label
+The prize. License the condence
+mirror to beauty brands, skinned to
+their catalog + dashboard. 5–6 gure
+deals.
+Pricing tiers (illustrative)
+Tier Price Includes
+Free ₹0 Mirror, armations, opt-in tips
+Plus ₹149–
+199/mo
+Occasion mode, shade-match,
+history
+Premium ₹349/mo + opt-in skin insights, themes
+Brand
+(B2B)
+₹5–40L/yr White-label app/web + dashboard
+Unit economics (directional)
+Lever Assumption
+On-device cost / user ~₹0 (no cloud inference)
+Blended CAC Low — organic-led, creator narrative
+Aliate ARPU Small but continuous
+Paid conversion 2–5% of actives (target)
+Gross margin High — thin backend, on-device compute
+The on-device architecture is the margin story: no per-scan cloud
+inference cost means gross margin scales with users, not against them.
+🧒 Explain like I'm 6 Three ways to make money: a small cut when someone buys a suggested lipstick, a fee for fancy extra
+features, and the big one — renting the whole mirror to makeup brands. Because the phone does the work, it
+stays cheap to run.
+Mira · Product Requirements Document · Confidential 20 / 23
+T R U S T , G R O W T H & M O N E Y
+
+-- 20 of 23 --
+
+21 Go-to-arket trategy Mira
+Lead wit te inness arrative.
+"The mirror that's on your side, and never sees your face" is a story creators want to tell and press want to cover.
+The anti-scanner positioning is the whole wedge.
+Channels
+Channel Play Surface
+Creator / organic Beauty & body-positivity creators demo the "kind mirror" vs a scanner Reels / Shorts / TikTok
+App Store (ASO) "AI mirror," "makeup check," privacy-rst keywords iOS / Android
+Web try-instantly No-install web demo → app install & B2B lead gen mira web
+B2B outbound White-label pitch to beauty brands & retailers (Vesperon sales) Direct / demos
+PR "The anti-beauty-score app" angle; privacy & wellbeing press Tech & lifestyle
+Launch — India beachhead
+Soft launch metro + tier-1, Nykaa
+aliate live, 10–20 seed creators, tune
+the felt-good rate.
+Scale — geo + web
+Expand GCC & SE Asia, ship web, add
+premium tier, referral loop, occasion
+mode.
+Monetize — B2B
+Land 1–3 white-label brand partners
+using the proven consumer traction as
+reference.
+The Wisbox × Vesperon advantage
+Vesperon ships the cross-platform build and the B2B sales motion; Wisbox brings hyperlocal India distribution and merchant
+relationships. Together: a product studio that can build, launch, and license — rare, and the reason this can move fast.
+🧒 Explain like I'm 6 We tell everyone: "it's the kind mirror that never sees your face." Beauty YouTubers show it o, it's easy to nd
+in the app store and on the web, and then we sell the grown-up brand version to makeup companies. India rst.
+Mira · Product Requirements Document · Confidential 21 / 23
+T R U S T , G R O W T H & M O N E Y
+
+-- 21 of 23 --
+
+22 Paed delivery pla Mira
+Sip te in mirror rt.
+Three phases. Phase 1 is a fully on-device MVP that already delivers the whole thesis; later phases add depth and
+the licensable platform.
+PHASE 1 · MVP (mo 1–3) PHASE 2 · Depth (mo 4–6) PHASE 3 · Platform (mo 7–9)
+Design
+CV / Face read
+Condence + Copy engine
+Frontend (mobile)
+Frontend (web)
+Backend / catalog / aliate
+Skin analysis (opt-in)
+White-label SDK + GTM
+MVP launch Web + premium
+Milestones Team & RACI (indicative)
+Area Owner
+Product / PRD Founder + PM
+Design system Raja (Creative)
+Flutter frontend Mobile eng
+Engine + CV (Dart) Core eng
+Backend / catalog Node eng
+GTM / B2B Sales (Sahil)
+🧒 Explain like I'm 6 First build the simple kind mirror that works oine and launch it. Then add "getting ready for an event," saved
+looks, and a website. Then make the rentable version for makeup brands. Each colored bar is a job on the
+calendar.
+Mira · Product Requirements Document · Confidential 22 / 23
+D E L I V E R Y
+P1 (mo 1–3): on-device mirror, face read, Director +
+armations, opt-in tip, aliate recs, save-a-look. iOS +
+Android, dark theme. MVP launch.
+P2 (mo 4–6): occasion mode, looks history, opt-in skin analysis,
+web, light theme, premium tier.
+P3 (mo 7–9): white-label SDK, brand catalog ingestion, partner
+dashboard, B2B GTM.
+
+-- 22 of 23 --
+
+23 Rik, deciio log gloary Mira
+Risks & mitigations
+Risk Mitigation
+Reads as a "rate-me"
+app
+Condence-rst is the whole top-of-
+funnel; no score exists
+Praise fatigue Specicity engine + rotation window
+Empty attery
+erodes trust
+Honesty valve on direct questions
+Privacy backlash On-device by default + headline claim
+Mis-read "distress" Soft signals only; safe failure = warmth
+Recs feel like ads Only after accepted tip; never invented
+Open questions
+Decision log
+Date Decision
+04 Jul
+26
+Condence-rst contract = core thesis; no beauty
+score
+04 Jul
+26
+On-device-only face processing for v1
+04 Jul
+26
+Flutter + ML Kit (v1), MediaPipe mesh (v2)
+04 Jul
+26
+Dark vanity = agship; light theme in P2
+04 Jul
+26
+Session mix ~45/35/20, no back-to-back tips
+Glossary
+Session Director — picks the emotional session type before any
+words.
+Reframe rule — aws spoken only as additive suggestions.
+Specicity engine — praise from real positives, rotated.
+Honesty valve — truthful-but-kind on direct questions.
+Bad-day safeguard — soft distress → warmth, zero tips.
+The halo / the mesh — signature UI: the breathing glow & the on-face
+landmarks.
+TAM/SAM/SOM — total / serviceable / obtainable market.
+This is the single source of truth
+When reality changes, change this le rst. Any engineer, designer, or Claude session starts here. Keep the decision log
+current so the truth never scatters across chats. — Wisbox × Vesperon
+🧒 Explain like I'm 6 The last page: what could go wrong and how we stop it, the big choices we made (a diary), and a mini-
+dictionary of our special words. And a reminder: this book is the boss — if something changes, x it here rst.
+Mira · Product Requirements Document · Confidential 23 / 23
+D E L I V E R Y
+Final name + trademark ("Mira" is a working name).
+v1 aliate partner — Nykaa rst?
+License vs build for v2 skin analysis.
+First white-label design partner.
+
+-- 23 of 23 --
+

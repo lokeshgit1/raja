@@ -1,0 +1,1730 @@
+CONFIDENTIAL
+
+stethoscope
+
+Cure Call
+
+Product Requirements Document · v1.0
+
+The complete
+build book.
+
+Every screen, every button, every rule — for both the Patient and Doctor apps. Written so a developer can build it, and a six‑year‑old can follow it.
+
+phone_iphone 2 apps
+grid_view 32 screens
+translate Bilingual
+auto_awesome AI‑assisted
+
+PREPARED & OWNED BY
+
+Wisbox Technology
+
+Ideation, Artwork & Design by Raja Sahoo — Founder & CEO
+
+DOC · CC‑PRD‑0001
+CLASSIFIED · INTERNAL
+DO NOT DISTRIBUTE
+
+stethoscope
+Cure Call
+
+00 · Front matter
+
+Read me first
+
+How this book works
+
+This document is the single source of truth for CureCall. It describes what we are building, why , and exactly how each screen behaves — so design, frontend, backend, and QA all read from the same page.
+
+design_services
+For Design
+Brand, colour, type and component specs — pixel values you can lift directly.
+
+code
+For Frontend
+Every screen, its states, its data, and the action that moves you to the next.
+
+dns
+For Backend
+Services, APIs, the data record, security, and the rules behind every gate.
+
+child_care Explain like I'm 6
+
+Watch for these orange boxes. Whenever something sounds complicated, the orange box says it again in kid words . Example: CureCall is like a magic phone that lets a sick person talk to a real doctor without leaving home — and it remembers everything so nobody forgets.
+
+Document control
+
+Product
+CureCall — telemedicine for Bharat
+
+Version
+1.0 · Prototype‑backed spec
+
+Owner
+Raja Sahoo, Founder & CEO
+
+Company
+Wisbox Technology
+
+Audience
+Internal — Product, Design, Eng, QA
+
+Status
+Living document
+
+Legend — symbols used
+
+GREEN Safe / go ahead
+
+AMBER Caution / watch closely
+
+RED Danger / send to hospital
+
+STATE A screen the app can be in
+
+GET A backend call (API)
+
+CONFIDENTIAL · Wisbox Technology · CureCall PRD v1.0
+02
+
+stethoscope
+Cure Call
+
+01 · The product
+
+What we are building
+
+A doctor in your pocket — that anyone in India can use.
+
+CureCall connects a person who feels unwell to a verified doctor over a phone call or video — in their own language, paid in rupees, with a permanent health record created automatically afterwards. It has two apps that work as one system.
+
+person
+The Patient App
+For the person who is unwell
+
+Pick your language, tell the app what hurts, get matched to a doctor, pay, talk, and walk away with a prescription and a record you actually understand.
+
+stethoscope
+The Doctor App
+For the verified doctor
+
+Get verified once, go online, see a queue of patients with an AI‑written summary ready, consult, prescribe in two taps, and ask peers for a second opinion.
+
+child_care Explain like I'm 6
+
+There are two apps . One is for the sick person and one is for the doctor . The sick person taps "I have a fever," and a little robot helper asks a few questions. Then a real doctor picks up, looks at the answers, talks to them, and writes the medicine down. The medicine note is saved forever — like a sticker book of every time you were sick and got better.
+
+Why it matters — the problem we remove
+
+directions_walk No long travel
+Villages are far from good doctors. CureCall removes the bus ride.
+
+translate No language wall
+Everything works in the patient's own language, not just English.
+
+history_edu No lost paper
+The record is digital and permanent, so history is never forgotten.
+
+CONFIDENTIAL · Wisbox Technology · CureCall PRD v1.0
+03
+
+stethoscope
+Cure Call
+
+01 · The product
+
+The whole system on one page
+
+How the pieces talk
+
+Two apps, one brain. The patient creates a request; AI turns messy symptoms into a clean summary; the doctor acts on it; everything is written into a permanent record both sides can see.
+
+person Patient App
+
+Books a doctor & answers the AI helper's questions.
+
+arrow_forward
+
+auto_awesome CureCall Intelligence
+
+Writes the summary, checks safety, drafts the note.
+
+arrow_forward
+
+stethoscope Doctor App
+
+Consults, prescribes, signs & can ask peers.
+
+sync_alt
+
+database The Health Record ABHA‑linked · stored in India · every view logged · owned by the patient
+
+What CureCall stands on — four pillars
+
+verified_user Trust
+Only government‑verified doctors. Patients see proof.
+
+accessibility_new Reach
+Any language, low bandwidth, even an audio‑only fallback.
+
+bolt Speed
+AI does the typing so doctors spend time caring, not writing.
+
+health_and_safety Safety
+A traffic‑light gate catches emergencies before they're missed.
+
+child_care Explain like I'm 6
+
+The two apps pass notes to each other through a robot helper in the middle. The robot writes neat notes so the doctor doesn't have to. And there's a big memory box at the bottom that keeps every note safe, so next time the doctor already knows your story.
+
+CONFIDENTIAL · Wisbox Technology · CureCall PRD v1.0
+04
+
+stethoscope
+Cure Call
+
+01 · The product
+
+Who we build for
+
+Three people to keep in mind
+
+Every design decision answers to one of these three. When unsure, ask: does this help Sunita, Dr. Verma, or Aarav's mother?
+
+spa
+
+Sunita Devi · 34 · the patient
+Primary
+
+Lives in a village two hours from the nearest good clinic. Reads Hindi, not English. Has a basic Android phone and patchy network. Needs: to talk to a real doctor today, in Hindi, without travelling — and to understand the medicine afterwards.
+
+stethoscope
+
+Dr. Anjali Verma · 38 · the doctor
+Primary
+
+A verified General Physician who wants extra income from home between hospital shifts. Needs: patients to arrive pre‑screened with a summary ready, a fast way to prescribe safely, and trusted peers to consult on hard cases.
+
+family_restroom
+
+The caregiver · books for family
+Secondary
+
+One literate family member often books on behalf of an elderly parent or a child. Needs: to manage several people's records from one account and pick "who is this for" at the start.
+
+6
+languages offered at sign‑up
+
+< 3 min
+target from "I'm sick" to a doctor
+
+0
+words of medical jargon the patient must know
+
+CONFIDENTIAL · Wisbox Technology · CureCall PRD v1.0
+05
+
+stethoscope
+Cure Call
+
+02 · Design system
+
+Design system — part 1
+
+Brand & colour
+
+The logo
+
+stethoscope
+
+Cure Call
+
+Mark: rounded‑square, teal→blue gradient at 140°, white glyph. Wordmark: "Cure" in teal, "Call" in blue, Space Grotesk Bold, −0.6px tracking. Never recolour the two halves the same.
+
+Gradient & usage
+
+Gradient
+140°, #18A39E → #2B7CE3
+
+Min size
+24px mark in app chrome
+
+Clear space
+½ mark height on all sides
+
+Core palette — used across both apps
+
+#0E2436
+Ink — text, dark UI
+
+#0FA3A1
+Teal — primary brand
+
+#2B7CE3
+Blue — "Call", links
+
+#FBF6EE
+Cream — app canvas
+
+Semantic palette — meaning is fixed, never decorative
+
+#16BD8E
+Green — safe / paid / success
+
+#F39021
+Amber — caution / pending
+
+#E2574C
+Red — emergency / urgent
+
+#7257F5
+Purple — AI & peer layer
+
+child_care Explain like I'm 6
+
+Colours have jobs , like a traffic light. Green = good, go. Yellow = careful. Red = stop, this is serious. Purple is the robot helper's colour. We never use red just because it looks pretty — red always means "this is important."
+
+CONFIDENTIAL · Wisbox Technology · CureCall PRD v1.0
+06
+
+stethoscope
+Cure Call
+
+02 · Design system
+
+Design system — part 2
+
+Type, icons & components
+
+Type families
+
+Space Grotesk
+Display, numbers, time, wordmark
+
+Hanken Grotesk
+UI labels & Latin body
+
+Hind · हिंदी पाठ
+Devanagari & bilingual body
+
+JetBrains Mono
+Codes, IDs, registration numbers
+
+Scale & rules
+
+Screen title
+30px Hind Bold, −0.5px
+
+Section head
+24px / 700
+
+Body
+15px / 1.5
+
+Caption
+11–12px, muted
+
+Min hit target
+44 × 44px always
+
+Icons
+Material Symbols Rounded, FILL 1
+
+Component kit — the same parts build every screen
+
+Primary button
+Continue
+62px tall in‑app · radius 18–19px · teal or ink fill
+
+Status chip
+Safe Pending Urgent
+Soft bg + bold text in the semantic colour
+
+Toggle
+
+Online
+Used for online, reminders, network
+
+Info card
+
+White, 1.5px border, 14px radius
+
+Icon tile
+thermostat
+auto_awesome
+
+30px rounded, soft bg of its colour
+
+Toast
+check_circle Saved
+Ink pill, auto‑dismiss ~2.5s
+
+The device frame
+
+Both apps render inside a 392 × 830px phone (radius 54/45, ink bezel) with a 9:41 status bar. Screens are vertically scrolling, edge‑padded 18–24px, on the cream canvas. A right‑side journey rail (≈210px) is a demo‑only navigator and ships nowhere near production.
+
+CONFIDENTIAL · Wisbox Technology · CureCall PRD v1.0
+07
+
+stethoscope
+Cure Call
+
+03 · Architecture of screens
+
+How screens are wired
+
+One app, one "screen" word at a time
+
+Each app holds a single value called screen . Whatever word it holds is the page you see. A button doesn't "open a link" — it just changes that one word , and the matching page appears. This is a simple state machine.
+
+Example — the patient's screen word
+
+// tap "Pay" →
+setState({ screen : 'preconsult' })
+// the AI‑intake page now shows
+
+Because state is one word, the app can jump anywhere for demos and QA, and deep‑link to any step. No tangled routing.
+
+Two languages, one switch
+
+A second value, uiLang ( hi / en ), flips every label through a tiny helper tr(hindi, english) . Content is authored as pairs, so nothing is hard‑coded to one language.
+
+title: tr( 'बुखार' , 'Fever' )
+
+The two journeys at a glance
+
+PATIENT
+onboard chevron_right
+language chevron_right
+otp chevron_right
+consent chevron_right
+abha chevron_right
+home chevron_right
+doctors chevron_right
+pay chevron_right
+AI intake chevron_right
+gate chevron_right
+consult chevron_right
+record
+
+DOCTOR
+sign‑in chevron_right
+identity chevron_right
+registry chevron_right
+documents chevron_right
+liveness chevron_right
+review chevron_right
+verified chevron_right
+dashboard chevron_right
+consult chevron_right
+prescription chevron_right
+case board
+
+child_care Explain like I'm 6
+
+Think of the app like a picture book with one bookmark. The bookmark has a name on it. When you press a button, the bookmark's name changes, and the book flips to that page. There's also a tiny switch that turns every word from Hindi to English and back — like flipping the same book into another language.
+
+CONFIDENTIAL · Wisbox Technology · CureCall PRD v1.0
+08
+
+stethoscope
+Cure Call
+
+Part A
+
+Part A · The Patient App
+
+For the person
+who feels unwell.
+
+17 screens that carry a patient from "I don't feel good" to a doctor, a prescription, and a record they can read. Each screen is specified on the following pages.
+
+01
+Onboarding
+
+02
+Language + Who
+
+03
+Phone + OTP
+
+04
+Consent
+
+05
+ABHA linking
+
+06
+Home
+
+07
+Doctor list
+
+08
+Doctor profile
+
+09
+Payment (UPI)
+
+10
+AI pre‑consult
+
+11
+Safety gate
+
+12
+Waiting room
+
+13
+Live consult
+
+14
+Rate doctor
+
+15
+Record building
+
+16
+Health record
+
+17
+Profile / Account
+
+arrow_forward
+
+CONFIDENTIAL · Wisbox Technology · CureCall PRD v1.0
+09
+
+stethoscope
+Cure Call
+
+A · Patient · screens 01–02
+
+01 Onboarding
+First open — earns trust before asking anything
+
+Entry screen:'onboard'
+
+Cure Call
+
+health_and_safety
+A doctor in
+your language
+Talk to a real doctor from
+home, in minutes
+Get started
+
+On screen
+Brand mark, a warm hero illustration, a one‑line promise ("a doctor, in your language") and a single full‑width Get started button.
+
+What happens
+The only action is toWelcome . No sign‑up wall yet — reduce drop‑off by showing value first.
+
+BACKEND None. Static asset only; fire an app_open analytics event.
+
+02 Welcome — Language & "Who is this for?"
+The most important screen for reach
+
+Setup screen:'welcome'
+
+Choose your language
+हिं Hindi
+Aa English
+मरा Marathi
+தமி Tamil
+বাং Bangla
+తెలు Telugu
+
+Who is this for?
+Myself
+A family member
+
+Continue
+
+On screen
+A 6‑tile language grid — Hindi, English, Marathi, Tamil, Bangla, Telugu — each with a native glyph. Then "Who is this for?": Myself / A family member .
+
+What happens
+Sets lang , flips uiLang , and stores who . From here every label is bilingual.
+
+BACKEND Persist locale + profileFor on the device now; sync to the account after OTP.
+
+child_care Explain like I'm 6
+
+First the app says "hi" and shows a happy picture. Then it asks "which words do you understand?" and "are you sick, or is someone you love sick?" — so it can talk to you the right way before anything else.
+
+CONFIDENTIAL · Wisbox Technology · CureCall PRD v1.0
+10
+
+stethoscope
+Cure Call
+
+A · Patient · screens 03–04
+
+03 Phone number & OTP
+The only identity a rural patient reliably has
+
+Auth screen:'otp'
+
+Verify your number
+We sent a code by SMS
++91 98765 43210
+Enter 4-digit code
+4
+8
+·
+·
+
+Resend in 0:24 · Call instead
+Verify
+
+On screen
+A +91 phone field, then a 4‑box code entry. otpSent swaps the "Send code" button for the code boxes + "Verify".
+
+What happens
+sendOtp → verifyOtp → advance to consent. Resend timer + IVR fallback for no‑SMS areas.
+
+BACKEND POST /auth/otp/request & /verify → JWT session. SMS gateway + voice‑OTP provider; rate‑limit per number.
+
+04 Consent — plain‑language data promise
+Trust, written so anyone can read it
+
+Trust screen:'consent'
+
+Your data, your rules
+lock What we keep
+Stored safely in India
+
+visibility Who can see it
+Only you + a doctor you allow
+
+undo Withdraw anytime
+Take it back whenever
+
+I agree
+
+On screen
+Three cards: What we keep (stored in India), Who can see it (only you + a doctor you allow; every view logged), How to withdraw (anytime).
+
+What happens
+"I agree" records a timestamped, versioned consent. Withdrawal is mirrored later in Profile.
+
+BACKEND POST /consent {version, scope, ts}. Immutable consent ledger; required before any health data is written.
+
+child_care Explain like I'm 6
+
+The app sends a secret number to your phone to make sure it's really you — like a password knock. Then it pinky‑promises: "I'll keep your health stuff safe , only show it to people you say yes to, and you can take it back whenever you want."
+
+CONFIDENTIAL · Wisbox Technology · CureCall PRD v1.0
+11
+
+stethoscope
+Cure Call
+
+A · Patient · screens 05–06
+
+05 ABHA linking (optional)
+Connect India's national health ID
+
+Identity screen:'abha'
+
+badge ABHA
+Link your health ID
+One ID for records across
+every hospital in India
+12-3456-7890-1234
+Link ABHA
+Skip for now
+
+On screen
+Explains ABHA in one line, an ID field, "Link" and a clear Skip for now . Linking unlocks portable records across hospitals.
+
+What happens
+Sets abhaLinked + abhaNum . Skippable so it never blocks a sick user.
+
+BACKEND ABDM/ABHA sandbox APIs — verify + consent‑link. Store ABHA address, not raw Aadhaar.
+
+06 Home
+The hub — money, symptoms, family, alerts
+
+Hub screen:'home'
+
+Namaste, Sunita
+notifications
+Med wallet
+₹240
+
++ Add
+
+What's wrong?
+thermostat Fever
+sick Stomach
+coronavirus Cough
+healing Skin
+medication Repeat
+description Report
+
+Family: Dad · Aarav
+
+On screen
+A Med wallet balance (₹240 seed) with "Add money", a 6‑tile symptom grid (Fever, Stomach, Cough, Skin, Repeat med, Explain report), a notifications bell, and a family strip.
+
+What happens
+Tapping a concern sets concern and jumps to the doctor list. Bell opens notifications; wallet warns when low (< ₹300).
+
+BACKEND GET /home → wallet balance, unread notifications, family members, last record. Cache for offline open.
+
+child_care Explain like I'm 6
+
+Home is like the front room . There's a little piggy bank for doctor money, six big buttons for "what hurts," and a bell that lights up when there's news. You press the button that matches your boo‑boo.
+
+CONFIDENTIAL · Wisbox Technology · CureCall PRD v1.0
+12
+
+stethoscope
+Cure Call
+
+A · Patient · screens 07–08
+
+07 Doctor list
+Choose who to talk to
+
+Browse screen:'doctors'
+
+Verified
+Available now
+Top
+
+Dr. A. Verma
+Physician · हिं Eng
+★ 4.8 · ₹249
+
+Dr. S. Iyer
+Pediatrics · தமி Eng
+★ 4.9 · ₹299
+
+Dr. R. Khan
+Dermatology · हिं
+★ 4.7 · ₹329
+
+On screen
+Filter chips — Verified , Available now , Top rated — over doctor cards: avatar, name, specialty, languages, rating, years, fee (₹249–₹329), online dot.
+
+What happens
+docFilter filters the list; tapping a card sets doctor and opens the profile.
+
+BACKEND GET /doctors?concern=&lang=&filter= → ranked, only verified & currently‑online surfaced for "now".
+
+08 Doctor profile · slot · fee
+Confirm the who, when & how much
+
+Book screen:'doctor'
+
+Dr. A. Verma
+Physician · 12 yrs · ★4.8
+NMC-DL-48217 ✓
+
+Pick a slot
+Now 2 min
+6 PM Today
+10 AM Tmrw
+
+Consult fee ₹249
+Proceed to pay
+
+On screen
+Header with verified registration number (e.g. NMC‑DL‑48217 ), languages, rating & experience; three time slots ( Now , this evening, tomorrow); the fee; and "Proceed to pay".
+
+What happens
+pickSlot sets the slot; CTA goes to payment with doctor + slot + fee carried forward.
+
+BACKEND GET /doctors/:id + live slot availability. Soft‑hold the slot for ~2 min during checkout.
+
+child_care Explain like I'm 6
+
+It's like picking a helper from a list. You can see each helper's gold stars, the languages they speak, and how much they cost. You pick one, choose now or later , and get ready to pay.
+
+CONFIDENTIAL · Wisbox Technology · CureCall PRD v1.0
+13
+
+stethoscope
+Cure Call
+
+A · Patient · screens 09–10
+
+09 Payment — UPI & wallet
+Pay in rupees, the way India pays
+
+Pay screen:'pay'
+
+Total to pay ₹249
+Pay with
+account_balance_wallet Med wallet ₹240
+qr_code_2 UPI / scan QR
+Pay ₹249
+
+On screen
+Fee summary, pay via Med wallet or UPI (with a QR), clear total. A success state advances automatically.
+
+What happens
+pay sets paid and, after ~1.6s, routes to AI pre‑consult. Wallet path debits the balance.
+
+BACKEND POST /payments/intent → UPI collect / wallet debit; webhook confirms before the slot is locked. Idempotent, with refund on no‑show.
+
+10 Smart pre‑consult (AI intake)
+The robot helper does the doctor's paperwork
+
+AI screen:'preconsult'
+
+auto_awesome
+CureCall helper
+What's troubling you today?
+Fever & headache
+Since when?
+1 day
+2-3 days
+mic
+
+On screen
+A friendly chat. 5 questions — complaint, since when, severity, other symptoms, meds/allergy — each answered by tapping a chip or speaking. A running "summary so far" panel fills as you go.
+
+What happens
+sendReply stores each answer in answers ; at the end intakeReady flips and a structured summary is built for the doctor.
+
+BACKEND / AI Answers → LLM that returns a normalised intake (chief complaint, duration, severity, red‑flag check). Voice handled by speech‑to‑text in the chosen language.
+
+child_care Explain like I'm 6
+
+You pay the doctor with your phone (no cash, no coins). Then a friendly robot asks you five easy questions — you just tap the picture that matches, or talk. The robot writes your answers neatly so the doctor already knows what's wrong before saying hello.
+
+CONFIDENTIAL · Wisbox Technology · CureCall PRD v1.0
+14
+
+stethoscope
+Cure Call
+
+A · Patient · screens 11–13
+
+11 Safety gate
+The traffic light before the call
+
+Safety screen:'gate'
+
+check
+Safe to consult online
+No danger signs found.
+Connecting you to a doctor.
+
+The AI intake is scored for red‑flag symptoms . Green = safe to consult online, proceed to the waiting room. (Amber/red outcomes route to caution or an emergency message — see the dedicated Safety Gate page.) → waiting
+BACKEND Rule + model triage on the intake; the same score is attached to the doctor's queue card.
+
+12 Waiting room
+Reassurance while the doctor joins
+
+Wait screen:'waiting'
+
+Dr. Verma is joining…
+You're next in the queue
+
+Shows the doctor's avatar, a calm "joining you shortly", and queue position. Auto‑advances to the live consult when the doctor connects. A network check runs silently here.
+BACKEND Realtime presence/queue channel; pre‑warms the video session token.
+
+13 Live consult (video / audio)
+The actual appointment — both sides of the call
+
+Call screen:'consult'
+
+04:12
+
+stethoscope
+
+Dr. A. Verma
+
+Physician · speaking…
+
+mic
+
+call_end
+
+videocam
+
+Patient sees
+
+04:12
+
+S
+
+Sunita · 34
+
+Temp 38.1
+SpO₂ 98
+Note
+
+mic
+
+edit_note
+
+call_end
+
+Doctor sees
+
+The same WebRTC session, two interfaces. The patient gets an immersive dark call with the doctor front‑and‑centre; the doctor sees the patient alongside live vitals, intake notes and a quick‑note pad. Both share a call timer, mic & camera toggles and an end button. Auto‑degrades to audio‑only on a weak network (driven by callMode / netWeak ) so the call survives. Ending routes the patient to Rate the doctor .
+BACKEND WebRTC SFU with adaptive bitrate; one room, role‑scoped tracks & overlays. Consult audio is captured (with consent) for the record engine.
+
+CONFIDENTIAL · Wisbox Technology · CureCall PRD v1.0
+15
+
+stethoscope
+Cure Call
+
+A · Patient · screens 14–16
+
+14 Rate the doctor
+Feedback that powers the "Top rated" filter
+
+Feedback screen:'rate'
+
+How was your consult?
+star star star star star
+Clear advice Kind
+
+Star rating ( rateStars ) plus quick tags ( rateTags ) like "clear advice", "kind", "good listener". Optional — skippable. Then the record engine starts.
+BACKEND POST /consults/:id/rating ; feeds the doctor's aggregate score.
+
+15 Record engine — building your record
+The five things that happen after you hang up
+
+AI screen:'building'
+
+graphic_eq 1 · Transcribing the consult
+
+edit_note 2 · Drafting the structured note
+
+verified_user 3 · CureCall Intelligence — medicine check
+
+draw 4 · Doctor verified & e‑signed
+
+task_alt 5 · Your record is ready
+
+BACKEND / AI Audio → transcript → LLM note → drug‑interaction check → doctor e‑sign → immutable record. build steps animate as each completes server‑side.
+
+16 Health record — Samajh · Rx · Story
+Three tabs: understand it, the prescription, the timeline
+
+Record screen:'record'
+
+lightbulb Samajh
+"Understand" — the diagnosis in simple words , what to do, when to worry. Listen to the consult audio; reminder toggle.
+
+prescriptions Rx
+The signed prescription. Download PDF (generated on device) and Find pharmacy with a QR to fulfil it.
+
+timeline Story
+A health timeline — every consult, test & report as dated dots, so history is never lost.
+
+BACKEND GET /records/:id returns note + FHIR prescription + timeline. PDF built client‑side from the signed payload; pharmacy QR encodes the Rx token.
+
+CONFIDENTIAL · Wisbox Technology · CureCall PRD v1.0
+16
+
+stethoscope
+Cure Call
+
+A · Patient · screen 17
+
+17 Profile & Account
+Everything the patient owns and controls · screen:'profile'
+
+One screen to manage money, family, identity and privacy. It is also where the trust promises from consent become real, working buttons.
+
+account_balance_wallet
+Med wallet
+
+Balance with Add money (quick amounts), low‑balance warning under ₹300, and a success toast on top‑up. walletBal · addAmount
+
+groups
+Family / care circle
+
+List of members (father, son…) with Add member (name, relation, age). Lets one account hold many records. familyMembers · addMember
+
+badge
+ABHA & identity
+
+Link/unlink ABHA, view linked status. Mirrors screen 05 so it can be done later. abhaLinked
+
+gpp_maybe
+Consent & privacy
+
+Withdraw consent (with a confirm step) and read who has viewed records. Sets consentWithdrawn ; toast confirms.
+
+notifications
+Notifications & language
+
+Toggle notification types, switch app language anytime, info modals explain each setting in plain words.
+
+call
+IVR & help · Logout
+
+A "call by phone" (IVR) fallback for no‑data users, help, and a confirmed logout. ivrModal · logoutConfirm
+
+child_care Explain like I'm 6
+
+This is your "my stuff" drawer . Your piggy bank is here, the names of family you take care of, and a big red button to say "actually, stop keeping my health stuff" — because it's your stuff and you're the boss of it.
+
+Global overlays available on many screens
+
+Notifications sheet Add‑money sheet Info modal IVR modal PDF‑downloaded toast Wallet toast Generic toast Confirm dialogs
+
+CONFIDENTIAL · Wisbox Technology · CureCall PRD v1.0
+17
+
+stethoscope
+Cure Call
+
+Part B
+
+Part B · The Doctor App
+
+For the verified
+doctor.
+
+A one‑time verification gauntlet that proves the doctor is real, then a fast daily tool to consult, prescribe, earn, and ask peers. Patients only ever meet a doctor who cleared every step below.
+
+01
+Onboarding ×2
+
+02
+Sign in (OTP)
+
+03
+Identity
+
+04
+Registry check
+
+05
+Documents
+
+06
+Liveness
+
+07
+Under review
+
+08
+Verified ✓
+
+09
+Dashboard
+
+10
+Patients
+
+11
+Consult + gate
+
+12
+Prescription
+
+13
+Consult done
+
+14
+Case board
+
+15
+Earnings
+
+16
+Profile
+
+child_care Explain like I'm 6
+
+Before a doctor is allowed in, CureCall checks really carefully that they're a real doctor — like showing your ID, your school certificate, and even your face on camera. Only after passing every check do they get a gold "verified" badge and can start helping people.
+
+CONFIDENTIAL · Wisbox Technology · CureCall PRD v1.0
+18
+
+stethoscope
+Cure Call
+
+B · Doctor · the verification gauntlet (1/2)
+
+One‑time onboarding · part 1
+
+Prove you're a real doctor
+
+Seven gates stand between "I'm a doctor" and seeing a single patient. Each one is a hard stop — you cannot skip ahead.
+
+play_circle
+01 · Onboarding ×2 — the pitch
+scIntro1 / scIntro2
+Two value‑prop slides: "Treat patients from anywhere" and "Peer case boards + payments" , with floating proof chips and an EN/हिं toggle. Ends on "Join as a doctor". → sign in
+
+login
+02 · Sign in (phone OTP)
+screen:'signin'
+Phone + 4‑box OTP ( sendOtp → verifyOtp ), language toggle. Backend: same OTP service as patients, but the account is flagged role:doctor, status:unverified .
+
+badge
+03 · Identity & specialty
+screen:'identity'
+Full name + pick one of 5 specialties (General Physician, Physician, Pediatrics, Dermatology, Gynaecology). Drives queue routing & the patient‑facing label.
+
+fact_check
+04 · Registry check (the big one)
+screen:'registry'
+Pick the medical council (6 supported, e.g. Delhi MC, NMC national, UP, Maharashtra, Kerala, TN) + registration number. Three states: idle checking found . Backend: live lookup against the NMC/state register; a "found" card shows the official record to confirm.
+
+child_care Explain like I'm 6
+
+First the doctor logs in with a secret number, says their name and what kind of doctor they are. Then the app looks them up in the government's big list of real doctors — if they're not in the list, they can't go further.
+
+CONFIDENTIAL · Wisbox Technology · CureCall PRD v1.0
+19
+
+stethoscope
+Cure Call
+
+B · Doctor · the verification gauntlet (2/2)
+
+One‑time onboarding · part 2
+
+Documents, face & the board
+
+upload_file
+05 · Documents
+screen:'documents'
+Upload up to four: MBBS degree (required), MD/PG (optional), Council certificate (required), Govt photo ID / ABHA (required). The "Continue" button stays disabled until all required are in. Files are encrypted; only the verification team sees them.
+
+face
+06 · Liveness (face match)
+screen:'liveness'
+A live face scan with an animated progress ring ( liveStage: idle→running→done , livePct ) that must match the uploaded ID photo . Stops impersonation. Backend: liveness + face‑match vendor; store match score, not raw video.
+
+hourglass_top
+07 · Under review
+screen:'review'
+"Application submitted — the CureCall medical board is checking." A calm holding state. (A demo button simulates board approval.) Backend: human + automated review queue; status webhook flips the account when cleared.
+
+verified
+08 · Verified! 🎉
+screen:'verified'
+Confetti celebration, "you're now live on CureCall", and a preview of how patients see you (verified badge, years, languages). CTA → dashboard. status:verified unlocks consults.
+
+Verification data captured (for the trust ledger)
+
+Council + reg. no. MBBS degree PG (if any) Council cert. Govt ID / ABHA Face‑match score Board decision + reviewer
+
+CONFIDENTIAL · Wisbox Technology · CureCall PRD v1.0
+20
+
+stethoscope
+Cure Call
+
+B · Doctor · screens 09–10
+
+09 Today — the dashboard
+Go online, see the queue, watch earnings
+
+Hub screen:'today'
+
+Today
+Online
+
+This week
+₹11,940
+
+48 consults
+Patient queue
+Sunita D. · 34
+Fever, headache · 2m wait
+
+Aisha K. · 28
+Itchy rash · 5m wait
+
+Ramesh Y. · 52
+Chest pain · urgent
+
+On screen
+An Online/Offline toggle (only online doctors get patients), a notifications bell, the patient queue (each card shows name, age, concern, wait, and a safety‑gate colour ), and a this‑week earnings summary.
+
+What happens
+toggleOnline sets availability; tapping a queue card sets patient and opens the consult.
+
+BACKEND Presence write on toggle; realtime queue scoped to the doctor's specialty + language; each card carries the AI summary + triage colour.
+
+10 Patients
+People you've seen & can revisit
+
+List screen:'patients'
+
+search Search patients
+S
+Sunita Devi
+Viral fever · 2 days ago
+
+A
+Aisha Khan
+Dermatitis · 1 wk ago
+
+R
+Ramesh Yadav
+Referred · 2 wk ago
+
+On screen
+A searchable list of past patients with their concern, last‑visit line and a coloured initial avatar. Opening one shows their timeline & record .
+
+What happens
+Read‑only history; a "consult again" path re‑opens the consult flow with prior context loaded.
+
+BACKEND GET /doctor/patients — only patients who consented to this doctor; access is logged to the consent ledger.
+
+child_care Explain like I'm 6
+
+This is the doctor's desk . They flip a switch to say "I'm ready," and a line of patients appears — each with a green, yellow, or red sticker so the doctor knows who's okay and who might need help fast. They can also look back at people they helped before.
+
+CONFIDENTIAL · Wisbox Technology · CureCall PRD v1.0
+21
+
+stethoscope
+Cure Call
+
+B · Doctor · screens 11–13
+
+11 Consult — with the safety gate
+Where the doctor actually treats
+
+Core screen:'consult'
+
+check_circle GREEN · safe online
+38.4
+Temp
+
+88
+Pulse
+
+98%
+SpO₂
+
+120/80
+BP
+
+AI SUMMARY
+Fever 2 days + headache. No allergy. No current meds.
+
+Write prescription
+
+A safety‑gate banner (green/amber/red) sits up top. Below: the patient's vitals (Temp · Pulse · SpO₂ · BP), the AI intake summary (history, current meds, allergies), live mic/cam controls, and a notes field with quick‑append chips. A red gate swaps the primary action for "Emergency referral" .
+
+BACKEND Loads the AI intake + triage; notes autosave; same WebRTC room as the patient.
+
+12 Prescription + CureCall Intelligence
+Prescribe safely in two taps
+
+AI screen:'prescription'
+
+Prescription
+Paracetamol 500mg
+1 tab · twice daily · 3 days
+
+ORS sachet
+As needed · 2 days
+
+add Add medicine
+verified_user No interactions found
+draw Sign & send
+
+Add medicines from a 7‑drug catalogue (Paracetamol, ORS, Azithromycin, Cetirizine, Pantoprazole, Ibuprofen, Vitamin D3) with editable dose & timing. CureCall Intelligence runs a medicine check (interactions, allergy clash, dose sanity) before the doctor digitally signs & sends to the patient.
+
+BACKEND / AI Drug‑interaction engine + patient allergy list; signed as a FHIR MedicationRequest , immutable v1.
+
+13 Consult complete
+Wrap‑up & the bridge to peers
+
+Done screen:'thanks'
+
+check
+Prescription sent
+forum Share to case board
+
+Confirms the prescription was sent, returns to the dashboard, and offers "Share this case to the board" — handing off to peer second opinions. shareToBoard → screen:'board'
+
+CONFIDENTIAL · Wisbox Technology · CureCall PRD v1.0
+22
+
+stethoscope
+Cure Call
+
+B · Doctor · screen 14
+
+14 Case Board — peer second opinions
+A Quora‑style debate room for hard cases · screen:'board'
+
+A lone doctor in a village is no longer alone. Tricky cases (anonymised) can be posted for the wider verified community to weigh in — strengthening care quality and doctor confidence.
+
+Posting a case
+
+From a finished consult or the "Post a case" button. The patient is anonymised to a code (e.g. P‑2291 , "F · 34") and the doctor attaches the report, vitals, a proposed diagnosis , and a question for peers.
+
+complaint vitals history meds allergy findings proposed Dx
+
+Reading & debating
+
+Filter All / Mine . Open a case to see the full report, then the responses. Each response is typed support or correct , can be upvoted (per‑response support count) and has threaded replies — a real conversation, not just comments.
+
+The interaction model (state)
+
+openCase(id)
+Opens a case into the reading view ( boardOpen ).
+
+postCorrect
+Adds your top‑level opinion, typed support or correct ( opinionKind ).
+
+supportResponse(rid)
+Up/down‑votes a peer's opinion; toggles supportedByMe & the count.
+
+postReply(rid)
+Adds a threaded reply under a specific opinion.
+
+postCase
+Publishes a new anonymised case (defaults the board filter to "mine").
+
+4
+seed cases span GP, cardiology, dermatology & pediatrics
+
+support
+"I agree" opinions, upvotable by peers
+
+correct
+"I'd change this" opinions, with a reason
+
+child_care Explain like I'm 6
+
+When a doctor isn't sure, they can ask other doctors — but they hide the patient's name first so it's private. Other doctors say "I agree!" or "I'd do it differently, here's why," and everyone can give a thumbs‑up to the best idea. It's teamwork for doctors.
+
+BACKEND Cases stored stripped of identifiers (re‑identification blocked server‑side). Threads, votes & replies are ordinary social primitives; only verified doctors can read or post; abuse/report tooling required at launch.
+
+CONFIDENTIAL · Wisbox Technology · CureCall PRD v1.0
+23
+
+stethoscope
+Cure Call
+
+B · Doctor · screens 15–16
+
+15 Earnings
+The reason doctors stay — money, clearly
+
+Money screen:'earnings'
+
+This week ₹11,940
+48 consults · settles Friday
+Settled ₹9,450
+Pending ₹2,490
+Withdraw to bank
+
+On screen
+This‑week total, a per‑consult breakdown ("48 consults · settles every Friday"), and a Withdraw button to a bank/UPI.
+
+What happens
+Withdraw triggers a payout request; the ledger shows pending vs settled.
+
+BACKEND Earnings ledger from completed, paid consults; weekly settlement job; POST /payouts with KYC checks.
+
+16 Doctor profile
+Public identity + settings
+
+Account screen:'profile'
+
+Dr. A. Verma
+verified Verified
+Physician · 12 yrs · हिं Eng
+notifications Notifications
+translate Language
+event_available Availability
+
+On screen
+Verified badge, specialty, languages, experience, registration number — the same card patients see — plus language, notifications and availability settings.
+
+What happens
+Edits to bio/languages re‑surface in the patient‑facing profile; verification status is read‑only.
+
+BACKEND Profile read/write; verification fields locked to the trust ledger; rating aggregated from patient feedback.
+
+child_care Explain like I'm 6
+
+The doctor can see how much money they earned this week, like a piggy bank that fills every time they help someone, and take it out on Friday. Their profile is their name badge that patients see — with the gold "really a doctor" sticker.
+
+CONFIDENTIAL · Wisbox Technology · CureCall PRD v1.0
+24
+
+stethoscope
+Cure Call
+
+04 · Shared systems
+
+The single most important rule
+
+The Safety Gate — a traffic light for every patient
+
+Telemedicine's biggest risk is missing an emergency. The Safety Gate scores every intake and shows a colour on both apps. It is computed once and travels with the patient — same colour on the patient's screen and the doctor's queue card.
+
+check GREEN
+Safe to consult online
+Everyday complaints with no danger signs. Proceed straight to the doctor.
+e.g. viral fever, mild rash, cough
+
+priority_high AMBER
+Proceed with caution
+Could be minor, could need a closer look. Doctor is alerted to watch for escalation.
+e.g. contact dermatitis, possible allergy
+
+e911_emergency RED
+Emergency — refer out
+Danger signs. The doctor's main button becomes Emergency referral ; the patient is urged to seek in‑person care.
+e.g. chest pain, possible heart attack
+
+Worked examples — the three seed patients
+
+Sunita Devi · 34
+GREEN Fever 2 days + headache · vitals normal (Temp 38.4, SpO₂ 98%) → viral fever, consult online .
+
+Aisha Khan · 28
+AMBER Itchy rash 3 days, new detergent · stable vitals → contact dermatitis, watch .
+
+Ramesh Yadav · 52
+RED Chest tightness 1 hr, sweating · Pulse 104, BP 150/94 → possible heart attack → emergency referral to cardiology .
+
+child_care Explain like I'm 6
+
+Before the doctor talks to you, the app puts a coloured light on you. Green = "you're okay, let's chat." Yellow = "keep an eye on this." Red = "this could be very serious — go to a real hospital fast." It helps doctors never miss a scary problem.
+
+How it's decided
+
+A mix of rules (red‑flag symptoms, vital thresholds) and the AI intake model. Rules always win toward caution — when unsure, the gate goes more red, never less. The score and its reasons are stored for audit.
+
+CONFIDENTIAL · Wisbox Technology · CureCall PRD v1.0
+25
+
+stethoscope
+Cure Call
+
+04 · Shared systems
+
+The brain in the middle
+
+CureCall Intelligence — the AI layer
+
+One AI service does four jobs across the journey. Its golden rule: AI assists, the doctor decides. Nothing reaches a patient without a verified human's e‑signature.
+
+forum
+1 · Intake & triage
+Turns the patient's tapped/spoken answers into a clean clinical summary and the Safety‑Gate colour. (Patient screen 10 → Gate 11)
+
+graphic_eq
+2 · Transcription
+Converts the consult audio (captured with consent) into a transcript in the spoken language. (Record building, step 1)
+
+edit_note
+3 · Note drafting & "Samajh"
+Drafts the structured clinical note for the doctor, and a plain‑language "understand it" version for the patient. (Record building, step 2 → Record tab)
+
+verified_user
+4 · Medicine check
+Before signing, checks the prescription for drug interactions, allergy clashes and dose sanity against the patient's record. (Doctor prescription screen 12)
+
+child_care Explain like I'm 6
+
+The robot helper is like a super‑fast note‑taker . It listens, writes everything down neatly, explains it in easy words, and double‑checks the medicine won't clash — but a real doctor always reads it and signs their name before you get it. The robot never plays doctor by itself.
+
+Guardrails (non‑negotiable)
+
+check_circle Every AI output is doctor‑reviewed and e‑signed before it's final.
+
+check_circle Triage fails safe — uncertainty pushes the gate toward red.
+
+check_circle All prompts, inputs & outputs are logged for audit & quality review.
+
+check_circle Models run on India‑resident infrastructure; no patient data leaves the region.
+
+CONFIDENTIAL · Wisbox Technology · CureCall PRD v1.0
+26
+
+stethoscope
+Cure Call
+
+04 · Shared systems
+
+The memory box
+
+The health record & data model
+
+Everything funnels into one permanent, patient‑owned record. It is the shared truth both apps read from, built on India's ABHA identity and the international FHIR R4 standard so it's portable beyond CureCall.
+
+Core entities
+
+Patient
+ABHA address, locale, family members, wallet
+
+Doctor
+Council reg., specialty, verification ledger, rating
+
+Consult
+Patient + doctor + slot + payment + triage colour
+
+Intake
+AI‑normalised complaint, duration, severity, flags
+
+Record
+Transcript, clinical note, "Samajh", timeline
+
+Prescription
+FHIR MedicationRequest , e‑signed, immutable
+
+ConsentLog
+Every grant, withdrawal & record view, timestamped
+
+Ownership & access
+
+The patient owns the record . A doctor sees it only while consent is active; every view is logged and shown to the patient. Withdrawal revokes future access immediately.
+
+Immutability
+
+Signed prescriptions and notes are write‑once . Corrections create a new version (v2) that references v1 — history is never silently edited.
+
+Residency
+
+All personal & health data is stored in India , encrypted at rest and in transit.
+
+How a record is born — one consult, end to end
+
+AI intake arrow_forward
+Safety gate arrow_forward
+Consult (audio) arrow_forward
+Transcript arrow_forward
+Note + Rx check arrow_forward
+Doctor e‑sign arrow_forward
+Immutable record
+
+child_care Explain like I'm 6
+
+Everything goes into one big memory box that belongs to you . Doctors can only peek inside when you say yes, and the box writes down every single peek . Once something is written, nobody can secretly erase it — they can only add a new page.
+
+CONFIDENTIAL · Wisbox Technology · CureCall PRD v1.0
+27
+
+stethoscope
+Cure Call
+
+05 · Engineering
+
+For the backend team
+
+Services & APIs
+
+A pragmatic set of services behind one API gateway. The prototype is frontend‑only; this is the intended backend the apps are designed to talk to.
+
+key Auth & Identity
+OTP (SMS + voice), JWT sessions, ABHA linking, roles (patient/doctor).
+
+badge Verification
+Registry lookup, document store, liveness/face‑match, board review queue.
+
+smart_toy Intelligence
+Intake/triage, STT transcription, note drafting, medicine check.
+
+videocam Realtime
+WebRTC SFU, presence, queue, adaptive bitrate, audio fallback.
+
+payments Payments
+UPI collect, wallet ledger, doctor payouts, weekly settlement.
+
+database Records
+FHIR store, consent ledger, immutable versions, India residency.
+
+Representative endpoints
+
+POST /auth/otp/request · /verify
+
+POST /consent // versioned grant
+
+GET /doctors ?concern&lang&filter
+
+GET /doctors/:id/slots
+
+POST /payments/intent
+
+POST /intake // → summary + triage
+
+POST /consults/:id/transcript
+
+POST /prescriptions // FHIR, e‑signed
+
+GET /records/:id
+
+POST /payouts
+
+Cross‑cutting
+Idempotency keys on payments; webhooks for async (payment, board decision, payout); every health read/write writes to the consent ledger; rate‑limits on OTP & intake.
+
+Third parties
+SMS + voice‑OTP gateway, UPI PSP, liveness/face‑match vendor, ABDM/ABHA sandbox, LLM + STT providers (region‑locked).
+
+Prototype note
+Today both apps are self‑contained front‑end state machines (no live backend). These contracts define what to wire next.
+
+CONFIDENTIAL · Wisbox Technology · CureCall PRD v1.0
+28
+
+stethoscope
+Cure Call
+
+05 · Engineering
+
+The rules that aren't a screen
+
+Non‑functional requirements
+
+lock
+Security & privacy
+
+Encryption in transit & at rest; India‑resident storage.
+Consent required before any health write; full audit log.
+Least‑privilege access; doctor sees only consented patients.
+Verification documents isolated from app data.
+
+signal_cellular_alt
+Low‑bandwidth & resilience
+
+Video auto‑falls back to audio‑only on weak networks.
+Home & record cached for offline open.
+IVR / phone fallback for no‑data users.
+Lightweight assets; works on entry Android.
+
+translate
+Localization
+
+Bilingual core (Hindi/English) via tr() pairs.
+6 languages offered; architecture adds more easily.
+Native scripts & voice input per language.
+No English required anywhere in the patient flow.
+
+accessibility_new
+Accessibility & usability
+
+Min 44×44px touch targets everywhere.
+High‑contrast text; large, friendly type.
+Voice‑first intake for low‑literacy users.
+Plain language; zero medical jargon for patients.
+
+Performance & quality targets
+
+< 3 min
+sick → doctor
+
+< 2 s
+screen transitions
+
+99.9%
+consult uptime goal
+
+100%
+Rx doctor‑signed
+
+child_care Explain like I'm 6
+
+Even if your internet is slow , the call still works — it just becomes a voice call, like a normal phone. And if you have no internet at all , you can still call a phone number. Everything is locked up safe and kept in India, and the buttons are nice and big so they're easy to tap.
+
+CONFIDENTIAL · Wisbox Technology · CureCall PRD v1.0
+29
+
+stethoscope
+Cure Call
+
+06 · Appendix
+
+Quick reference
+
+Glossary & state appendix
+
+Words, in plain language
+
+ABHA
+India's national health ID; makes records portable
+
+FHIR R4
+Global standard for health data; keeps records sharable
+
+OTP
+One‑time secret number to prove it's really you
+
+UPI
+India's instant phone‑to‑phone money system
+
+Liveness
+A live face check so nobody fakes being a doctor
+
+Safety gate
+The green/amber/red emergency traffic light
+
+Samajh
+"Understand" — the easy‑words version of your record
+
+Triage
+Sorting patients by how urgent they are
+
+IVR
+Call‑a‑number service for users with no data
+
+Patient — every screen state
+
+onboard · welcome · otp · consent · abha · home · doctors · doctor · pay · preconsult · gate · waiting · consult · rate · building · record · profile
+
+Doctor — every screen state
+
+intro1 · intro2 · signin · identity · registry · documents · liveness · review · verified · today · patients · consult · prescription · thanks · board · earnings · profile
+
+Build status
+
+Both apps · UI built Bilingual Backend · to wire AI services · to integrate
+
+Suggested build order (so nobody is blocked)
+
+1 Auth + Consent arrow_forward
+2 Doctor verification arrow_forward
+3 Booking + Payments arrow_forward
+4 Intake + Gate arrow_forward
+5 Realtime consult arrow_forward
+6 Record engine + Board
+
+child_care Explain like I'm 6 — the whole thing in one breath
+
+A sick person taps what hurts, a robot writes it down, a real, checked doctor calls them in their own language, gives medicine, and it's all saved in a safe memory box that belongs to the patient. That's CureCall. 🩺
+
+CONFIDENTIAL · Wisbox Technology · CureCall PRD v1.0
+30
+
+CONFIDENTIAL
+
+stethoscope
+
+Cure Call
+
+Healthcare that travels
+to the patient.
+
+This document is the build book for that promise — every screen, rule and system, written for the team and the six‑year‑old alike.
+
+IDEATION · ARTWORK · DESIGN
+
+Raja Sahoo
+
+Founder & CEO · Wisbox Technology
+
+© Wisbox Technology · All rights reserved
+CC‑PRD‑0001 · v1.0
+
+CONFIDENTIAL · INTERNAL
+DO NOT DISTRIBUTE

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div style="display:flex;flex-direction:column;gap:clamp(18px,3vw,34px);font-family:Archivo,system-ui,sans-serif;color:#171714">
+<sc-if value="{{ isA }}" hint-placeholder-val="{{ true }}">
+  <div style="display:flex;flex-wrap:wrap;gap:clamp(14px,2vw,24px);align-items:stretch">
+    <section style="flex:1.35 1 460px;min-width:min(100%,290px);background:#E9E5DA;border:1px solid #D3CFC4;padding:clamp(16px,2.2vw,28px);display:flex;flex-direction:column;gap:16px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#655F55">01 · User research</span>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.06em;color:#655F55">{{ method }}</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,130px),1fr));gap:clamp(10px,1.4vw,16px)">
+        <sc-for list="{{ clusters }}" as="c" hint-placeholder-count="4">
+          <div style="display:flex;flex-direction:column;gap:7px">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:#171714;border-bottom:1.5px solid #171714;padding-bottom:4px">{{ c.t }}</span>
+            <sc-for list="{{ c.notes }}" as="n" hint-placeholder-count="2">
+              <p style="margin:0;background:{{ c.bg }};padding:8px 9px 10px;font-family:Caveat,cursive;font-size:17px;line-height:1.1;color:#2A2620;box-shadow:0 6px 10px -8px rgba(0,0,0,.4);transform:rotate({{ n.r }}deg)">{{ n.t }}</p>
+            </sc-for>
+          </div>
+        </sc-for>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:10px;margin-top:auto">
+        <sc-for list="{{ quotes }}" as="q" hint-placeholder-count="3">
+          <figure style="margin:0;background:#F7F5EF;border-left:2px solid {{ accent }};padding:12px 14px">
+            <blockquote style="margin:0;font-family:Newsreader,serif;font-style:italic;font-size:16.5px;line-height:1.3;color:#171714">“{{ q.q }}”</blockquote>
+            <figcaption style="margin-top:8px;font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:#655F55">{{ q.who }}</figcaption>
+          </figure>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="flex:1 1 340px;min-width:min(100%,280px);background:#171714;color:#F2F0EB;padding:clamp(18px,2.4vw,30px);display:flex;flex-direction:column;gap:16px">
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#948E84">02 · Persona</span>
+      <div style="display:flex;align-items:center;gap:14px">
+        <span style="flex:0 0 56px;height:56px;border-radius:50%;background:{{ accent }};color:#fff;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:19px">{{ initials }}</span>
+        <div><p style="margin:0;font-size:clamp(22px,2.4vw,30px);font-weight:600;letter-spacing:-.02em;line-height:1">{{ pName }}</p><p style="margin:5px 0 0;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.08em;color:#B9B3A8">{{ pMeta }}</p></div>
+      </div>
+      <p style="margin:0;font-family:Newsreader,serif;font-style:italic;font-size:clamp(18px,1.8vw,22px);line-height:1.25;color:#F2F0EB">“{{ pQuote }}”</p>
+      <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;border-top:1px solid #3A3832;padding-top:12px">
+        <div><p style="margin:0 0 6px;font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:#7FD3A6">Wants</p><sc-for list="{{ goals }}" as="g" hint-placeholder-count="3"><p style="margin:0 0 5px;font-size:13.5px;line-height:1.35;color:#DAD5CB">+ {{ g }}</p></sc-for></div>
+        <div><p style="margin:0 0 6px;font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:#F08A70">Hates</p><sc-for list="{{ pains }}" as="g" hint-placeholder-count="3"><p style="margin:0 0 5px;font-size:13.5px;line-height:1.35;color:#DAD5CB">− {{ g }}</p></sc-for></div>
+      </div>
+      <div style="margin-top:auto;border-top:1px solid #3A3832;padding-top:12px">
+        <p style="margin:0 0 8px;font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:#948E84">A day</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(70px,1fr));gap:6px">
+          <sc-for list="{{ day }}" as="d" hint-placeholder-count="4">
+            <div style="border-top:2px solid {{ accent }};padding-top:6px"><p style="margin:0;font-family:'IBM Plex Mono',monospace;font-size:10px;color:#F2F0EB">{{ d.t }}</p><p style="margin:3px 0 0;font-size:12px;line-height:1.3;color:#B9B3A8">{{ d.d }}</p></div>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <section style="display:flex;flex-direction:column;gap:12px">
+    <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#655F55">03 · Problem → Gap → Solution</span>
+    <div style="display:flex;flex-wrap:wrap;align-items:stretch;gap:0">
+      <div style="flex:1 1 220px;min-width:min(100%,200px);border:1px solid #171714;padding:clamp(14px,2vw,24px);background:#F2F0EB"><p style="margin:0;font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:#A63A1B">The problem</p><p style="margin:10px 0 0;font-size:clamp(18px,1.9vw,24px);line-height:1.15;letter-spacing:-.02em;font-weight:500;text-wrap:pretty">{{ prob }}</p></div>
+      <div aria-hidden="true" style="flex:0 0 34px;display:flex;align-items:center;justify-content:center;font-size:22px;color:#171714">→</div>
+      <div style="flex:1 1 220px;min-width:min(100%,200px);border:1px dashed #171714;padding:clamp(14px,2vw,24px);background:repeating-linear-gradient(135deg,#F2F0EB 0 8px,#E9E5DA 8px 9px)"><p style="margin:0;font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:#655F55">The gap nobody filled</p><p style="margin:10px 0 0;font-size:clamp(18px,1.9vw,24px);line-height:1.15;letter-spacing:-.02em;font-weight:500;text-wrap:pretty">{{ gap }}</p></div>
+      <div aria-hidden="true" style="flex:0 0 34px;display:flex;align-items:center;justify-content:center;font-size:22px;color:#171714">→</div>
+      <div style="flex:1.2 1 260px;min-width:min(100%,220px);background:{{ accent }};color:#fff;padding:clamp(14px,2vw,24px);display:flex;gap:14px;align-items:center">
+        <div style="flex:1 1 auto;min-width:0"><p style="margin:0;font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;opacity:.85">What I designed</p><p style="margin:10px 0 0;font-size:clamp(18px,1.9vw,24px);line-height:1.15;letter-spacing:-.02em;font-weight:600;text-wrap:pretty">{{ sol }}</p></div>
+        <div style="flex:0 0 clamp(64px,7vw,92px);aspect-ratio:9/19;border-radius:10px;overflow:hidden;background:#111;box-shadow:0 14px 26px -14px rgba(0,0,0,.6)"><img src="{{ solImg }}" alt="{{ sol }}" loading="lazy" style="display:block;width:100%;height:100%;object-fit:{{ fitMode }};object-position:top"></div>
+      </div>
+    </div>
+  </section>
+</sc-if>
+
+<sc-if value="{{ isB }}" hint-placeholder-val="{{ false }}">
+  <section style="display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap">
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#655F55">04 · Low fidelity → high fidelity</span>
+      <span style="font-family:Caveat,cursive;font-size:20px;color:#655F55">same bones, different skin</span>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:clamp(14px,2.4vw,32px)">
+      <sc-for list="{{ fid }}" as="f" hint-placeholder-count="2">
+        <figure style="flex:1 1 380px;min-width:min(100%,280px);margin:0;background:#E9E5DA;border:1px solid #D3CFC4;padding:clamp(14px,2vw,24px)">
+          <div style="display:flex;align-items:center;gap:clamp(10px,2vw,22px)">
+            <div style="flex:1 1 0;min-width:0">
+              <div style="aspect-ratio:9/19;background:#FAFAF8;border:1.5px solid #B9B9B2;border-radius:14px;padding:12% 9% 9%;display:flex;flex-direction:column;gap:6%">
+                <div style="height:3%;width:38%;background:#D2D2CC;border-radius:2px"></div>
+                <div style="height:5%;width:74%;background:#9E9E97;border-radius:2px"></div>
+                <div style="height:{{ f.h1 }};background:#D2D2CC;border-radius:6px"></div>
+                <div style="height:4%;width:62%;background:#C4C4BE;border-radius:2px"></div>
+                <div style="height:9%;border:1px solid #C4C4BE;border-radius:6px"></div>
+                <div style="height:9%;border:1px solid #C4C4BE;border-radius:6px"></div>
+                <div style="margin-top:auto;height:8%;background:#6F6F69;border-radius:99px"></div>
+              </div>
+              <p style="margin:8px 0 0;font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:#7A7A73">Lo-fi · v0.2</p>
+            </div>
+            <div aria-hidden="true" style="flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:4px;color:{{ accent }}"><span style="font-size:22px">→</span><span style="font-family:Caveat,cursive;font-size:16px;white-space:nowrap">{{ f.why }}</span></div>
+            <div style="flex:1 1 0;min-width:0">
+              <div style="aspect-ratio:9/19;border-radius:14px;overflow:hidden;background:#111;box-shadow:0 20px 40px -24px rgba(0,0,0,.55)"><img src="{{ f.img }}" alt="{{ f.label }}" loading="lazy" style="display:block;width:100%;height:100%;object-fit:{{ fitMode }};object-position:top"></div>
+              <p style="margin:8px 0 0;font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:#171714">Hi-fi · {{ f.label }}</p>
+            </div>
+          </div>
+        </figure>
+      </sc-for>
+    </div>
+  </section>
+
+  <section style="display:flex;flex-direction:column;gap:12px">
+    <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#655F55">05 · User flow</span>
+    <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px 0;background:#E9E5DA;border:1px solid #D3CFC4;padding:clamp(16px,2.4vw,28px)">
+      <sc-for list="{{ flow }}" as="s" hint-placeholder-count="5">
+        <div style="display:flex;align-items:center">
+          <sc-if value="{{ s.first }}" hint-placeholder-val="{{ false }}"><span style="width:12px;height:12px;border-radius:50%;background:#171714;margin-right:8px"></span></sc-if>
+          <sc-if value="{{ s.dec }}" hint-placeholder-val="{{ false }}">
+            <div style="width:clamp(78px,8vw,96px);aspect-ratio:1;display:flex;align-items:center;justify-content:center;position:relative"><span style="position:absolute;inset:14%;transform:rotate(45deg);border:1.5px solid {{ accent }};background:#F2F0EB"></span><span style="position:relative;font-size:11.5px;line-height:1.15;text-align:center;font-weight:500;max-width:70%">{{ s.t }}</span></div>
+          </sc-if>
+          <sc-if value="{{ s.box }}" hint-placeholder-val="{{ true }}">
+            <span style="background:{{ s.bg }};color:{{ s.fg }};border:1.5px solid #171714;border-radius:99px;padding:9px 14px;font-size:13px;font-weight:500;white-space:nowrap">{{ s.t }}</span>
+          </sc-if>
+          <sc-if value="{{ s.more }}" hint-placeholder-val="{{ true }}"><span aria-hidden="true" style="width:clamp(14px,2vw,28px);height:1.5px;background:#171714;position:relative;margin:0 2px"></span></sc-if>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1100,&quot;height&quot;:1000},&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#E4553C&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;part&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;a&quot;,&quot;b&quot;],&quot;default&quot;:&quot;a&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;fit&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;cover&quot;,&quot;contain&quot;],&quot;default&quot;:&quot;cover&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;project&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;wisbox&quot;,&quot;vidwan&quot;,&quot;servora&quot;,&quot;curecall&quot;,&quot;gharbar&quot;,&quot;mira&quot;],&quot;default&quot;:&quot;gharbar&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  static DATA = {"wisbox":{"method":"14 street interviews · 6 shop owners · Bhubaneswar","clusters":[{"t":"Deciding","notes":["we scroll 3 apps","nobody knows what’s open"]},{"t":"Trust","notes":["photos lie","I go where friends went"]},{"t":"Shops","notes":["we’re not on maps","30% commission hurts"]},{"t":"Timing","notes":["7 pm = panic","queues kill plans"]}],"quotes":[{"q":"By the time we decide, the place is full.","who":"Ankita, 24 · student"},{"q":"Half the cafés near me aren’t on any app.","who":"Rohit, 29 · analyst"},{"q":"I want walk-ins, not more deliveries.","who":"Mr. Das · café owner"}],"persona":{"name":"Ankita Mohanty","meta":"24 · MBA student · Bhubaneswar","quote":"Just tell me what’s good, open and close — right now.","goals":["Decide in a minute","Places friends trust","Walk in, no queue"],"pains":["Three apps for one café","Stale photos","Delivery-first apps"],"day":[{"t":"1 pm","d":"lunch, alone"},{"t":"5 pm","d":"group chat: where?"},{"t":"7 pm","d":"decision panic"},{"t":"9 pm","d":"dessert run"}]},"prob":"Friends spend the evening deciding where to go — then pick the same chain.","gap":"Every app is built for delivery. None shows what’s open and walkable now.","sol":"A live view of what’s open nearby — and a table when you arrive.","solImg":"uploads/Wisbox-app/Customer/03%20Discover%20Home.png","fid":[{"img":"uploads/Wisbox-app/Customer/05%20Search.png","label":"Search","why":"real photos"},{"img":"uploads/Wisbox-app/Customer/06%20Live%20Map.png","label":"Live map","why":"pins, not lists"}],"flow":["Open Wisbox","See what’s open",{"t":"Friends been here?","d":1},"Storefront","Walk in · dine-in","Rewards"]},"vidwan":{"method":"11 tutors · 4 centres · 2 parent groups · Bhubaneswar","clusters":[{"t":"Attendance","notes":["40 names, every batch","paper is faster"]},{"t":"Fees","notes":["who paid? no idea","awkward to ask"]},{"t":"Parents","notes":["want a weekly update","WhatsApp overload"]},{"t":"Time","notes":["5 batches a day","one free hand"]}],"quotes":[{"q":"I mark it on paper, then copy it at night.","who":"Sanjay sir · maths tutor"},{"q":"Asking for fees is the worst part of my job.","who":"Priya ma’am · 2 centres"},{"q":"Did he attend, and how is he doing? That’s all.","who":"Parent · Class X"}],"persona":{"name":"Sanjay Behera","meta":"38 · runs a tuition centre · Bhubaneswar","quote":"Teaching I love. The register and the fee notebook I hate.","goals":["Attendance in seconds","Fees without awkward calls","Fewer parent calls"],"pains":["Double entry every night","Chasing fees on WhatsApp","Apps built for schools"],"day":[{"t":"6 am","d":"batch 1"},{"t":"4 pm","d":"batches 2–4"},{"t":"9 pm","d":"copy register"},{"t":"10 pm","d":"fee reminders"}]},"prob":"A tutor teaches five batches a day — and does the paperwork at midnight.","gap":"School ERPs are built for admins at desks, not a tutor with one free hand.","sol":"Mark only who’s absent. Fees and parent updates follow on their own.","solImg":"uploads/Vidwan%20tutor%20app%20design/02-attendance-3ca1f6ce.png","fid":[{"img":"uploads/Vidwan%20tutor%20app%20design/01-timetable-c6f4d4ce.png","label":"Timetable","why":"today first"},{"img":"uploads/Vidwan%20tutor%20app%20design/03-fees-defaulters-825cb42f.png","label":"Fees","why":"defaulters only"}],"flow":["Open batch","All present by default",{"t":"Anyone absent?","d":1},"Tap the absent","Parents notified"]},"servora":{"method":"8 cloud kitchens · 3 managers · 2 morning prep shifts shadowed","clusters":[{"t":"Stock","notes":["counted on paper","runs out at 8 pm"]},{"t":"Waste","notes":["spoilage unlogged","nobody owns it"]},{"t":"Setup","notes":["menu is a photo","POS won’t talk"]},{"t":"Mornings","notes":["6 am, gloves on","no time to type"]}],"quotes":[{"q":"We find out we’re out when the order comes in.","who":"Imran · kitchen manager"},{"q":"My menu is a photo on the wall.","who":"Owner · biryani kitchen"},{"q":"Nobody types with wet hands.","who":"Line cook"}],"persona":{"name":"Imran Khan","meta":"32 · kitchen manager · cloud kitchen","quote":"Tell me what’s about to run out — before service, not during.","goals":["Know what needs him today","Count fast","Fewer sold-out items"],"pains":["Typing stock lists","Spoilage with no owner","A week-long setup"],"day":[{"t":"6 am","d":"prep + count"},{"t":"11 am","d":"lunch rush"},{"t":"4 pm","d":"reorder"},{"t":"11 pm","d":"close"}]},"prob":"Kitchens discover they’re out of stock when an order arrives.","gap":"Inventory tools assume a manager at a desk with a spreadsheet.","sol":"A morning “needs you” list, counting by tap, and a menu set up from one photo.","solImg":"uploads/Servora/14%20Stock%20-%20Needs%20you.png","fid":[{"img":"uploads/Servora/17%20Count%20stock.png","label":"Count stock","why":"tap, not type"},{"img":"uploads/Servora/22%20Scanning%20menu.png","label":"Snap menu","why":"photo → items"}],"flow":["Open dashboard",{"t":"Low on anything?","d":1},"Count stock","Log spoilage","Reorder sent"]},"curecall":{"method":"12 patients · 5 doctors · 2 health-centre visits · rural Odisha","clusters":[{"t":"Language","notes":["English app = no","voice > typing"]},{"t":"Trust","notes":["wants a real doctor","AI feels scary"]},{"t":"Access","notes":["2-hour bus ride","patchy 4G"]},{"t":"Records","notes":["prescriptions lost","no history"]}],"quotes":[{"q":"If it’s in Odia, my mother can use it.","who":"Suresh, 31 · caregiver"},{"q":"I need the history before the call, not during.","who":"Dr. Mishra · GP"},{"q":"I don’t want a machine telling me I’m sick.","who":"Patient · 58"}],"persona":{"name":"Kamala Devi","meta":"56 · farmer · Kendrapara, Odisha","quote":"A real doctor, in my language, without the bus.","goals":["See a doctor today","Speak Odia","Keep prescriptions"],"pains":["A day’s travel for 5 minutes","English-only apps","Lost paper records"],"day":[{"t":"7 am","d":"fields"},{"t":"12 pm","d":"feels worse"},{"t":"3 pm","d":"son books a call"},{"t":"6 pm","d":"medicine"}]},"prob":"A five-minute consult costs a rural patient a whole day of travel.","gap":"Telemedicine apps assume English, good data and a confident user.","sol":"Language first, an AI intake that only prepares the doctor, and a calm waiting room.","solImg":"uploads/CureCall/Patient%20App/10-ai-intake.png","fid":[{"img":"uploads/CureCall/Patient%20App/07-doctors.png","label":"Doctors","why":"faces first"},{"img":"uploads/CureCall/Patient%20App/13-video-consult.png","label":"Consult","why":"big, simple"}],"flow":["Pick language","OTP login","AI intake",{"t":"Red-flag symptom?","d":1},"Video consult","Prescription saved"]},"gharbar":{"method":"16 interviews · 6 hosts · 10 guests · Bengaluru","clusters":[{"t":"Safety","notes":["strangers at my door","address on Instagram"]},{"t":"Belonging","notes":["who else is going?","friends-of-friends ok"]},{"t":"Hosting","notes":["too much setup","awkward to say no"]},{"t":"Money","notes":["split costs fairly","no cash at the door"]}],"quotes":[{"q":"I’ll host 30 people. I won’t host 30 strangers.","who":"Meher, 27 · host, Indiranagar"},{"q":"I check who I know before I check the music.","who":"Aarav, 24 · guest, Koramangala"},{"q":"Saying no to someone’s face is why I stopped hosting.","who":"Raghav, 29 · host, HSR"}],"persona":{"name":"Aarav Kapoor","meta":"24 · product analyst · Indiranagar, Bengaluru","quote":"Clubs are loud and the same. The best nights are at someone’s house.","goals":["Nights through people he knows","Know he’s welcome before the cab","Host once a month"],"pains":["Club cover charges","Random Insta invites","Awkward door moments"],"day":[{"t":"Fri 6 pm","d":"what’s on?"},{"t":"8 pm","d":"request sent"},{"t":"9 pm","d":"approved"},{"t":"10 pm","d":"pass at the door"}]},"prob":"Bengaluru’s best nights happen at home — but hosts can’t let in people they don’t know.","gap":"Event apps publish addresses. Group chats can’t vouch for anyone.","sol":"Verified 18+ guests, friends-of-friends discovery, and an address that unlocks on approval.","solImg":"uploads/Gharbar%20app%20design%20system/52-entry-pass.png","fid":[{"img":"uploads/Gharbar%20app%20design%20system/21-create-step2.png","label":"Where","why":"address hidden"},{"img":"uploads/Gharbar%20app%20design%20system/26-create-step7.png","label":"Who gets in","why":"one choice"}],"flow":["Discover tonight","See who you know","Request to join",{"t":"Host approves?","d":1},"Address unlocks","Pass at the door"]},"mira":{"method":"9 interviews · women 22–34 · Bengaluru & Mumbai · 1-week diary study","clusters":[{"t":"Mirrors","notes":["apps grade my face","scores feel cruel"]},{"t":"Mornings","notes":["10 minutes, max","just one thing"]},{"t":"Advice","notes":["tips when I ask","not before"]},{"t":"Privacy","notes":["where do photos go?","camera = nervous"]}],"quotes":[{"q":"Every beauty app tells me what’s wrong with me.","who":"Neha, 27 · designer"},{"q":"I want one nice thing said before work.","who":"Tanvi, 23 · student"},{"q":"If it saves my face, I’m out.","who":"Ritika, 31 · lawyer"}],"persona":{"name":"Neha Iyer","meta":"27 · UX designer · Bengaluru","quote":"I don’t need a score. I need a mirror that’s on my side.","goals":["One honest, kind line","Tips on request","Nothing stored"],"pains":["Face scores","Product pushing","Cloud uploads"],"day":[{"t":"7 am","d":"get ready"},{"t":"7:10","d":"one sentence"},{"t":"1 pm","d":"quick check"},{"t":"9 pm","d":"wind down"}]},"prob":"AI beauty tools end in a score — a list of what’s wrong with your face.","gap":"No AI mirror was designed to make you feel better, not worse.","sol":"One kind sentence each morning. Tips only if asked. Nothing leaves the device.","solImg":"assets/mira-getready.png","fid":[{"img":"assets/mira-looks.png","label":"Looks","why":"ask, then tip"},{"img":"assets/mira-privacy.png","label":"Privacy","why":"on-device"}],"flow":["Stand at the mirror","One sentence",{"t":"Want tips?","d":1},"Gentle suggestions","Close · nothing saved"]}};
+  renderVals() {
+    const p = this.props; const d = Component.DATA[p.project] || {};
+    const accent = p.accent ?? '#E4553C';
+    const bgs = ['#F6E27A', '#F4C2B8', '#BFD9E8', '#CFE3B4'];
+    const rot = [-2, 1.5, -1, 2.2, -1.6];
+    const per = d.persona || {};
+    const flow = (d.flow || []).map((s, i, a) => {
+      const o = typeof s === 'string' ? { t: s } : s;
+      const last = i === a.length - 1;
+      return { t: o.t, dec: !!o.d, box: !o.d, first: i === 0, more: !last, bg: last ? accent : '#F2F0EB', fg: last ? '#fff' : '#171714' };
+    });
+    return {
+      accent, isA: (p.part ?? 'a') === 'a', isB: p.part === 'b', fitMode: p.fit ?? 'cover',
+      method: d.method || '',
+      clusters: (d.clusters || []).map((c, i) => ({ t: c.t, bg: bgs[i % 4], notes: (c.notes || []).map((t, j) => ({ t, r: rot[(i + j) % 5] })) })),
+      quotes: d.quotes || [],
+      pName: per.name || '', pMeta: per.meta || '', pQuote: per.quote || '',
+      initials: (per.name || '').split(' ').map(w => w[0]).join('').slice(0, 2),
+      goals: per.goals || [], pains: per.pains || [], day: per.day || [],
+      prob: d.prob || '', gap: d.gap || '', sol: d.sol || '', solImg: d.solImg || '',
+      fid: (d.fid || []).map((f, i) => ({ ...f, h1: i % 2 ? '18%' : '30%' })),
+      flow
+    };
+  }
+}
+</script>
+</body>
+</html>

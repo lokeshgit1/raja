@@ -1,0 +1,1456 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=Hind:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,300..700,0..1,0&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0E2436; --ink2:#21384A; --cream:#FBF6EE; --paper:#ffffff;
+  --teal:#0FA3A1; --tealDeep:#0B7E7C; --blue:#2B7CE3; --purple:#7257F5;
+  --green:#16BD8E; --red:#E2574C; --amber:#F39021;
+  --muted:#5E6B73; --muted2:#8A7F6C; --line:#E9E2D4; --line2:#EFEAE0;
+  --softTeal:#E6F6F6; --softBlue:#E7F0FD; --softPurple:#F0ECFE; --softGreen:#E7F7F2; --softRed:#FDECEA; --softAmber:#FFF1E6;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{background:#1C2A35;font-family:'Hanken Grotesk',system-ui,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased;}
+#pages{display:flex;flex-direction:column;align-items:center;gap:26px;padding:40px 16px 80px;}
+.page{width:8.5in;height:11in;background:var(--paper);position:relative;padding:0.62in 0.6in 0.7in;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.42);}
+.page.dark{background:var(--ink);color:#fff;}
+.page.cream{background:var(--cream);}
+.ms{font-family:'Material Symbols Rounded';line-height:1;font-style:normal;display:inline-block;font-variation-settings:'FILL' 1;}
+.mono{font-family:'JetBrains Mono',monospace;}
+.hi{font-family:'Hind',sans-serif;}
+
+/* logo */
+.logo{display:flex;align-items:center;gap:9px;}
+.logo .mk{width:30px;height:30px;border-radius:9px;background:linear-gradient(140deg,#18A39E,#2B7CE3);display:flex;align-items:center;justify-content:center;box-shadow:0 5px 12px rgba(31,120,200,.32);}
+.logo .mk .ms{color:#fff;font-size:18px;}
+.logo .wd{font-family:'Space Grotesk';font-weight:700;font-size:18px;letter-spacing:-.4px;}
+.logo .wd b{font-weight:700;}
+.logo .c1{color:var(--teal);} .logo .c2{color:var(--blue);}
+
+/* type */
+.eyebrow{font-family:'Hanken Grotesk';font-weight:800;font-size:10.5px;letter-spacing:2.2px;text-transform:uppercase;color:var(--teal);}
+h1,h2,h3,h4{margin:0;text-wrap:balance;font-weight:700;color:var(--ink);}
+.h-sec{font-family:'Space Grotesk';font-weight:700;font-size:30px;letter-spacing:-.7px;line-height:1.05;}
+.h-pg{font-family:'Space Grotesk';font-weight:700;font-size:21px;letter-spacing:-.4px;line-height:1.1;}
+.h-card{font-family:'Hanken Grotesk';font-weight:700;font-size:14.5px;letter-spacing:-.1px;}
+p{margin:0;text-wrap:pretty;}
+.lead{font-size:13.5px;line-height:1.62;color:var(--muted);}
+.body{font-size:11.6px;line-height:1.6;color:var(--ink2);}
+.small{font-size:10px;line-height:1.5;color:var(--muted);}
+.tiny{font-size:8.6px;letter-spacing:.3px;color:var(--muted2);}
+
+/* page header / footer */
+.pg-top{display:flex;align-items:center;justify-content:space-between;padding-bottom:11px;border-bottom:1.5px solid var(--line);margin-bottom:20px;}
+.pg-top .sec{font-family:'JetBrains Mono';font-size:9.5px;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted2);}
+.pg-ft{position:absolute;left:0.6in;right:0.6in;bottom:0.42in;display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--line);padding-top:8px;}
+.pg-ft .l{font-family:'JetBrains Mono';font-size:8px;letter-spacing:.8px;text-transform:uppercase;color:var(--muted2);display:flex;align-items:center;gap:7px;}
+.pg-ft .conf{color:var(--red);font-weight:700;}
+.pg-ft .n{font-family:'Space Grotesk';font-weight:600;font-size:11px;color:var(--ink);}
+
+/* building blocks */
+.card{background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:14px 15px;}
+.card.soft{background:var(--cream);}
+.row{display:flex;}
+.col{display:flex;flex-direction:column;}
+.g8{gap:8px;} .g10{gap:10px;} .g12{gap:12px;} .g14{gap:14px;} .g16{gap:16px;} .g20{gap:20px;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:13px;}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:11px;}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.wrap{flex-wrap:wrap;}
+
+.tag{display:inline-flex;align-items:center;gap:5px;border-radius:7px;padding:3px 8px;font-weight:700;font-size:9.5px;letter-spacing:.2px;}
+.t-teal{background:var(--softTeal);color:var(--tealDeep);}
+.t-blue{background:var(--softBlue);color:var(--blue);}
+.t-purple{background:var(--softPurple);color:var(--purple);}
+.t-green{background:var(--softGreen);color:#0B8A66;}
+.t-red{background:var(--softRed);color:var(--red);}
+.t-amber{background:var(--softAmber);color:#C46A10;}
+.t-ink{background:#EAF0F2;color:var(--ink);}
+
+/* eli5 callout */
+.eli5{background:linear-gradient(180deg,#FFF8EC,#FFF1E6);border:1.5px solid #F4DFC2;border-radius:14px;padding:13px 15px 13px 14px;position:relative;}
+.eli5 .hd{display:flex;align-items:center;gap:8px;margin-bottom:5px;}
+.eli5 .em{width:23px;height:23px;border-radius:8px;background:var(--amber);display:flex;align-items:center;justify-content:center;}
+.eli5 .em .ms{color:#fff;font-size:15px;}
+.eli5 .lb{font-weight:800;font-size:10px;letter-spacing:1.4px;text-transform:uppercase;color:#C46A10;}
+.eli5 p{font-size:11.4px;line-height:1.55;color:#7A5A2E;}
+.eli5 b{color:#5E3D14;}
+
+/* numbered */
+.num{width:21px;height:21px;border-radius:50%;background:var(--ink);color:#fff;font-family:'Space Grotesk';font-weight:600;font-size:11px;display:flex;align-items:center;justify-content:center;flex:none;}
+
+/* icon chip */
+.ic{width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex:none;}
+.ic .ms{font-size:18px;}
+
+/* key-value */
+.kv{width:100%;border-collapse:collapse;}
+.kv td{padding:6px 0;border-bottom:1px solid var(--line2);font-size:11px;vertical-align:top;}
+.kv td:first-child{font-weight:700;color:var(--ink);width:34%;padding-right:10px;}
+.kv td:last-child{color:var(--muted);}
+.kv tr:last-child td{border-bottom:none;}
+
+/* code/endpoint */
+.code{font-family:'JetBrains Mono';font-size:9.6px;line-height:1.65;background:#0E2436;color:#CFE3E2;border-radius:10px;padding:11px 13px;overflow:hidden;}
+.code .m{color:#7FE0C4;font-weight:700;} .code .p{color:#9DC7FF;} .code .c{color:#6E8597;}
+
+/* wire mock phone */
+.wire{width:118px;height:236px;border-radius:18px;background:var(--ink);padding:5px;flex:none;box-shadow:0 8px 18px rgba(14,36,54,.2);}
+.wire .scr{position:relative;width:100%;height:100%;border-radius:14px;background:var(--cream);overflow:hidden;display:flex;flex-direction:column;padding:9px;gap:5px;}
+.wbar{height:7px;border-radius:4px;background:#D9E5E2;}
+.wblock{border-radius:7px;}
+
+/* flow */
+.fnode{border:1.5px solid var(--line);border-radius:11px;padding:9px 11px;background:#fff;min-width:0;}
+.farrow{display:flex;align-items:center;color:var(--muted2);}
+.farrow .ms{font-size:18px;}
+
+/* swatch */
+.sw{height:54px;border-radius:10px;display:flex;align-items:flex-end;padding:7px;}
+.swl{font-family:'JetBrains Mono';font-size:8.5px;font-weight:700;}
+
+/* divider tab */
+.ribbon{position:absolute;top:0;right:0;background:var(--red);color:#fff;font-family:'JetBrains Mono';font-size:8.5px;font-weight:700;letter-spacing:1.4px;padding:5px 14px;border-bottom-left-radius:10px;}
+
+@media print{
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{background:#fff;}
+  #pages{display:block;padding:0;gap:0;}
+  .page{box-shadow:none;margin:0;page-break-after:always;break-after:page;}
+  .page:last-child{page-break-after:auto;break-after:auto;}
+  #dc-root,.sc-host{height:auto !important;}
+}
+@page{size:letter;margin:0;}
+</style>
+</helmet>
+
+<div id="pages">
+
+  <!-- ============ COVER ============ -->
+  <section class="page dark" style="padding:0;">
+    <div style="position:absolute;inset:0;background:radial-gradient(900px 600px at 78% -8%,rgba(43,124,227,.34),transparent 60%),radial-gradient(700px 520px at 8% 108%,rgba(15,163,161,.30),transparent 60%);"></div>
+    <div class="ribbon">CONFIDENTIAL</div>
+    <div style="position:relative;height:100%;display:flex;flex-direction:column;padding:0.7in 0.66in 0.6in;">
+      <div class="logo">
+        <div class="mk" style="width:38px;height:38px;border-radius:11px;"><span class="ms" style="font-size:23px;">stethoscope</span></div>
+        <div class="wd" style="font-size:24px;color:#fff;"><span class="c1" style="color:#5BE0D6;">Cure</span><span class="c2" style="color:#7FB4FF;">Call</span></div>
+      </div>
+
+      <div style="margin:auto 0;text-align:center;display:flex;flex-direction:column;align-items:center;">
+        <div class="eyebrow" style="color:#5BE0D6;">Product Requirements Document &nbsp;·&nbsp; v1.0</div>
+        <h1 style="color:#fff;font-family:'Space Grotesk';font-weight:700;font-size:58px;line-height:.98;letter-spacing:-2px;margin-top:16px;">The complete<br>build book.</h1>
+        <p style="margin:20px auto 0;font-size:16px;line-height:1.55;color:#AFC4CE;max-width:5.4in;">Every screen, every button, every rule — for both the <b style="color:#fff;">Patient</b> and <b style="color:#fff;">Doctor</b> apps. Written so a developer can build it, and a six‑year‑old can follow it.</p>
+
+        <div style="display:flex;gap:10px;margin-top:26px;flex-wrap:wrap;justify-content:center;">
+          <span class="tag" style="background:rgba(91,224,214,.16);color:#7FF0E6;font-size:10.5px;padding:6px 11px;"><span class="ms" style="font-size:13px;">phone_iphone</span> 2 apps</span>
+          <span class="tag" style="background:rgba(127,180,255,.16);color:#A9CCFF;font-size:10.5px;padding:6px 11px;"><span class="ms" style="font-size:13px;">grid_view</span> 32 screens</span>
+          <span class="tag" style="background:rgba(255,255,255,.1);color:#E7EEF1;font-size:10.5px;padding:6px 11px;"><span class="ms" style="font-size:13px;">translate</span> Bilingual</span>
+          <span class="tag" style="background:rgba(255,255,255,.1);color:#E7EEF1;font-size:10.5px;padding:6px 11px;"><span class="ms" style="font-size:13px;">auto_awesome</span> AI‑assisted</span>
+        </div>
+      </div>
+
+      <div style="margin-top:34px;padding-top:20px;border-top:1px solid rgba(255,255,255,.14);display:flex;align-items:flex-end;justify-content:space-between;">
+        <div>
+          <div class="tiny" style="color:#7E97A4;letter-spacing:1.4px;">PREPARED & OWNED BY</div>
+          <div style="font-family:'Space Grotesk';font-weight:700;font-size:18px;color:#fff;margin-top:5px;letter-spacing:-.3px;">Wisbox Technology</div>
+          <div class="small" style="color:#AFC4CE;margin-top:2px;">Ideation, Artwork &amp; Design by <b style="color:#fff;">Raja Sahoo</b> — Founder &amp; CEO</div>
+        </div>
+        <div class="mono" style="font-size:8.5px;color:#7E97A4;text-align:right;line-height:1.7;">DOC · CC‑PRD‑0001<br>CLASSIFIED · INTERNAL<br>DO NOT DISTRIBUTE</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PAGE 2 · DOC CONTROL + HOW TO READ ============ -->
+  <section class="page">
+    <div class="pg-top"><div class="logo"><div class="mk"><span class="ms">stethoscope</span></div><div class="wd"><span class="c1">Cure</span><span class="c2">Call</span></div></div><div class="sec">00 · Front matter</div></div>
+
+    <div class="eyebrow">Read me first</div>
+    <h2 class="h-sec" style="margin-top:9px;">How this book works</h2>
+    <p class="lead" style="margin-top:11px;max-width:6.6in;">This document is the single source of truth for CureCall. It describes <b>what</b> we are building, <b>why</b>, and exactly <b>how each screen behaves</b> — so design, frontend, backend, and QA all read from the same page.</p>
+
+    <div class="grid3" style="margin-top:18px;">
+      <div class="card"><div class="ic t-teal" style="background:var(--softTeal);"><span class="ms" style="color:var(--teal);">design_services</span></div><div class="h-card" style="margin-top:9px;">For Design</div><p class="body" style="margin-top:5px;">Brand, colour, type and component specs — pixel values you can lift directly.</p></div>
+      <div class="card"><div class="ic" style="background:var(--softBlue);"><span class="ms" style="color:var(--blue);">code</span></div><div class="h-card" style="margin-top:9px;">For Frontend</div><p class="body" style="margin-top:5px;">Every screen, its states, its data, and the action that moves you to the next.</p></div>
+      <div class="card"><div class="ic" style="background:var(--softPurple);"><span class="ms" style="color:var(--purple);">dns</span></div><div class="h-card" style="margin-top:9px;">For Backend</div><p class="body" style="margin-top:5px;">Services, APIs, the data record, security, and the rules behind every gate.</p></div>
+    </div>
+
+    <div class="eli5" style="margin-top:18px;">
+      <div class="hd"><span class="em"><span class="ms">child_care</span></span><span class="lb">Explain like I'm 6</span></div>
+      <p>Watch for these orange boxes. Whenever something sounds complicated, the orange box says it again in <b>kid words</b>. Example: CureCall is like a <b>magic phone</b> that lets a sick person talk to a real doctor without leaving home — and it remembers everything so nobody forgets.</p>
+    </div>
+
+    <div class="grid2" style="margin-top:18px;">
+      <div class="card soft">
+        <div class="eyebrow" style="color:var(--muted2);">Document control</div>
+        <table class="kv" style="margin-top:8px;">
+          <tr><td>Product</td><td>CureCall — telemedicine for Bharat</td></tr>
+          <tr><td>Version</td><td>1.0 · Prototype‑backed spec</td></tr>
+          <tr><td>Owner</td><td>Raja Sahoo, Founder &amp; CEO</td></tr>
+          <tr><td>Company</td><td>Wisbox Technology</td></tr>
+          <tr><td>Audience</td><td>Internal — Product, Design, Eng, QA</td></tr>
+          <tr><td>Status</td><td><span class="tag t-amber">Living document</span></td></tr>
+        </table>
+      </div>
+      <div class="card">
+        <div class="eyebrow" style="color:var(--muted2);">Legend — symbols used</div>
+        <div class="col g10" style="margin-top:10px;">
+          <div class="row g8" style="align-items:center;"><span class="tag t-green" style="min-width:54px;justify-content:center;">GREEN</span><span class="body">Safe / go ahead</span></div>
+          <div class="row g8" style="align-items:center;"><span class="tag t-amber" style="min-width:54px;justify-content:center;">AMBER</span><span class="body">Caution / watch closely</span></div>
+          <div class="row g8" style="align-items:center;"><span class="tag t-red" style="min-width:54px;justify-content:center;">RED</span><span class="body">Danger / send to hospital</span></div>
+          <div class="row g8" style="align-items:center;"><span class="tag t-blue" style="min-width:54px;justify-content:center;">STATE</span><span class="body">A screen the app can be in</span></div>
+          <div class="row g8" style="align-items:center;"><span class="mono" style="font-size:9px;background:#EAF0F2;border-radius:6px;padding:3px 7px;min-width:54px;text-align:center;">GET</span><span class="body">A backend call (API)</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pg-ft"><div class="l"><span class="conf">CONFIDENTIAL</span><span>· Wisbox Technology · CureCall PRD v1.0</span></div><div class="n">02</div></div>
+  </section>
+
+  <!-- ============ PAGE 3 · WHAT IS CURECALL ============ -->
+  <section class="page cream">
+    <div class="pg-top"><div class="logo"><div class="mk"><span class="ms">stethoscope</span></div><div class="wd"><span class="c1">Cure</span><span class="c2">Call</span></div></div><div class="sec">01 · The product</div></div>
+
+    <div class="eyebrow">What we are building</div>
+    <h2 class="h-sec" style="margin-top:9px;max-width:6.4in;">A doctor in your pocket — that anyone in India can use.</h2>
+    <p class="lead" style="margin-top:12px;max-width:6.7in;">CureCall connects a person who feels unwell to a <b>verified doctor</b> over a phone call or video — in their own language, paid in rupees, with a <b>permanent health record</b> created automatically afterwards. It has two apps that work as one system.</p>
+
+    <div class="grid2" style="margin-top:18px;">
+      <div class="card" style="border-color:#CDE7E4;">
+        <div class="row g10" style="align-items:center;"><div class="ic" style="background:var(--softTeal);"><span class="ms" style="color:var(--teal);">person</span></div><div><div class="h-card">The Patient App</div><div class="tiny">For the person who is unwell</div></div></div>
+        <p class="body" style="margin-top:10px;">Pick your language, tell the app what hurts, get matched to a doctor, pay, talk, and walk away with a prescription and a record you actually understand.</p>
+      </div>
+      <div class="card" style="border-color:#CDD9EC;">
+        <div class="row g10" style="align-items:center;"><div class="ic" style="background:var(--softBlue);"><span class="ms" style="color:var(--blue);">stethoscope</span></div><div><div class="h-card">The Doctor App</div><div class="tiny">For the verified doctor</div></div></div>
+        <p class="body" style="margin-top:10px;">Get verified once, go online, see a queue of patients with an AI‑written summary ready, consult, prescribe in two taps, and ask peers for a second opinion.</p>
+      </div>
+    </div>
+
+    <div class="eli5" style="margin-top:18px;">
+      <div class="hd"><span class="em"><span class="ms">child_care</span></span><span class="lb">Explain like I'm 6</span></div>
+      <p>There are <b>two apps</b>. One is for the <b>sick person</b> and one is for the <b>doctor</b>. The sick person taps "I have a fever," and a little robot helper asks a few questions. Then a real doctor picks up, looks at the answers, talks to them, and writes the medicine down. The medicine note is saved forever — like a sticker book of every time you were sick and got better.</p>
+    </div>
+
+    <div style="margin-top:18px;">
+      <div class="eyebrow" style="color:var(--muted2);">Why it matters — the problem we remove</div>
+      <div class="grid3" style="margin-top:11px;">
+        <div class="card"><span class="ms" style="font-size:22px;color:var(--red);">directions_walk</span><div class="h-card" style="margin-top:7px;">No long travel</div><p class="small" style="margin-top:4px;">Villages are far from good doctors. CureCall removes the bus ride.</p></div>
+        <div class="card"><span class="ms" style="font-size:22px;color:var(--amber);">translate</span><div class="h-card" style="margin-top:7px;">No language wall</div><p class="small" style="margin-top:4px;">Everything works in the patient's own language, not just English.</p></div>
+        <div class="card"><span class="ms" style="font-size:22px;color:var(--purple);">history_edu</span><div class="h-card" style="margin-top:7px;">No lost paper</div><p class="small" style="margin-top:4px;">The record is digital and permanent, so history is never forgotten.</p></div>
+      </div>
+    </div>
+
+    <div class="pg-ft"><div class="l"><span class="conf">CONFIDENTIAL</span><span>· Wisbox Technology · CureCall PRD v1.0</span></div><div class="n">03</div></div>
+  </section>
+
+  <!-- ============ PAGE 4 · SYSTEM MAP ============ -->
+  <section class="page">
+    <div class="pg-top"><div class="logo"><div class="mk"><span class="ms">stethoscope</span></div><div class="wd"><span class="c1">Cure</span><span class="c2">Call</span></div></div><div class="sec">01 · The product</div></div>
+
+    <div class="eyebrow">The whole system on one page</div>
+    <h2 class="h-sec" style="margin-top:9px;">How the pieces talk</h2>
+    <p class="lead" style="margin-top:10px;max-width:6.7in;">Two apps, one brain. The patient creates a request; AI turns messy symptoms into a clean summary; the doctor acts on it; everything is written into a permanent record both sides can see.</p>
+
+    <div class="card" style="margin-top:16px;padding:18px;">
+      <div style="display:grid;grid-template-columns:1fr 38px 1fr 38px 1fr;align-items:stretch;gap:0;">
+        <div class="fnode" style="border-color:#CDE7E4;background:var(--softTeal);">
+          <div class="row g8" style="align-items:center;"><span class="ms" style="font-size:18px;color:var(--teal);">person</span><b style="font-size:12px;">Patient App</b></div>
+          <p class="small" style="margin-top:6px;">Books a doctor &amp; answers the AI helper's questions.</p>
+        </div>
+        <div class="farrow" style="justify-content:center;"><span class="ms">arrow_forward</span></div>
+        <div class="fnode" style="border-color:#DAD0F6;background:var(--softPurple);">
+          <div class="row g8" style="align-items:center;"><span class="ms" style="font-size:18px;color:var(--purple);">auto_awesome</span><b style="font-size:12px;">CureCall Intelligence</b></div>
+          <p class="small" style="margin-top:6px;">Writes the summary, checks safety, drafts the note.</p>
+        </div>
+        <div class="farrow" style="justify-content:center;"><span class="ms">arrow_forward</span></div>
+        <div class="fnode" style="border-color:#CDD9EC;background:var(--softBlue);">
+          <div class="row g8" style="align-items:center;"><span class="ms" style="font-size:18px;color:var(--blue);">stethoscope</span><b style="font-size:12px;">Doctor App</b></div>
+          <p class="small" style="margin-top:6px;">Consults, prescribes, signs &amp; can ask peers.</p>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:center;margin:12px 0;"><span class="ms" style="font-size:20px;color:var(--muted2);transform:rotate(90deg);">sync_alt</span></div>
+      <div class="fnode" style="border-color:var(--line);background:var(--cream);">
+        <div class="row g10" style="align-items:center;justify-content:center;"><span class="ms" style="font-size:19px;color:var(--ink);">database</span><b style="font-size:12.5px;">The Health Record</b><span class="tiny">ABHA‑linked · stored in India · every view logged · owned by the patient</span></div>
+      </div>
+    </div>
+
+    <div style="margin-top:18px;" class="eyebrow">What CureCall stands on — four pillars</div>
+    <div class="grid4" style="margin-top:11px;">
+      <div class="card"><span class="ms" style="font-size:21px;color:var(--teal);">verified_user</span><div class="h-card" style="margin-top:7px;font-size:13px;">Trust</div><p class="small" style="margin-top:4px;">Only government‑verified doctors. Patients see proof.</p></div>
+      <div class="card"><span class="ms" style="font-size:21px;color:var(--amber);">accessibility_new</span><div class="h-card" style="margin-top:7px;font-size:13px;">Reach</div><p class="small" style="margin-top:4px;">Any language, low bandwidth, even an audio‑only fallback.</p></div>
+      <div class="card"><span class="ms" style="font-size:21px;color:var(--purple);">bolt</span><div class="h-card" style="margin-top:7px;font-size:13px;">Speed</div><p class="small" style="margin-top:4px;">AI does the typing so doctors spend time caring, not writing.</p></div>
+      <div class="card"><span class="ms" style="font-size:21px;color:var(--green);">health_and_safety</span><div class="h-card" style="margin-top:7px;font-size:13px;">Safety</div><p class="small" style="margin-top:4px;">A traffic‑light gate catches emergencies before they're missed.</p></div>
+    </div>
+
+    <div class="eli5" style="margin-top:18px;">
+      <div class="hd"><span class="em"><span class="ms">child_care</span></span><span class="lb">Explain like I'm 6</span></div>
+      <p>The two apps pass notes to each other through a <b>robot helper</b> in the middle. The robot writes neat notes so the doctor doesn't have to. And there's a big <b>memory box</b> at the bottom that keeps every note safe, so next time the doctor already knows your story.</p>
+    </div>
+
+    <div class="pg-ft"><div class="l"><span class="conf">CONFIDENTIAL</span><span>· Wisbox Technology · CureCall PRD v1.0</span></div><div class="n">04</div></div>
+  </section>
+
+  <!-- ============ PAGE 5 · PERSONAS ============ -->
+  <section class="page cream">
+    <div class="pg-top"><div class="logo"><div class="mk"><span class="ms">stethoscope</span></div><div class="wd"><span class="c1">Cure</span><span class="c2">Call</span></div></div><div class="sec">01 · The product</div></div>
+
+    <div class="eyebrow">Who we build for</div>
+    <h2 class="h-sec" style="margin-top:9px;">Three people to keep in mind</h2>
+    <p class="lead" style="margin-top:10px;max-width:6.7in;">Every design decision answers to one of these three. When unsure, ask: does this help Sunita, Dr. Verma, or Aarav's mother?</p>
+
+    <div class="col g12" style="margin-top:16px;">
+      <div class="card" style="border-color:#CDE7E4;">
+        <div class="row g12" style="align-items:flex-start;">
+          <div class="ic" style="width:42px;height:42px;border-radius:12px;background:var(--teal);"><span class="ms" style="font-size:24px;color:#fff;">spa</span></div>
+          <div style="flex:1;">
+            <div class="row" style="justify-content:space-between;align-items:baseline;"><div class="h-card" style="font-size:15px;">Sunita Devi · 34 · the patient</div><span class="tag t-teal">Primary</span></div>
+            <p class="body" style="margin-top:6px;">Lives in a village two hours from the nearest good clinic. Reads Hindi, not English. Has a basic Android phone and patchy network. <b>Needs:</b> to talk to a real doctor today, in Hindi, without travelling — and to understand the medicine afterwards.</p>
+          </div>
+        </div>
+      </div>
+      <div class="card" style="border-color:#CDD9EC;">
+        <div class="row g12" style="align-items:flex-start;">
+          <div class="ic" style="width:42px;height:42px;border-radius:12px;background:var(--blue);"><span class="ms" style="font-size:24px;color:#fff;">stethoscope</span></div>
+          <div style="flex:1;">
+            <div class="row" style="justify-content:space-between;align-items:baseline;"><div class="h-card" style="font-size:15px;">Dr. Anjali Verma · 38 · the doctor</div><span class="tag t-blue">Primary</span></div>
+            <p class="body" style="margin-top:6px;">A verified General Physician who wants extra income from home between hospital shifts. <b>Needs:</b> patients to arrive pre‑screened with a summary ready, a fast way to prescribe safely, and trusted peers to consult on hard cases.</p>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="row g12" style="align-items:flex-start;">
+          <div class="ic" style="width:42px;height:42px;border-radius:12px;background:var(--amber);"><span class="ms" style="font-size:24px;color:#fff;">family_restroom</span></div>
+          <div style="flex:1;">
+            <div class="row" style="justify-content:space-between;align-items:baseline;"><div class="h-card" style="font-size:15px;">The caregiver · books for family</div><span class="tag t-amber">Secondary</span></div>
+            <p class="body" style="margin-top:6px;">One literate family member often books on behalf of an elderly parent or a child. <b>Needs:</b> to manage several people's records from one account and pick "who is this for" at the start.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid3" style="margin-top:16px;">
+      <div class="card soft"><div class="mono" style="font-size:19px;font-weight:700;color:var(--teal);">6</div><div class="small" style="margin-top:2px;">languages offered at sign‑up</div></div>
+      <div class="card soft"><div class="mono" style="font-size:19px;font-weight:700;color:var(--blue);">&lt; 3 min</div><div class="small" style="margin-top:2px;">target from "I'm sick" to a doctor</div></div>
+      <div class="card soft"><div class="mono" style="font-size:19px;font-weight:700;color:var(--purple);">0</div><div class="small" style="margin-top:2px;">words of medical jargon the patient must know</div></div>
+    </div>
+
+    <div class="pg-ft"><div class="l"><span class="conf">CONFIDENTIAL</span><span>· Wisbox Technology · CureCall PRD v1.0</span></div><div class="n">05</div></div>
+  </section>
+
+  <!-- ============ PAGE 6 · DESIGN SYSTEM · BRAND + COLOR ============ -->
+  <section class="page">
+    <div class="pg-top"><div class="logo"><div class="mk"><span class="ms">stethoscope</span></div><div class="wd"><span class="c1">Cure</span><span class="c2">Call</span></div></div><div class="sec">02 · Design system</div></div>
+
+    <div class="eyebrow">Design system — part 1</div>
+    <h2 class="h-sec" style="margin-top:9px;">Brand &amp; colour</h2>
+
+    <div class="grid2" style="margin-top:14px;align-items:stretch;">
+      <div class="card">
+        <div class="eyebrow" style="color:var(--muted2);">The logo</div>
+        <div class="row g12" style="align-items:center;margin-top:12px;">
+          <div class="mk" style="width:54px;height:54px;border-radius:15px;background:linear-gradient(140deg,#18A39E,#2B7CE3);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 18px rgba(31,120,200,.32);"><span class="ms" style="font-size:31px;color:#fff;">stethoscope</span></div>
+          <div class="wd" style="font-family:'Space Grotesk';font-weight:700;font-size:30px;letter-spacing:-.6px;"><span style="color:var(--teal);">Cure</span><span style="color:var(--blue);">Call</span></div>
+        </div>
+        <p class="small" style="margin-top:11px;"><b>Mark:</b> rounded‑square, teal→blue gradient at 140°, white glyph. <b>Wordmark:</b> "Cure" in teal, "Call" in blue, Space Grotesk Bold, −0.6px tracking. Never recolour the two halves the same.</p>
+      </div>
+      <div class="card soft">
+        <div class="eyebrow" style="color:var(--muted2);">Gradient &amp; usage</div>
+        <div style="height:40px;border-radius:9px;margin-top:11px;background:linear-gradient(140deg,#18A39E,#2B7CE3);"></div>
+        <table class="kv" style="margin-top:9px;">
+          <tr><td>Gradient</td><td class="mono" style="font-size:9.5px;">140°, #18A39E → #2B7CE3</td></tr>
+          <tr><td>Min size</td><td>24px mark in app chrome</td></tr>
+          <tr><td>Clear space</td><td>½ mark height on all sides</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div style="margin-top:16px;" class="eyebrow">Core palette — used across both apps</div>
+    <div class="grid4" style="margin-top:10px;">
+      <div><div class="sw" style="background:var(--ink);"><span class="swl" style="color:#fff;">#0E2436</span></div><div class="tiny" style="margin-top:4px;">Ink — text, dark UI</div></div>
+      <div><div class="sw" style="background:var(--teal);"><span class="swl" style="color:#fff;">#0FA3A1</span></div><div class="tiny" style="margin-top:4px;">Teal — primary brand</div></div>
+      <div><div class="sw" style="background:var(--blue);"><span class="swl" style="color:#fff;">#2B7CE3</span></div><div class="tiny" style="margin-top:4px;">Blue — "Call", links</div></div>
+      <div><div class="sw" style="background:var(--cream);border:1px solid var(--line);"><span class="swl" style="color:var(--muted);">#FBF6EE</span></div><div class="tiny" style="margin-top:4px;">Cream — app canvas</div></div>
+    </div>
+
+    <div style="margin-top:14px;" class="eyebrow">Semantic palette — meaning is fixed, never decorative</div>
+    <div class="grid4" style="margin-top:10px;">
+      <div><div class="sw" style="background:var(--green);"><span class="swl" style="color:#fff;">#16BD8E</span></div><div class="tiny" style="margin-top:4px;">Green — safe / paid / success</div></div>
+      <div><div class="sw" style="background:var(--amber);"><span class="swl" style="color:#fff;">#F39021</span></div><div class="tiny" style="margin-top:4px;">Amber — caution / pending</div></div>
+      <div><div class="sw" style="background:var(--red);"><span class="swl" style="color:#fff;">#E2574C</span></div><div class="tiny" style="margin-top:4px;">Red — emergency / urgent</div></div>
+      <div><div class="sw" style="background:var(--purple);"><span class="swl" style="color:#fff;">#7257F5</span></div><div class="tiny" style="margin-top:4px;">Purple — AI &amp; peer layer</div></div>
+    </div>
+
+    <div class="eli5" style="margin-top:16px;">
+      <div class="hd"><span class="em"><span class="ms">child_care</span></span><span class="lb">Explain like I'm 6</span></div>
+      <p>Colours have <b>jobs</b>, like a traffic light. <b>Green</b> = good, go. <b>Yellow</b> = careful. <b>Red</b> = stop, this is serious. <b>Purple</b> is the robot helper's colour. We never use red just because it looks pretty — red always means "this is important."</p>
+    </div>
+
+    <div class="pg-ft"><div class="l"><span class="conf">CONFIDENTIAL</span><span>· Wisbox Technology · CureCall PRD v1.0</span></div><div class="n">06</div></div>
+  </section>
+
+  <!-- ============ PAGE 7 · DESIGN SYSTEM · TYPE + COMPONENTS ============ -->
+  <section class="page cream">
+    <div class="pg-top"><div class="logo"><div class="mk"><span class="ms">stethoscope</span></div><div class="wd"><span class="c1">Cure</span><span class="c2">Call</span></div></div><div class="sec">02 · Design system</div></div>
+
+    <div class="eyebrow">Design system — part 2</div>
+    <h2 class="h-sec" style="margin-top:9px;">Type, icons &amp; components</h2>
+
+    <div class="grid2" style="margin-top:14px;">
+      <div class="card">
+        <div class="eyebrow" style="color:var(--muted2);">Type families</div>
+        <div class="col g10" style="margin-top:10px;">
+          <div><div style="font-family:'Space Grotesk';font-weight:700;font-size:22px;letter-spacing:-.5px;">Space Grotesk</div><div class="tiny">Display, numbers, time, wordmark</div></div>
+          <div><div style="font-family:'Hanken Grotesk';font-weight:700;font-size:18px;">Hanken Grotesk</div><div class="tiny">UI labels &amp; Latin body</div></div>
+          <div><div class="hi" style="font-weight:700;font-size:18px;">Hind · हिंदी पाठ</div><div class="tiny">Devanagari &amp; bilingual body</div></div>
+          <div><div class="mono" style="font-weight:700;font-size:15px;">JetBrains Mono</div><div class="tiny">Codes, IDs, registration numbers</div></div>
+        </div>
+      </div>
+      <div class="card soft">
+        <div class="eyebrow" style="color:var(--muted2);">Scale &amp; rules</div>
+        <table class="kv" style="margin-top:9px;">
+          <tr><td>Screen title</td><td>30px Hind Bold, −0.5px</td></tr>
+          <tr><td>Section head</td><td>24px / 700</td></tr>
+          <tr><td>Body</td><td>15px / 1.5</td></tr>
+          <tr><td>Caption</td><td>11–12px, muted</td></tr>
+          <tr><td>Min hit target</td><td><b>44 × 44px</b> always</td></tr>
+          <tr><td>Icons</td><td>Material Symbols Rounded, FILL 1</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div style="margin-top:14px;" class="eyebrow">Component kit — the same parts build every screen</div>
+    <div class="grid3" style="margin-top:11px;">
+      <div class="card"><div class="h-card" style="font-size:12.5px;">Primary button</div><div style="margin-top:9px;height:42px;border-radius:14px;background:var(--teal);display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Hind';font-weight:600;font-size:13px;box-shadow:0 8px 18px rgba(15,163,161,.3);">Continue</div><p class="tiny" style="margin-top:7px;">62px tall in‑app · radius 18–19px · teal or ink fill</p></div>
+      <div class="card"><div class="h-card" style="font-size:12.5px;">Status chip</div><div class="row g8 wrap" style="margin-top:9px;"><span class="tag t-green">Safe</span><span class="tag t-amber">Pending</span><span class="tag t-red">Urgent</span></div><p class="tiny" style="margin-top:7px;">Soft bg + bold text in the semantic colour</p></div>
+      <div class="card"><div class="h-card" style="font-size:12.5px;">Toggle</div><div class="row g8" style="margin-top:9px;align-items:center;"><div style="width:46px;height:26px;border-radius:14px;background:var(--green);position:relative;"><span style="position:absolute;right:3px;top:3px;width:20px;height:20px;border-radius:50%;background:#fff;"></span></div><span class="small">Online</span></div><p class="tiny" style="margin-top:7px;">Used for online, reminders, network</p></div>
+      <div class="card"><div class="h-card" style="font-size:12.5px;">Info card</div><div style="margin-top:9px;border:1.5px solid var(--line);border-radius:11px;padding:8px;"><div class="wbar" style="width:60%;"></div><div class="wbar" style="width:90%;margin-top:5px;"></div></div><p class="tiny" style="margin-top:7px;">White, 1.5px border, 14px radius</p></div>
+      <div class="card"><div class="h-card" style="font-size:12.5px;">Icon tile</div><div class="row g8" style="margin-top:9px;"><div class="ic" style="background:var(--softTeal);"><span class="ms" style="color:var(--teal);">thermostat</span></div><div class="ic" style="background:var(--softPurple);"><span class="ms" style="color:var(--purple);">auto_awesome</span></div></div><p class="tiny" style="margin-top:7px;">30px rounded, soft bg of its colour</p></div>
+      <div class="card"><div class="h-card" style="font-size:12.5px;">Toast</div><div style="margin-top:9px;background:var(--ink);border-radius:18px;padding:8px 11px;display:inline-flex;align-items:center;gap:6px;"><span class="ms" style="font-size:14px;color:var(--green);">check_circle</span><span style="color:#fff;font-size:10px;font-weight:600;">Saved</span></div><p class="tiny" style="margin-top:7px;">Ink pill, auto‑dismiss ~2.5s</p></div>
+    </div>
+
+    <div class="card" style="margin-top:14px;">
+      <div class="row g14" style="align-items:center;">
+        <div class="wire" style="width:84px;height:170px;"><div class="scr"><div class="row g8" style="align-items:center;"><div style="width:14px;height:14px;border-radius:5px;background:linear-gradient(140deg,#18A39E,#2B7CE3);"></div><div class="wbar" style="width:40%;"></div></div><div class="wblock" style="height:30px;background:#D8EFEC;margin-top:3px;"></div><div class="wbar" style="width:80%;"></div><div class="wbar" style="width:65%;"></div><div class="wblock" style="height:22px;background:var(--teal);margin-top:auto;border-radius:8px;"></div></div></div>
+        <div style="flex:1;">
+          <div class="eyebrow" style="color:var(--muted2);">The device frame</div>
+          <p class="body" style="margin-top:7px;">Both apps render inside a <b>392 × 830px</b> phone (radius 54/45, ink bezel) with a 9:41 status bar. Screens are vertically scrolling, edge‑padded 18–24px, on the cream canvas. A right‑side <b>journey rail</b> (≈210px) is a demo‑only navigator and ships nowhere near production.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="pg-ft"><div class="l"><span class="conf">CONFIDENTIAL</span><span>· Wisbox Technology · CureCall PRD v1.0</span></div><div class="n">07</div></div>
+  </section>
+
+  <!-- ============ PAGE 8 · NAVIGATION MODEL ============ -->
+  <section class="page">
+    <div class="pg-top"><div class="logo"><div class="mk"><span class="ms">stethoscope</span></div><div class="wd"><span class="c1">Cure</span><span class="c2">Call</span></div></div><div class="sec">03 · Architecture of screens</div></div>
+
+    <div class="eyebrow">How screens are wired</div>
+    <h2 class="h-sec" style="margin-top:9px;">One app, one "screen" word at a time</h2>
+    <p class="lead" style="margin-top:10px;max-width:6.7in;">Each app holds a single value called <span class="mono" style="font-size:11px;background:#EAF0F2;padding:1px 5px;border-radius:5px;">screen</span>. Whatever word it holds is the page you see. A button doesn't "open a link" — it just <b>changes that one word</b>, and the matching page appears. This is a simple state machine.</p>
+
+    <div class="grid2" style="margin-top:14px;">
+      <div class="card">
+        <div class="eyebrow" style="color:var(--muted2);">Example — the patient's screen word</div>
+        <div class="code" style="margin-top:9px;"><span class="c">// tap "Pay" →</span><br>setState({ <span class="p">screen</span>: <span class="m">'preconsult'</span> })<br><span class="c">// the AI‑intake page now shows</span></div>
+        <p class="small" style="margin-top:9px;">Because state is one word, the app can <b>jump anywhere</b> for demos and QA, and deep‑link to any step. No tangled routing.</p>
+      </div>
+      <div class="card soft">
+        <div class="eyebrow" style="color:var(--muted2);">Two languages, one switch</div>
+        <p class="body" style="margin-top:8px;">A second value, <span class="mono" style="font-size:10px;">uiLang</span> (<b>hi</b> / <b>en</b>), flips every label through a tiny helper <span class="mono" style="font-size:10px;">tr(hindi, english)</span>. Content is authored as pairs, so nothing is hard‑coded to one language.</p>
+        <div class="code" style="margin-top:9px;">title: <span class="m">tr(</span><span class="p">'बुखार'</span>, <span class="p">'Fever'</span><span class="m">)</span></div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:14px;">
+      <div class="eyebrow" style="color:var(--muted2);">The two journeys at a glance</div>
+      <div class="col g8" style="margin-top:11px;">
+        <div class="row g8 wrap" style="align-items:center;">
+          <span class="tag t-teal" style="font-size:9px;">PATIENT</span>
+          <span class="small">onboard</span><span class="ms" style="font-size:13px;color:var(--muted2);">chevron_right</span>
+          <span class="small">language</span><span class="ms" style="font-size:13px;color:var(--muted2);">chevron_right</span>
+          <span class="small">otp</span><span class="ms" style="font-size:13px;color:var(--muted2);">chevron_right</span>
+          <span class="small">consent</span><span class="ms" style="font-size:13px;color:var(--muted2);">chevron_right</span>
+          <span class="small">abha</span><span class="ms" style="font-size:13px;color:var(--muted2);">chevron_right</span>
+          <span class="small">home</span><span class="ms" style="font-size:13px;color:var(--muted2);">chevron_right</span>
+          <span class="small">doctors</span><span class="ms" style="font-size:13px;color:var(--muted2);">chevron_right</span>
+          <span class="small">pay</span><span class="ms" style="font-size:13px;color:var(--muted2);">chevron_right</span>
+          <span class="small">AI intake</span><span class="ms" style="font-size:13px;color:var(--muted2);">chevron_right</span>
+          <span class="small">gate</span><span class="ms" style="font-size:13px;color:var(--muted2);">chevron_right</span>
+          <span class="small">consult</span><span class="ms" style="font-size:13px;color:var(--muted2);">chevron_right</span>
+          <span class="small">record</span>
+        </div>
+        <div class="row g8 wrap" style="align-items:center;border-top:1px solid var(--line2);padding-top:9px;">
+          <span class="tag t-blue" style="font-size:9px;">DOCTOR</span>
+          <span class="small">sign‑in</span><span class="ms" style="font-size:13px;color:var(--muted2);">chevron_right</span>
+          <span class="small">identity</span><span class="ms" style="font-size:13px;color:var(--muted2);">chevron_right</span>
+          <span class="small">registry</span><span class="ms" style="font-size:13px;color:var(--muted2);">chevron_right</span>
+          <span class="small">documents</span><span class="ms" style="font-size:13px;color:var(--muted2);">chevron_right</span>
+          <span class="small">liveness</span><span class="ms" style="font-size:13px;color:var(--muted2);">chevron_right</span>
+          <span class="small">review</span><span class="ms" style="font-size:13px;color:var(--muted2);">chevron_right</span>
+          <span class="small">verified</span><span class="ms" style="font-size:13px;color:var(--muted2);">chevron_right</span>
+          <span class="small">dashboard</span><span class="ms" style="font-size:13px;color:var(--muted2);">chevron_right</span>
+          <span class="small">consult</span><span class="ms" style="font-size:13px;color:var(--muted2);">chevron_right</span>
+          <span class="small">prescription</span><span class="ms" style="font-size:13px;color:var(--muted2);">chevron_right</span>
+          <span class="small">case board</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="eli5" style="margin-top:15px;">
+      <div class="hd"><span class="em"><span class="ms">child_care</span></span><span class="lb">Explain like I'm 6</span></div>
+      <p>Think of the app like a <b>picture book</b> with one bookmark. The bookmark has a name on it. When you press a button, the bookmark's name changes, and the book flips to that page. There's also a tiny switch that turns every word from <b>Hindi to English</b> and back — like flipping the same book into another language.</p>
+    </div>
+
+    <div class="pg-ft"><div class="l"><span class="conf">CONFIDENTIAL</span><span>· Wisbox Technology · CureCall PRD v1.0</span></div><div class="n">08</div></div>
+  </section>
+
+  <!-- ============ PAGE 9 · PATIENT SECTION OPENER ============ -->
+  <section class="page dark" style="padding:0;">
+    <div style="position:absolute;inset:0;background:radial-gradient(760px 520px at 84% -6%,rgba(15,163,161,.32),transparent 58%),radial-gradient(620px 440px at 0% 106%,rgba(43,124,227,.22),transparent 60%);"></div>
+    <div style="position:relative;height:100%;display:flex;flex-direction:column;padding:0.62in 0.6in 0.7in;">
+      <div class="pg-top" style="border-color:rgba(255,255,255,.16);"><div class="logo"><div class="mk"><span class="ms">stethoscope</span></div><div class="wd" style="color:#fff;"><span style="color:#5BE0D6;">Cure</span><span style="color:#7FB4FF;">Call</span></div></div><div class="sec" style="color:#8FA8B4;">Part A</div></div>
+
+      <div class="eyebrow" style="color:#5BE0D6;">Part A · The Patient App</div>
+      <h2 style="font-family:'Space Grotesk';font-weight:700;font-size:40px;letter-spacing:-1.2px;color:#fff;margin-top:10px;line-height:1;">For the person<br>who feels unwell.</h2>
+      <p class="lead" style="color:#AFC4CE;margin-top:14px;max-width:6.2in;">17 screens that carry a patient from "I don't feel good" to a doctor, a prescription, and a record they can read. Each screen is specified on the following pages.</p>
+
+      <div style="margin-top:22px;display:grid;grid-template-columns:repeat(4,1fr);gap:9px;">
+        <div class="fnode" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.14);"><div class="mono" style="color:#5BE0D6;font-size:9px;">01</div><div style="color:#fff;font-size:11px;font-weight:600;margin-top:2px;">Onboarding</div></div>
+        <div class="fnode" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.14);"><div class="mono" style="color:#5BE0D6;font-size:9px;">02</div><div style="color:#fff;font-size:11px;font-weight:600;margin-top:2px;">Language + Who</div></div>
+        <div class="fnode" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.14);"><div class="mono" style="color:#5BE0D6;font-size:9px;">03</div><div style="color:#fff;font-size:11px;font-weight:600;margin-top:2px;">Phone + OTP</div></div>
+        <div class="fnode" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.14);"><div class="mono" style="color:#5BE0D6;font-size:9px;">04</div><div style="color:#fff;font-size:11px;font-weight:600;margin-top:2px;">Consent</div></div>
+        <div class="fnode" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.14);"><div class="mono" style="color:#5BE0D6;font-size:9px;">05</div><div style="color:#fff;font-size:11px;font-weight:600;margin-top:2px;">ABHA linking</div></div>
+        <div class="fnode" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.14);"><div class="mono" style="color:#5BE0D6;font-size:9px;">06</div><div style="color:#fff;font-size:11px;font-weight:600;margin-top:2px;">Home</div></div>
+        <div class="fnode" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.14);"><div class="mono" style="color:#5BE0D6;font-size:9px;">07</div><div style="color:#fff;font-size:11px;font-weight:600;margin-top:2px;">Doctor list</div></div>
+        <div class="fnode" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.14);"><div class="mono" style="color:#5BE0D6;font-size:9px;">08</div><div style="color:#fff;font-size:11px;font-weight:600;margin-top:2px;">Doctor profile</div></div>
+        <div class="fnode" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.14);"><div class="mono" style="color:#5BE0D6;font-size:9px;">09</div><div style="color:#fff;font-size:11px;font-weight:600;margin-top:2px;">Payment (UPI)</div></div>
+        <div class="fnode" style="background:rgba(114,87,245,.18);border-color:rgba(159,140,250,.4);"><div class="mono" style="color:#C4B6FF;font-size:9px;">10</div><div style="color:#fff;font-size:11px;font-weight:600;margin-top:2px;">AI pre‑consult</div></div>
+        <div class="fnode" style="background:rgba(22,189,142,.16);border-color:rgba(22,189,142,.4);"><div class="mono" style="color:#7DEBC4;font-size:9px;">11</div><div style="color:#fff;font-size:11px;font-weight:600;margin-top:2px;">Safety gate</div></div>
+        <div class="fnode" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.14);"><div class="mono" style="color:#5BE0D6;font-size:9px;">12</div><div style="color:#fff;font-size:11px;font-weight:600;margin-top:2px;">Waiting room</div></div>
+        <div class="fnode" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.14);"><div class="mono" style="color:#5BE0D6;font-size:9px;">13</div><div style="color:#fff;font-size:11px;font-weight:600;margin-top:2px;">Live consult</div></div>
+        <div class="fnode" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.14);"><div class="mono" style="color:#5BE0D6;font-size:9px;">14</div><div style="color:#fff;font-size:11px;font-weight:600;margin-top:2px;">Rate doctor</div></div>
+        <div class="fnode" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.14);"><div class="mono" style="color:#5BE0D6;font-size:9px;">15</div><div style="color:#fff;font-size:11px;font-weight:600;margin-top:2px;">Record building</div></div>
+        <div class="fnode" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.14);"><div class="mono" style="color:#5BE0D6;font-size:9px;">16</div><div style="color:#fff;font-size:11px;font-weight:600;margin-top:2px;">Health record</div></div>
+        <div class="fnode" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.14);"><div class="mono" style="color:#5BE0D6;font-size:9px;">17</div><div style="color:#fff;font-size:11px;font-weight:600;margin-top:2px;">Profile / Account</div></div>
+        <div class="fnode" style="background:transparent;border:1.5px dashed rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;"><span class="ms" style="font-size:20px;color:#5BE0D6;">arrow_forward</span></div>
+      </div>
+
+      <div class="pg-ft" style="border-color:rgba(255,255,255,.14);"><div class="l" style="color:#8FA8B4;"><span class="conf">CONFIDENTIAL</span><span>· Wisbox Technology · CureCall PRD v1.0</span></div><div class="n" style="color:#fff;">09</div></div>
+    </div>
+  </section>
+
+  <!-- ============ PAGE 10 · PATIENT 01-02 ============ -->
+  <section class="page">
+    <div class="pg-top"><div class="logo"><div class="mk"><span class="ms">stethoscope</span></div><div class="wd"><span class="c1">Cure</span><span class="c2">Call</span></div></div><div class="sec">A · Patient · screens 01–02</div></div>
+
+    <div class="col g14">
+      <!-- 01 Onboarding -->
+      <div class="card" style="padding:0;overflow:hidden;">
+        <div class="row g10" style="align-items:center;padding:11px 14px;background:var(--cream);border-bottom:1.5px solid var(--line);"><span class="num">01</span><div style="flex:1;"><div class="h-card" style="font-size:14px;">Onboarding</div><div class="tiny">First open — earns trust before asking anything</div></div><span class="tag t-teal">Entry</span><span class="mono" style="font-size:8.5px;background:#EAF0F2;border-radius:6px;padding:3px 7px;">screen:'onboard'</span></div>
+        <div class="row g14" style="padding:13px 14px;">
+          <div class="wire"><div class="scr" style="align-items:center;text-align:center;"><div style="display:flex;align-items:center;gap:3px;margin-top:4px;"><div style="width:11px;height:11px;border-radius:3px;background:linear-gradient(140deg,#18A39E,#2B7CE3);"></div><div style="font-family:'Space Grotesk';font-weight:700;font-size:8px;"><span style="color:var(--teal);">Cure</span><span style="color:var(--blue);">Call</span></div></div><div style="width:60px;height:60px;border-radius:50%;background:radial-gradient(circle at 50% 38%,#D8EFEC,#EAF4F1);display:flex;align-items:center;justify-content:center;margin-top:9px;"><span class="ms" style="font-size:29px;color:var(--teal);font-variation-settings:'FILL' 1;">health_and_safety</span></div><div style="font-family:'Space Grotesk';font-weight:700;font-size:8.5px;color:var(--ink);margin-top:9px;line-height:1.2;">A doctor in<br>your language</div><div style="font-size:5.5px;color:var(--muted);margin-top:3px;line-height:1.3;">Talk to a real doctor from<br>home, in minutes</div><div style="margin-top:auto;width:100%;height:18px;border-radius:7px;background:var(--teal);display:flex;align-items:center;justify-content:center;color:#fff;font-size:6.5px;font-weight:700;">Get started</div></div></div>
+          <div style="flex:1;display:grid;grid-template-columns:1fr 1fr;gap:11px;">
+            <div><div class="eyebrow" style="font-size:8.5px;color:var(--teal);">On screen</div><p class="small" style="margin-top:4px;">Brand mark, a warm hero illustration, a one‑line promise ("a doctor, in your language") and a single full‑width <b>Get started</b> button.</p></div>
+            <div><div class="eyebrow" style="font-size:8.5px;color:var(--blue);">What happens</div><p class="small" style="margin-top:4px;">The only action is <span class="mono" style="font-size:9px;">toWelcome</span>. No sign‑up wall yet — reduce drop‑off by showing value first.</p></div>
+            <div style="grid-column:1/3;background:var(--softPurple);border-radius:9px;padding:7px 9px;"><span class="tiny" style="color:var(--purple);font-weight:700;">BACKEND</span><span class="small" style="color:var(--ink2);"> &nbsp;None. Static asset only; fire an <span class="mono" style="font-size:9px;">app_open</span> analytics event.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 02 Language + Who -->
+      <div class="card" style="padding:0;overflow:hidden;">
+        <div class="row g10" style="align-items:center;padding:11px 14px;background:var(--cream);border-bottom:1.5px solid var(--line);"><span class="num">02</span><div style="flex:1;"><div class="h-card" style="font-size:14px;">Welcome — Language &amp; "Who is this for?"</div><div class="tiny">The most important screen for reach</div></div><span class="tag t-teal">Setup</span><span class="mono" style="font-size:8.5px;background:#EAF0F2;border-radius:6px;padding:3px 7px;">screen:'welcome'</span></div>
+        <div class="row g14" style="padding:13px 14px;">
+          <div class="wire"><div class="scr"><div style="font-size:6.5px;font-weight:700;color:var(--ink);">Choose your language</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px;margin-top:3px;"><div style="height:21px;border-radius:5px;background:#fff;border:1.5px solid var(--teal);display:flex;flex-direction:column;align-items:center;justify-content:center;"><span class="hi" style="font-size:8px;color:var(--ink);">हिं</span><span style="font-size:4.2px;color:var(--muted);">Hindi</span></div><div style="height:21px;border-radius:5px;background:#fff;border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;"><span style="font-size:7px;color:var(--ink);">Aa</span><span style="font-size:4.2px;color:var(--muted);">English</span></div><div style="height:21px;border-radius:5px;background:#fff;border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;"><span style="font-size:7px;color:var(--ink);">मरा</span><span style="font-size:4.2px;color:var(--muted);">Marathi</span></div><div style="height:21px;border-radius:5px;background:#fff;border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;"><span style="font-size:7px;color:var(--ink);">தமி</span><span style="font-size:4.2px;color:var(--muted);">Tamil</span></div><div style="height:21px;border-radius:5px;background:#fff;border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;"><span style="font-size:7px;color:var(--ink);">বাং</span><span style="font-size:4.2px;color:var(--muted);">Bangla</span></div><div style="height:21px;border-radius:5px;background:#fff;border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;"><span style="font-size:7px;color:var(--ink);">తెలు</span><span style="font-size:4.2px;color:var(--muted);">Telugu</span></div></div><div style="font-size:6.5px;font-weight:700;color:var(--ink);margin-top:6px;">Who is this for?</div><div class="row" style="margin-top:3px;gap:3px;"><div style="flex:1;height:18px;border-radius:6px;background:var(--softTeal);border:1.5px solid var(--teal);display:flex;align-items:center;justify-content:center;font-size:5.5px;font-weight:700;color:var(--tealDeep);">Myself</div><div style="flex:1;height:18px;border-radius:6px;background:#fff;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:5.5px;color:var(--muted);">A family member</div></div><div style="margin-top:auto;height:18px;border-radius:7px;background:var(--teal);display:flex;align-items:center;justify-content:center;color:#fff;font-size:6.5px;font-weight:700;">Continue</div></div></div>
+          <div style="flex:1;display:grid;grid-template-columns:1fr 1fr;gap:11px;">
+            <div><div class="eyebrow" style="font-size:8.5px;color:var(--teal);">On screen</div><p class="small" style="margin-top:4px;">A 6‑tile language grid — <b>Hindi, English, Marathi, Tamil, Bangla, Telugu</b> — each with a native glyph. Then "Who is this for?": <b>Myself</b> / <b>A family member</b>.</p></div>
+            <div><div class="eyebrow" style="font-size:8.5px;color:var(--blue);">What happens</div><p class="small" style="margin-top:4px;">Sets <span class="mono" style="font-size:9px;">lang</span>, flips <span class="mono" style="font-size:9px;">uiLang</span>, and stores <span class="mono" style="font-size:9px;">who</span>. From here every label is bilingual.</p></div>
+            <div style="grid-column:1/3;background:var(--softPurple);border-radius:9px;padding:7px 9px;"><span class="tiny" style="color:var(--purple);font-weight:700;">BACKEND</span><span class="small" style="color:var(--ink2);"> &nbsp;Persist <span class="mono" style="font-size:9px;">locale</span> + <span class="mono" style="font-size:9px;">profileFor</span> on the device now; sync to the account after OTP.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="eli5" style="margin-top:14px;">
+      <div class="hd"><span class="em"><span class="ms">child_care</span></span><span class="lb">Explain like I'm 6</span></div>
+      <p>First the app says "hi" and shows a happy picture. Then it asks <b>"which words do you understand?"</b> and <b>"are you sick, or is someone you love sick?"</b> — so it can talk to you the right way before anything else.</p>
+    </div>
+
+    <div class="pg-ft"><div class="l"><span class="conf">CONFIDENTIAL</span><span>· Wisbox Technology · CureCall PRD v1.0</span></div><div class="n">10</div></div>
+  </section>
+
+  <!-- ============ PAGE 11 · PATIENT 03-04 ============ -->
+  <section class="page">
+    <div class="pg-top"><div class="logo"><div class="mk"><span class="ms">stethoscope</span></div><div class="wd"><span class="c1">Cure</span><span class="c2">Call</span></div></div><div class="sec">A · Patient · screens 03–04</div></div>
+
+    <div class="col g14">
+      <!-- 03 OTP -->
+      <div class="card" style="padding:0;overflow:hidden;">
+        <div class="row g10" style="align-items:center;padding:11px 14px;background:var(--cream);border-bottom:1.5px solid var(--line);"><span class="num">03</span><div style="flex:1;"><div class="h-card" style="font-size:14px;">Phone number &amp; OTP</div><div class="tiny">The only identity a rural patient reliably has</div></div><span class="tag t-teal">Auth</span><span class="mono" style="font-size:8.5px;background:#EAF0F2;border-radius:6px;padding:3px 7px;">screen:'otp'</span></div>
+        <div class="row g14" style="padding:13px 14px;">
+          <div class="wire"><div class="scr"><div style="font-size:7px;font-weight:700;color:var(--ink);">Verify your number</div><div style="font-size:5px;color:var(--muted);margin-top:1px;">We sent a code by SMS</div><div style="height:20px;border-radius:6px;background:#fff;border:1px solid var(--line);display:flex;align-items:center;padding:0 6px;gap:4px;margin-top:5px;"><span style="font-size:6.5px;font-weight:700;color:var(--ink);">+91</span><span style="font-size:6.5px;color:var(--ink2);">98765 43210</span></div><div style="font-size:5.5px;color:var(--muted);margin-top:6px;">Enter 4-digit code</div><div class="row" style="gap:4px;margin-top:3px;"><div style="flex:1;height:22px;border-radius:5px;background:#fff;border:1.5px solid var(--teal);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--ink);">4</div><div style="flex:1;height:22px;border-radius:5px;background:#fff;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--ink);">8</div><div style="flex:1;height:22px;border-radius:5px;background:#fff;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--muted2);">·</div><div style="flex:1;height:22px;border-radius:5px;background:#fff;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--muted2);">·</div></div><div style="font-size:5px;color:var(--blue);margin-top:5px;">Resend in 0:24 · Call instead</div><div style="margin-top:auto;height:18px;border-radius:7px;background:var(--teal);display:flex;align-items:center;justify-content:center;color:#fff;font-size:6.5px;font-weight:700;">Verify</div></div></div>
+          <div style="flex:1;display:grid;grid-template-columns:1fr 1fr;gap:11px;">
+            <div><div class="eyebrow" style="font-size:8.5px;color:var(--teal);">On screen</div><p class="small" style="margin-top:4px;">A +91 phone field, then a 4‑box code entry. <span class="mono" style="font-size:9px;">otpSent</span> swaps the "Send code" button for the code boxes + "Verify".</p></div>
+            <div><div class="eyebrow" style="font-size:8.5px;color:var(--blue);">What happens</div><p class="small" style="margin-top:4px;"><span class="mono" style="font-size:9px;">sendOtp</span> → <span class="mono" style="font-size:9px;">verifyOtp</span> → advance to consent. Resend timer + IVR fallback for no‑SMS areas.</p></div>
+            <div style="grid-column:1/3;background:var(--softPurple);border-radius:9px;padding:7px 9px;"><span class="tiny" style="color:var(--purple);font-weight:700;">BACKEND</span><span class="small" style="color:var(--ink2);"> &nbsp;<span class="mono" style="font-size:9px;">POST /auth/otp/request</span> &amp; <span class="mono" style="font-size:9px;">/verify</span> → JWT session. SMS gateway + voice‑OTP provider; rate‑limit per number.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 04 Consent -->
+      <div class="card" style="padding:0;overflow:hidden;">
+        <div class="row g10" style="align-items:center;padding:11px 14px;background:var(--cream);border-bottom:1.5px solid var(--line);"><span class="num">04</span><div style="flex:1;"><div class="h-card" style="font-size:14px;">Consent — plain‑language data promise</div><div class="tiny">Trust, written so anyone can read it</div></div><span class="tag t-green">Trust</span><span class="mono" style="font-size:8.5px;background:#EAF0F2;border-radius:6px;padding:3px 7px;">screen:'consent'</span></div>
+        <div class="row g14" style="padding:13px 14px;">
+          <div class="wire"><div class="scr"><div style="font-size:7px;font-weight:700;color:var(--ink);">Your data, your rules</div><div style="background:var(--softTeal);border-radius:6px;padding:5px 6px;margin-top:5px;display:flex;gap:4px;align-items:flex-start;"><span class="ms" style="font-size:11px;color:var(--teal);">lock</span><div><div style="font-size:5.5px;font-weight:700;color:var(--tealDeep);">What we keep</div><div style="font-size:4.5px;color:var(--muted);">Stored safely in India</div></div></div><div style="background:var(--softPurple);border-radius:6px;padding:5px 6px;margin-top:4px;display:flex;gap:4px;align-items:flex-start;"><span class="ms" style="font-size:11px;color:var(--purple);">visibility</span><div><div style="font-size:5.5px;font-weight:700;color:var(--purple);">Who can see it</div><div style="font-size:4.5px;color:var(--muted);">Only you + a doctor you allow</div></div></div><div style="background:var(--softAmber);border-radius:6px;padding:5px 6px;margin-top:4px;display:flex;gap:4px;align-items:flex-start;"><span class="ms" style="font-size:11px;color:var(--amber);">undo</span><div><div style="font-size:5.5px;font-weight:700;color:#C46A10;">Withdraw anytime</div><div style="font-size:4.5px;color:var(--muted);">Take it back whenever</div></div></div><div style="margin-top:auto;height:18px;border-radius:7px;background:var(--teal);display:flex;align-items:center;justify-content:center;color:#fff;font-size:6.5px;font-weight:700;">I agree</div></div></div>
+          <div style="flex:1;display:grid;grid-template-columns:1fr 1fr;gap:11px;">
+            <div><div class="eyebrow" style="font-size:8.5px;color:var(--teal);">On screen</div><p class="small" style="margin-top:4px;">Three cards: <b>What we keep</b> (stored in India), <b>Who can see it</b> (only you + a doctor you allow; every view logged), <b>How to withdraw</b> (anytime).</p></div>
+            <div><div class="eyebrow" style="font-size:8.5px;color:var(--blue);">What happens</div><p class="small" style="margin-top:4px;">"I agree" records a timestamped, versioned consent. Withdrawal is mirrored later in Profile.</p></div>
+            <div style="grid-column:1/3;background:var(--softPurple);border-radius:9px;padding:7px 9px;"><span class="tiny" style="color:var(--purple);font-weight:700;">BACKEND</span><span class="small" style="color:var(--ink2);"> &nbsp;<span class="mono" style="font-size:9px;">POST /consent</span> {version, scope, ts}. Immutable consent ledger; required before any health data is written.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="eli5" style="margin-top:14px;">
+      <div class="hd"><span class="em"><span class="ms">child_care</span></span><span class="lb">Explain like I'm 6</span></div>
+      <p>The app sends a <b>secret number</b> to your phone to make sure it's really you — like a password knock. Then it pinky‑promises: "I'll keep your health stuff <b>safe</b>, only show it to people <b>you</b> say yes to, and you can take it back whenever you want."</p>
+    </div>
+
+    <div class="pg-ft"><div class="l"><span class="conf">CONFIDENTIAL</span><span>· Wisbox Technology · CureCall PRD v1.0</span></div><div class="n">11</div></div>
+  </section>
+
+  <!-- ============ PAGE 12 · PATIENT 05-06 ============ -->
+  <section class="page">
+    <div class="pg-top"><div class="logo"><div class="mk"><span class="ms">stethoscope</span></div><div class="wd"><span class="c1">Cure</span><span class="c2">Call</span></div></div><div class="sec">A · Patient · screens 05–06</div></div>
+
+    <div class="col g14">
+      <!-- 05 ABHA -->
+      <div class="card" style="padding:0;overflow:hidden;">
+        <div class="row g10" style="align-items:center;padding:11px 14px;background:var(--cream);border-bottom:1.5px solid var(--line);"><span class="num">05</span><div style="flex:1;"><div class="h-card" style="font-size:14px;">ABHA linking (optional)</div><div class="tiny">Connect India's national health ID</div></div><span class="tag t-blue">Identity</span><span class="mono" style="font-size:8.5px;background:#EAF0F2;border-radius:6px;padding:3px 7px;">screen:'abha'</span></div>
+        <div class="row g14" style="padding:13px 14px;">
+          <div class="wire"><div class="scr"><div style="height:36px;border-radius:8px;background:var(--softBlue);display:flex;align-items:center;justify-content:center;gap:4px;"><span class="ms" style="font-size:18px;color:var(--blue);">badge</span><span style="font-size:7px;font-weight:700;color:var(--blue);">ABHA</span></div><div style="font-size:6.5px;font-weight:700;color:var(--ink);margin-top:6px;">Link your health ID</div><div style="font-size:4.8px;color:var(--muted);line-height:1.3;">One ID for records across<br>every hospital in India</div><div style="height:20px;border-radius:6px;background:#fff;border:1px solid var(--line);display:flex;align-items:center;padding:0 6px;margin-top:5px;font-size:6px;color:var(--muted2);font-family:'JetBrains Mono',monospace;">12-3456-7890-1234</div><div style="height:18px;border-radius:7px;background:var(--blue);display:flex;align-items:center;justify-content:center;color:#fff;font-size:6.5px;font-weight:700;margin-top:5px;">Link ABHA</div><div style="margin-top:auto;text-align:center;font-size:6px;color:var(--muted);font-weight:600;">Skip for now</div></div></div>
+          <div style="flex:1;display:grid;grid-template-columns:1fr 1fr;gap:11px;">
+            <div><div class="eyebrow" style="font-size:8.5px;color:var(--teal);">On screen</div><p class="small" style="margin-top:4px;">Explains ABHA in one line, an ID field, "Link" and a clear <b>Skip for now</b>. Linking unlocks portable records across hospitals.</p></div>
+            <div><div class="eyebrow" style="font-size:8.5px;color:var(--blue);">What happens</div><p class="small" style="margin-top:4px;">Sets <span class="mono" style="font-size:9px;">abhaLinked</span> + <span class="mono" style="font-size:9px;">abhaNum</span>. Skippable so it never blocks a sick user.</p></div>
+            <div style="grid-column:1/3;background:var(--softPurple);border-radius:9px;padding:7px 9px;"><span class="tiny" style="color:var(--purple);font-weight:700;">BACKEND</span><span class="small" style="color:var(--ink2);"> &nbsp;ABDM/ABHA sandbox APIs — verify + consent‑link. Store ABHA address, not raw Aadhaar.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 06 Home -->
+      <div class="card" style="padding:0;overflow:hidden;">
+        <div class="row g10" style="align-items:center;padding:11px 14px;background:var(--cream);border-bottom:1.5px solid var(--line);"><span class="num">06</span><div style="flex:1;"><div class="h-card" style="font-size:14px;">Home</div><div class="tiny">The hub — money, symptoms, family, alerts</div></div><span class="tag t-teal">Hub</span><span class="mono" style="font-size:8.5px;background:#EAF0F2;border-radius:6px;padding:3px 7px;">screen:'home'</span></div>
+        <div class="row g14" style="padding:13px 14px;">
+          <div class="wire"><div class="scr"><div class="row" style="justify-content:space-between;align-items:center;"><div style="font-size:6.5px;font-weight:700;color:var(--ink);">Namaste, Sunita</div><span class="ms" style="font-size:11px;color:var(--amber);">notifications</span></div><div style="height:26px;border-radius:7px;background:var(--ink);display:flex;align-items:center;justify-content:space-between;padding:0 7px;margin-top:4px;"><div><div style="font-size:4.5px;color:#9FB2BD;">Med wallet</div><div style="font-size:8px;font-weight:700;color:#fff;">₹240</div></div><div style="font-size:5px;color:#5BE0D6;font-weight:700;">+ Add</div></div><div style="font-size:5.5px;font-weight:700;color:var(--muted);margin-top:5px;">What's wrong?</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px;margin-top:2px;"><div style="background:var(--softAmber);border-radius:6px;height:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;"><span class="ms" style="font-size:11px;color:var(--amber);">thermostat</span><span style="font-size:4px;color:#C46A10;">Fever</span></div><div style="background:var(--softGreen);border-radius:6px;height:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;"><span class="ms" style="font-size:11px;color:#0B8A66;">sick</span><span style="font-size:4px;color:#0B8A66;">Stomach</span></div><div style="background:var(--softTeal);border-radius:6px;height:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;"><span class="ms" style="font-size:11px;color:var(--teal);">coronavirus</span><span style="font-size:4px;color:var(--tealDeep);">Cough</span></div><div style="background:var(--softPurple);border-radius:6px;height:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;"><span class="ms" style="font-size:11px;color:var(--purple);">healing</span><span style="font-size:4px;color:var(--purple);">Skin</span></div><div style="background:var(--softBlue);border-radius:6px;height:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;"><span class="ms" style="font-size:11px;color:var(--blue);">medication</span><span style="font-size:4px;color:var(--blue);">Repeat</span></div><div style="background:var(--softAmber);border-radius:6px;height:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;"><span class="ms" style="font-size:11px;color:var(--amber);">description</span><span style="font-size:4px;color:#C46A10;">Report</span></div></div><div style="margin-top:auto;display:flex;gap:4px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:6px;padding:4px 6px;"><div style="width:11px;height:11px;border-radius:50%;background:var(--softTeal);"></div><div style="font-size:4.8px;color:var(--muted);">Family: Dad · Aarav</div></div></div></div>
+          <div style="flex:1;display:grid;grid-template-columns:1fr 1fr;gap:11px;">
+            <div><div class="eyebrow" style="font-size:8.5px;color:var(--teal);">On screen</div><p class="small" style="margin-top:4px;">A <b>Med wallet</b> balance (₹240 seed) with "Add money", a 6‑tile <b>symptom grid</b> (Fever, Stomach, Cough, Skin, Repeat med, Explain report), a notifications bell, and a family strip.</p></div>
+            <div><div class="eyebrow" style="font-size:8.5px;color:var(--blue);">What happens</div><p class="small" style="margin-top:4px;">Tapping a concern sets <span class="mono" style="font-size:9px;">concern</span> and jumps to the doctor list. Bell opens notifications; wallet warns when low (&lt; ₹300).</p></div>
+            <div style="grid-column:1/3;background:var(--softPurple);border-radius:9px;padding:7px 9px;"><span class="tiny" style="color:var(--purple);font-weight:700;">BACKEND</span><span class="small" style="color:var(--ink2);"> &nbsp;<span class="mono" style="font-size:9px;">GET /home</span> → wallet balance, unread notifications, family members, last record. Cache for offline open.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="eli5" style="margin-top:14px;">
+      <div class="hd"><span class="em"><span class="ms">child_care</span></span><span class="lb">Explain like I'm 6</span></div>
+      <p>Home is like the <b>front room</b>. There's a little <b>piggy bank</b> for doctor money, six big buttons for "what hurts," and a bell that lights up when there's news. You press the button that matches your boo‑boo.</p>
+    </div>
+
+    <div class="pg-ft"><div class="l"><span class="conf">CONFIDENTIAL</span><span>· Wisbox Technology · CureCall PRD v1.0</span></div><div class="n">12</div></div>
+  </section>
+
+  <!-- ============ PAGE 13 · PATIENT 07-08 ============ -->
+  <section class="page">
+    <div class="pg-top"><div class="logo"><div class="mk"><span class="ms">stethoscope</span></div><div class="wd"><span class="c1">Cure</span><span class="c2">Call</span></div></div><div class="sec">A · Patient · screens 07–08</div></div>
+
+    <div class="col g14">
+      <!-- 07 Doctor list -->
+      <div class="card" style="padding:0;overflow:hidden;">
+        <div class="row g10" style="align-items:center;padding:11px 14px;background:var(--cream);border-bottom:1.5px solid var(--line);"><span class="num">07</span><div style="flex:1;"><div class="h-card" style="font-size:14px;">Doctor list</div><div class="tiny">Choose who to talk to</div></div><span class="tag t-teal">Browse</span><span class="mono" style="font-size:8.5px;background:#EAF0F2;border-radius:6px;padding:3px 7px;">screen:'doctors'</span></div>
+        <div class="row g14" style="padding:13px 14px;">
+          <div class="wire"><div class="scr"><div class="row" style="gap:3px;"><div style="background:var(--ink);color:#fff;font-size:4.8px;font-weight:700;border-radius:7px;padding:3px 6px;">Verified</div><div style="background:#fff;border:1px solid var(--line);color:var(--muted);font-size:4.8px;border-radius:7px;padding:3px 6px;">Available now</div><div style="background:#fff;border:1px solid var(--line);color:var(--muted);font-size:4.8px;border-radius:7px;padding:3px 6px;">Top</div></div><div style="background:#fff;border:1px solid var(--line);border-radius:8px;padding:5px 6px;margin-top:5px;display:flex;gap:5px;align-items:center;"><div style="width:18px;height:18px;border-radius:50%;background:var(--softTeal);flex:none;"></div><div style="flex:1;"><div style="font-size:6px;font-weight:700;color:var(--ink);">Dr. A. Verma</div><div style="font-size:4.3px;color:var(--muted);">Physician · हिं Eng</div><div style="font-size:4.3px;color:var(--amber);">★ 4.8 · ₹249</div></div><div style="width:5px;height:5px;border-radius:50%;background:var(--green);"></div></div><div style="background:#fff;border:1px solid var(--line);border-radius:8px;padding:5px 6px;margin-top:4px;display:flex;gap:5px;align-items:center;"><div style="width:18px;height:18px;border-radius:50%;background:var(--softBlue);flex:none;"></div><div style="flex:1;"><div style="font-size:6px;font-weight:700;color:var(--ink);">Dr. S. Iyer</div><div style="font-size:4.3px;color:var(--muted);">Pediatrics · தமி Eng</div><div style="font-size:4.3px;color:var(--amber);">★ 4.9 · ₹299</div></div><div style="width:5px;height:5px;border-radius:50%;background:var(--green);"></div></div><div style="background:#fff;border:1px solid var(--line);border-radius:8px;padding:5px 6px;margin-top:4px;display:flex;gap:5px;align-items:center;"><div style="width:18px;height:18px;border-radius:50%;background:var(--softPurple);flex:none;"></div><div style="flex:1;"><div style="font-size:6px;font-weight:700;color:var(--ink);">Dr. R. Khan</div><div style="font-size:4.3px;color:var(--muted);">Dermatology · हिं</div><div style="font-size:4.3px;color:var(--amber);">★ 4.7 · ₹329</div></div><div style="width:5px;height:5px;border-radius:50%;background:var(--muted2);"></div></div></div></div>
+          <div style="flex:1;display:grid;grid-template-columns:1fr 1fr;gap:11px;">
+            <div><div class="eyebrow" style="font-size:8.5px;color:var(--teal);">On screen</div><p class="small" style="margin-top:4px;">Filter chips — <b>Verified</b>, <b>Available now</b>, <b>Top rated</b> — over doctor cards: avatar, name, specialty, languages, rating, years, fee (₹249–₹329), online dot.</p></div>
+            <div><div class="eyebrow" style="font-size:8.5px;color:var(--blue);">What happens</div><p class="small" style="margin-top:4px;"><span class="mono" style="font-size:9px;">docFilter</span> filters the list; tapping a card sets <span class="mono" style="font-size:9px;">doctor</span> and opens the profile.</p></div>
+            <div style="grid-column:1/3;background:var(--softPurple);border-radius:9px;padding:7px 9px;"><span class="tiny" style="color:var(--purple);font-weight:700;">BACKEND</span><span class="small" style="color:var(--ink2);"> &nbsp;<span class="mono" style="font-size:9px;">GET /doctors?concern=&amp;lang=&amp;filter=</span> → ranked, only verified &amp; currently‑online surfaced for "now".</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 08 Doctor profile -->
+      <div class="card" style="padding:0;overflow:hidden;">
+        <div class="row g10" style="align-items:center;padding:11px 14px;background:var(--cream);border-bottom:1.5px solid var(--line);"><span class="num">08</span><div style="flex:1;"><div class="h-card" style="font-size:14px;">Doctor profile · slot · fee</div><div class="tiny">Confirm the who, when &amp; how much</div></div><span class="tag t-teal">Book</span><span class="mono" style="font-size:8.5px;background:#EAF0F2;border-radius:6px;padding:3px 7px;">screen:'doctor'</span></div>
+        <div class="row g14" style="padding:13px 14px;">
+          <div class="wire"><div class="scr"><div style="background:var(--softTeal);border-radius:8px;padding:6px;display:flex;gap:5px;align-items:center;"><div style="width:24px;height:24px;border-radius:50%;background:#fff;"></div><div><div style="font-size:6.5px;font-weight:700;color:var(--ink);">Dr. A. Verma</div><div style="font-size:4.3px;color:var(--tealDeep);">Physician · 12 yrs · ★4.8</div><div style="font-size:4px;color:var(--muted);font-family:'JetBrains Mono',monospace;">NMC-DL-48217 ✓</div></div></div><div style="font-size:5.5px;font-weight:700;color:var(--muted);margin-top:6px;">Pick a slot</div><div class="row" style="gap:3px;margin-top:2px;"><div style="flex:1;height:22px;border-radius:6px;background:var(--softTeal);border:1.5px solid var(--teal);display:flex;flex-direction:column;align-items:center;justify-content:center;"><span style="font-size:5.5px;font-weight:700;color:var(--tealDeep);">Now</span><span style="font-size:4px;color:var(--teal);">2 min</span></div><div style="flex:1;height:22px;border-radius:6px;background:#fff;border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;"><span style="font-size:5.5px;color:var(--ink2);">6 PM</span><span style="font-size:4px;color:var(--muted);">Today</span></div><div style="flex:1;height:22px;border-radius:6px;background:#fff;border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;"><span style="font-size:5.5px;color:var(--ink2);">10 AM</span><span style="font-size:4px;color:var(--muted);">Tmrw</span></div></div><div class="row" style="justify-content:space-between;align-items:center;margin-top:7px;"><span style="font-size:5px;color:var(--muted);">Consult fee</span><span style="font-size:8px;font-weight:700;color:var(--ink);">₹249</span></div><div style="margin-top:auto;height:18px;border-radius:7px;background:var(--teal);display:flex;align-items:center;justify-content:center;color:#fff;font-size:6.5px;font-weight:700;">Proceed to pay</div></div></div>
+          <div style="flex:1;display:grid;grid-template-columns:1fr 1fr;gap:11px;">
+            <div><div class="eyebrow" style="font-size:8.5px;color:var(--teal);">On screen</div><p class="small" style="margin-top:4px;">Header with verified registration number (e.g. <span class="mono" style="font-size:9px;">NMC‑DL‑48217</span>), languages, rating &amp; experience; three time slots (<b>Now</b>, this evening, tomorrow); the fee; and "Proceed to pay".</p></div>
+            <div><div class="eyebrow" style="font-size:8.5px;color:var(--blue);">What happens</div><p class="small" style="margin-top:4px;"><span class="mono" style="font-size:9px;">pickSlot</span> sets the slot; CTA goes to payment with doctor + slot + fee carried forward.</p></div>
+            <div style="grid-column:1/3;background:var(--softPurple);border-radius:9px;padding:7px 9px;"><span class="tiny" style="color:var(--purple);font-weight:700;">BACKEND</span><span class="small" style="color:var(--ink2);"> &nbsp;<span class="mono" style="font-size:9px;">GET /doctors/:id</span> + live slot availability. Soft‑hold the slot for ~2 min during checkout.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="eli5" style="margin-top:14px;">
+      <div class="hd"><span class="em"><span class="ms">child_care</span></span><span class="lb">Explain like I'm 6</span></div>
+      <p>It's like picking a <b>helper</b> from a list. You can see each helper's gold stars, the languages they speak, and how much they cost. You pick one, choose <b>now or later</b>, and get ready to pay.</p>
+    </div>
+
+    <div class="pg-ft"><div class="l"><span class="conf">CONFIDENTIAL</span><span>· Wisbox Technology · CureCall PRD v1.0</span></div><div class="n">13</div></div>
+  </section>
+
+  <!-- ============ PAGE 14 · PATIENT 09-10 ============ -->
+  <section class="page">
+    <div class="pg-top"><div class="logo"><div class="mk"><span class="ms">stethoscope</span></div><div class="wd"><span class="c1">Cure</span><span class="c2">Call</span></div></div><div class="sec">A · Patient · screens 09–10</div></div>
+
+    <div class="col g14">
+      <!-- 09 Payment -->
+      <div class="card" style="padding:0;overflow:hidden;">
+        <div class="row g10" style="align-items:center;padding:11px 14px;background:var(--cream);border-bottom:1.5px solid var(--line);"><span class="num">09</span><div style="flex:1;"><div class="h-card" style="font-size:14px;">Payment — UPI &amp; wallet</div><div class="tiny">Pay in rupees, the way India pays</div></div><span class="tag t-green">Pay</span><span class="mono" style="font-size:8.5px;background:#EAF0F2;border-radius:6px;padding:3px 7px;">screen:'pay'</span></div>
+        <div class="row g14" style="padding:13px 14px;">
+          <div class="wire"><div class="scr"><div style="background:var(--softGreen);border-radius:8px;padding:6px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:5.5px;color:#0B8A66;">Total to pay</span><span style="font-size:9px;font-weight:700;color:#0B8A66;">₹249</span></div><div style="font-size:5.5px;font-weight:700;color:var(--muted);margin-top:6px;">Pay with</div><div style="height:22px;border-radius:6px;background:#fff;border:1.5px solid var(--green);display:flex;align-items:center;gap:4px;padding:0 6px;margin-top:3px;"><span class="ms" style="font-size:11px;color:var(--green);">account_balance_wallet</span><span style="font-size:5.5px;font-weight:700;color:var(--ink);">Med wallet</span><span style="font-size:4.5px;color:var(--muted);margin-left:auto;">₹240</span></div><div style="height:22px;border-radius:6px;background:#fff;border:1px solid var(--line);display:flex;align-items:center;gap:4px;padding:0 6px;margin-top:3px;"><span class="ms" style="font-size:11px;color:var(--blue);">qr_code_2</span><span style="font-size:5.5px;color:var(--ink2);">UPI / scan QR</span></div><div style="margin-top:auto;height:18px;border-radius:7px;background:var(--green);display:flex;align-items:center;justify-content:center;color:#fff;font-size:6.5px;font-weight:700;">Pay ₹249</div></div></div>
+          <div style="flex:1;display:grid;grid-template-columns:1fr 1fr;gap:11px;">
+            <div><div class="eyebrow" style="font-size:8.5px;color:var(--teal);">On screen</div><p class="small" style="margin-top:4px;">Fee summary, pay via <b>Med wallet</b> or <b>UPI</b> (with a QR), clear total. A success state advances automatically.</p></div>
+            <div><div class="eyebrow" style="font-size:8.5px;color:var(--blue);">What happens</div><p class="small" style="margin-top:4px;"><span class="mono" style="font-size:9px;">pay</span> sets <span class="mono" style="font-size:9px;">paid</span> and, after ~1.6s, routes to AI pre‑consult. Wallet path debits the balance.</p></div>
+            <div style="grid-column:1/3;background:var(--softPurple);border-radius:9px;padding:7px 9px;"><span class="tiny" style="color:var(--purple);font-weight:700;">BACKEND</span><span class="small" style="color:var(--ink2);"> &nbsp;<span class="mono" style="font-size:9px;">POST /payments/intent</span> → UPI collect / wallet debit; webhook confirms before the slot is locked. Idempotent, with refund on no‑show.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 10 AI intake -->
+      <div class="card" style="padding:0;overflow:hidden;border-color:#DAD0F6;">
+        <div class="row g10" style="align-items:center;padding:11px 14px;background:var(--softPurple);border-bottom:1.5px solid #DAD0F6;"><span class="num" style="background:var(--purple);">10</span><div style="flex:1;"><div class="h-card" style="font-size:14px;">Smart pre‑consult (AI intake)</div><div class="tiny">The robot helper does the doctor's paperwork</div></div><span class="tag t-purple">AI</span><span class="mono" style="font-size:8.5px;background:#fff;border-radius:6px;padding:3px 7px;">screen:'preconsult'</span></div>
+        <div class="row g14" style="padding:13px 14px;">
+          <div class="wire"><div class="scr" style="background:#F4F1FB;"><div style="display:flex;gap:3px;align-items:center;"><div style="width:11px;height:11px;border-radius:4px;background:var(--purple);display:flex;align-items:center;justify-content:center;"><span class="ms" style="font-size:8px;color:#fff;">auto_awesome</span></div><span style="font-size:5px;font-weight:700;color:var(--purple);">CureCall helper</span></div><div style="background:#fff;border-radius:7px 7px 7px 2px;padding:4px 5px;font-size:5px;color:var(--ink2);max-width:82%;margin-top:3px;">What's troubling you today?</div><div style="background:var(--purple);border-radius:7px 7px 2px 7px;padding:4px 5px;font-size:5px;color:#fff;margin-left:auto;max-width:62%;margin-top:3px;">Fever &amp; headache</div><div style="background:#fff;border-radius:7px 7px 7px 2px;padding:4px 5px;font-size:5px;color:var(--ink2);max-width:82%;margin-top:3px;">Since when?</div><div style="margin-top:auto;display:flex;gap:3px;flex-wrap:wrap;align-items:center;"><div style="background:#fff;border:1.5px solid var(--purple);border-radius:8px;padding:3px 6px;font-size:5px;font-weight:700;color:var(--purple);">1 day</div><div style="background:#fff;border:1.5px solid var(--purple);border-radius:8px;padding:3px 6px;font-size:5px;font-weight:700;color:var(--purple);">2-3 days</div><div style="background:var(--purple);border-radius:8px;padding:3px 5px;font-size:5px;font-weight:700;color:#fff;display:flex;align-items:center;"><span class="ms" style="font-size:9px;">mic</span></div></div></div></div>
+          <div style="flex:1;display:grid;grid-template-columns:1fr 1fr;gap:11px;">
+            <div><div class="eyebrow" style="font-size:8.5px;color:var(--purple);">On screen</div><p class="small" style="margin-top:4px;">A friendly chat. <b>5 questions</b> — complaint, since when, severity, other symptoms, meds/allergy — each answered by <b>tapping a chip</b> or speaking. A running "summary so far" panel fills as you go.</p></div>
+            <div><div class="eyebrow" style="font-size:8.5px;color:var(--blue);">What happens</div><p class="small" style="margin-top:4px;"><span class="mono" style="font-size:9px;">sendReply</span> stores each answer in <span class="mono" style="font-size:9px;">answers</span>; at the end <span class="mono" style="font-size:9px;">intakeReady</span> flips and a structured summary is built for the doctor.</p></div>
+            <div style="grid-column:1/3;background:#fff;border:1px solid #DAD0F6;border-radius:9px;padding:7px 9px;"><span class="tiny" style="color:var(--purple);font-weight:700;">BACKEND / AI</span><span class="small" style="color:var(--ink2);"> &nbsp;Answers → LLM that returns a normalised intake (chief complaint, duration, severity, red‑flag check). Voice handled by speech‑to‑text in the chosen language.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="eli5" style="margin-top:14px;">
+      <div class="hd"><span class="em"><span class="ms">child_care</span></span><span class="lb">Explain like I'm 6</span></div>
+      <p>You pay the doctor with your phone (no cash, no coins). Then a <b>friendly robot</b> asks you five easy questions — you just tap the picture that matches, or talk. The robot writes your answers neatly so the doctor already knows what's wrong before saying hello.</p>
+    </div>
+
+    <div class="pg-ft"><div class="l"><span class="conf">CONFIDENTIAL</span><span>· Wisbox Technology · CureCall PRD v1.0</span></div><div class="n">14</div></div>
+  </section>
+
+  <!-- ============ PAGE 15 · PATIENT 11-12-13 ============ -->
+  <section class="page">
+    <div class="pg-top"><div class="logo"><div class="mk"><span class="ms">stethoscope</span></div><div class="wd"><span class="c1">Cure</span><span class="c2">Call</span></div></div><div class="sec">A · Patient · screens 11–13</div></div>
+
+    <div class="col g12">
+      <!-- 11 Gate -->
+      <div class="card" style="padding:0;overflow:hidden;border-color:#BFE6D5;">
+        <div class="row g10" style="align-items:center;padding:10px 14px;background:var(--softGreen);border-bottom:1.5px solid #BFE6D5;"><span class="num" style="background:var(--green);">11</span><div style="flex:1;"><div class="h-card" style="font-size:14px;">Safety gate</div><div class="tiny">The traffic light before the call</div></div><span class="tag t-green">Safety</span><span class="mono" style="font-size:8.5px;background:#fff;border-radius:6px;padding:3px 7px;">screen:'gate'</span></div>
+        <div class="row g14" style="padding:12px 14px;">
+          <div class="wire" style="height:150px;"><div class="scr" style="align-items:center;justify-content:center;text-align:center;background:radial-gradient(circle at 50% 35%,#E3F7EF,#FBF6EE);"><div style="width:42px;height:42px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 10px rgba(22,189,142,.4);"><span class="ms" style="font-size:24px;color:#fff;">check</span></div><div style="font-size:7px;font-weight:700;color:#0B8A66;margin-top:7px;">Safe to consult online</div><div style="font-size:5px;color:var(--muted);margin-top:2px;line-height:1.3;">No danger signs found.<br>Connecting you to a doctor.</div></div></div>
+          <div style="flex:1;display:flex;flex-direction:column;"><p class="small">The AI intake is scored for <b>red‑flag symptoms</b>. <b>Green</b> = safe to consult online, proceed to the waiting room. (Amber/red outcomes route to caution or an emergency message — see the dedicated Safety Gate page.) <span class="mono" style="font-size:9px;">→ waiting</span></p><div style="margin-top:auto;background:var(--softPurple);border-radius:9px;padding:6px 9px;"><span class="tiny" style="color:var(--purple);font-weight:700;">BACKEND</span><span class="small"> &nbsp;Rule + model triage on the intake; the same score is attached to the doctor's queue card.</span></div></div>
+        </div>
+      </div>
+
+      <!-- 12 Waiting -->
+      <div class="card" style="padding:0;overflow:hidden;">
+        <div class="row g10" style="align-items:center;padding:10px 14px;background:var(--cream);border-bottom:1.5px solid var(--line);"><span class="num">12</span><div style="flex:1;"><div class="h-card" style="font-size:14px;">Waiting room</div><div class="tiny">Reassurance while the doctor joins</div></div><span class="tag t-teal">Wait</span><span class="mono" style="font-size:8.5px;background:#EAF0F2;border-radius:6px;padding:3px 7px;">screen:'waiting'</span></div>
+        <div class="row g14" style="padding:12px 14px;">
+          <div class="wire" style="height:150px;"><div class="scr" style="align-items:center;justify-content:center;text-align:center;"><div style="width:34px;height:34px;border-radius:50%;background:var(--softTeal);"></div><div style="font-size:6.5px;font-weight:700;color:var(--ink);margin-top:6px;">Dr. Verma is joining…</div><div style="font-size:5px;color:var(--muted);margin-top:2px;">You're next in the queue</div><div style="margin-top:6px;display:flex;gap:3px;"><div style="width:5px;height:5px;border-radius:50%;background:var(--teal);"></div><div style="width:5px;height:5px;border-radius:50%;background:var(--softTeal);"></div><div style="width:5px;height:5px;border-radius:50%;background:var(--softTeal);"></div></div></div></div>
+          <div style="flex:1;display:flex;flex-direction:column;"><p class="small">Shows the doctor's avatar, a calm "joining you shortly", and queue position. Auto‑advances to the live consult when the doctor connects. A network check runs silently here.</p><div style="margin-top:auto;background:var(--softPurple);border-radius:9px;padding:6px 9px;"><span class="tiny" style="color:var(--purple);font-weight:700;">BACKEND</span><span class="small"> &nbsp;Realtime presence/queue channel; pre‑warms the video session token.</span></div></div>
+        </div>
+      </div>
+
+      <!-- 13 Live consult -->
+      <div class="card" style="padding:0;overflow:hidden;border-color:#2B3B47;">
+        <div class="row g10" style="align-items:center;padding:10px 14px;background:#0B1A24;border-bottom:1.5px solid #2B3B47;"><span class="num" style="background:var(--teal);">13</span><div style="flex:1;"><div class="h-card" style="font-size:14px;color:#fff;">Live consult (video / audio)</div><div class="tiny" style="color:#8FA8B4;">The actual appointment — both sides of the call</div></div><span class="tag" style="background:rgba(255,255,255,.1);color:#9FE9DD;">Call</span><span class="mono" style="font-size:8.5px;background:rgba(255,255,255,.12);color:#cfe3e2;border-radius:6px;padding:3px 7px;">screen:'consult'</span></div>
+        <div class="row g14" style="padding:12px 14px;align-items:stretch;">
+          <div style="display:flex;gap:11px;flex:none;">
+
+            <!-- Patient-side phone -->
+            <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+              <div class="wire" style="height:158px;"><div class="scr" style="background:linear-gradient(160deg,#13303B,#0B1A24);padding:7px;align-items:center;justify-content:flex-end;">
+                <div style="position:absolute;top:9px;left:9px;background:rgba(255,255,255,.14);border-radius:6px;padding:2px 5px;font-size:5px;font-weight:700;color:#fff;display:flex;align-items:center;gap:3px;"><span style="width:4px;height:4px;border-radius:50%;background:var(--red);"></span>04:12</div>
+                <div style="position:absolute;top:9px;right:9px;width:22px;height:30px;border-radius:5px;background:linear-gradient(150deg,#2A4A55,#16323C);border:1px solid rgba(255,255,255,.22);"></div>
+                <div style="position:absolute;top:46px;left:0;right:0;display:flex;flex-direction:column;align-items:center;gap:5px;">
+                  <div style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.16);display:flex;align-items:center;justify-content:center;"><span class="ms" style="font-size:19px;color:#9FE9DD;">stethoscope</span></div>
+                  <div style="font-size:6.5px;font-weight:700;color:#fff;">Dr. A. Verma</div>
+                  <div style="font-size:4.6px;color:#8FA8B4;">Physician · speaking…</div>
+                </div>
+                <div class="row" style="gap:6px;margin-bottom:4px;position:relative;">
+                  <div style="width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,.16);display:flex;align-items:center;justify-content:center;"><span class="ms" style="font-size:12px;color:#fff;">mic</span></div>
+                  <div style="width:22px;height:22px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;"><span class="ms" style="font-size:12px;color:#fff;">call_end</span></div>
+                  <div style="width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,.16);display:flex;align-items:center;justify-content:center;"><span class="ms" style="font-size:12px;color:#fff;">videocam</span></div>
+                </div>
+              </div></div>
+              <div class="tiny" style="font-weight:700;color:var(--ink);">Patient sees</div>
+            </div>
+
+            <!-- Doctor-side phone -->
+            <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+              <div class="wire" style="height:158px;"><div class="scr" style="background:linear-gradient(160deg,#102A33,#0B1A24);padding:7px;align-items:center;justify-content:flex-end;">
+                <div style="position:absolute;top:9px;left:9px;background:rgba(255,255,255,.14);border-radius:6px;padding:2px 5px;font-size:5px;font-weight:700;color:#fff;display:flex;align-items:center;gap:3px;"><span style="width:4px;height:4px;border-radius:50%;background:var(--red);"></span>04:12</div>
+                <div style="position:absolute;top:9px;right:9px;width:22px;height:30px;border-radius:5px;background:linear-gradient(150deg,#3A4A2E,#1B2A18);border:1px solid rgba(255,255,255,.22);"></div>
+                <div style="position:absolute;top:43px;left:0;right:0;display:flex;flex-direction:column;align-items:center;gap:5px;">
+                  <div style="width:34px;height:34px;border-radius:50%;background:#FFE8CE;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk';font-weight:700;font-size:13px;color:#F39021;">S</div>
+                  <div style="font-size:6.5px;font-weight:700;color:#fff;">Sunita · 34</div>
+                </div>
+                <div style="position:absolute;left:7px;right:7px;bottom:34px;display:flex;gap:3px;justify-content:center;">
+                  <span style="background:rgba(255,255,255,.12);border-radius:5px;padding:2px 5px;font-size:4.4px;font-weight:700;color:#9FE9DD;">Temp 38.1</span>
+                  <span style="background:rgba(255,255,255,.12);border-radius:5px;padding:2px 5px;font-size:4.4px;font-weight:700;color:#9FE9DD;">SpO₂ 98</span>
+                  <span style="background:rgba(242,98,87,.22);border-radius:5px;padding:2px 5px;font-size:4.4px;font-weight:700;color:#FFC2BC;">Note</span>
+                </div>
+                <div class="row" style="gap:6px;margin-bottom:4px;position:relative;">
+                  <div style="width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,.16);display:flex;align-items:center;justify-content:center;"><span class="ms" style="font-size:12px;color:#fff;">mic</span></div>
+                  <div style="width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,.16);display:flex;align-items:center;justify-content:center;"><span class="ms" style="font-size:12px;color:#fff;">edit_note</span></div>
+                  <div style="width:22px;height:22px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;"><span class="ms" style="font-size:12px;color:#fff;">call_end</span></div>
+                </div>
+              </div></div>
+              <div class="tiny" style="font-weight:700;color:var(--ink);">Doctor sees</div>
+            </div>
+
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;"><p class="small">The same WebRTC session, two interfaces. The <b>patient</b> gets an immersive dark call with the doctor front‑and‑centre; the <b>doctor</b> sees the patient alongside live vitals, intake notes and a quick‑note pad. Both share a call timer, mic &amp; camera toggles and an end button. <b>Auto‑degrades to audio‑only</b> on a weak network (driven by <span class="mono" style="font-size:9px;">callMode</span> / <span class="mono" style="font-size:9px;">netWeak</span>) so the call survives. Ending routes the patient to <b>Rate the doctor</b>.</p><div style="margin-top:auto;background:var(--softPurple);border-radius:9px;padding:7px 9px;"><span class="tiny" style="color:var(--purple);font-weight:700;">BACKEND</span><span class="small"> &nbsp;WebRTC SFU with adaptive bitrate; one room, role‑scoped tracks &amp; overlays. Consult audio is captured (with consent) for the record engine.</span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pg-ft"><div class="l"><span class="conf">CONFIDENTIAL</span><span>· Wisbox Technology · CureCall PRD v1.0</span></div><div class="n">15</div></div>
+  </section>
+
+  <!-- ============ PAGE 16 · PATIENT 14-15-16 ============ -->
+  <section class="page">
+    <div class="pg-top"><div class="logo"><div class="mk"><span class="ms">stethoscope</span></div><div class="wd"><span class="c1">Cure</span><span class="c2">Call</span></div></div><div class="sec">A · Patient · screens 14–16</div></div>
+
+    <div class="col g12">
+      <!-- 14 Rate -->
+      <div class="card" style="padding:0;overflow:hidden;">
+        <div class="row g10" style="align-items:center;padding:10px 14px;background:var(--cream);border-bottom:1.5px solid var(--line);"><span class="num">14</span><div style="flex:1;"><div class="h-card" style="font-size:14px;">Rate the doctor</div><div class="tiny">Feedback that powers the "Top rated" filter</div></div><span class="tag t-amber">Feedback</span><span class="mono" style="font-size:8.5px;background:#EAF0F2;border-radius:6px;padding:3px 7px;">screen:'rate'</span></div>
+        <div class="row g14" style="padding:12px 14px;">
+          <div class="wire" style="height:140px;"><div class="scr" style="align-items:center;justify-content:center;text-align:center;"><div style="font-size:6.5px;font-weight:700;color:var(--ink);">How was your consult?</div><div class="row" style="gap:2px;margin-top:6px;"><span class="ms" style="font-size:15px;color:var(--amber);font-variation-settings:'FILL' 1;">star</span><span class="ms" style="font-size:15px;color:var(--amber);font-variation-settings:'FILL' 1;">star</span><span class="ms" style="font-size:15px;color:var(--amber);font-variation-settings:'FILL' 1;">star</span><span class="ms" style="font-size:15px;color:var(--amber);font-variation-settings:'FILL' 1;">star</span><span class="ms" style="font-size:15px;color:#D9E5E2;">star</span></div><div class="row" style="gap:3px;margin-top:7px;flex-wrap:wrap;justify-content:center;"><span style="background:var(--softTeal);border-radius:7px;padding:3px 6px;font-size:4.8px;font-weight:700;color:var(--tealDeep);">Clear advice</span><span style="background:#fff;border:1px solid var(--line);border-radius:7px;padding:3px 6px;font-size:4.8px;color:var(--muted);">Kind</span></div></div></div>
+          <div style="flex:1;display:flex;flex-direction:column;"><p class="small">Star rating (<span class="mono" style="font-size:9px;">rateStars</span>) plus quick tags (<span class="mono" style="font-size:9px;">rateTags</span>) like "clear advice", "kind", "good listener". Optional — skippable. Then the record engine starts.</p><div style="margin-top:auto;background:var(--softPurple);border-radius:9px;padding:6px 9px;"><span class="tiny" style="color:var(--purple);font-weight:700;">BACKEND</span><span class="small"> &nbsp;<span class="mono" style="font-size:9px;">POST /consults/:id/rating</span>; feeds the doctor's aggregate score.</span></div></div>
+        </div>
+      </div>
+
+      <!-- 15 Record building -->
+      <div class="card" style="padding:0;overflow:hidden;border-color:#DAD0F6;">
+        <div class="row g10" style="align-items:center;padding:10px 14px;background:var(--softPurple);border-bottom:1.5px solid #DAD0F6;"><span class="num" style="background:var(--purple);">15</span><div style="flex:1;"><div class="h-card" style="font-size:14px;">Record engine — building your record</div><div class="tiny">The five things that happen after you hang up</div></div><span class="tag t-purple">AI</span><span class="mono" style="font-size:8.5px;background:#fff;border-radius:6px;padding:3px 7px;">screen:'building'</span></div>
+        <div style="padding:12px 14px;">
+          <div class="row g8 wrap" style="align-items:stretch;">
+            <div class="fnode" style="flex:1;min-width:0;"><span class="ms" style="font-size:16px;color:var(--purple);">graphic_eq</span><div class="small" style="font-weight:600;margin-top:3px;">1 · Transcribing the consult</div></div>
+            <div class="fnode" style="flex:1;min-width:0;"><span class="ms" style="font-size:16px;color:var(--purple);">edit_note</span><div class="small" style="font-weight:600;margin-top:3px;">2 · Drafting the structured note</div></div>
+            <div class="fnode" style="flex:1;min-width:0;"><span class="ms" style="font-size:16px;color:var(--purple);">verified_user</span><div class="small" style="font-weight:600;margin-top:3px;">3 · CureCall Intelligence — medicine check</div></div>
+            <div class="fnode" style="flex:1;min-width:0;"><span class="ms" style="font-size:16px;color:var(--purple);">draw</span><div class="small" style="font-weight:600;margin-top:3px;">4 · Doctor verified &amp; e‑signed</div></div>
+            <div class="fnode" style="flex:1;min-width:0;"><span class="ms" style="font-size:16px;color:var(--green);">task_alt</span><div class="small" style="font-weight:600;margin-top:3px;">5 · Your record is ready</div></div>
+          </div>
+          <div style="margin-top:8px;background:#fff;border:1px solid #DAD0F6;border-radius:9px;padding:6px 9px;"><span class="tiny" style="color:var(--purple);font-weight:700;">BACKEND / AI</span><span class="small"> &nbsp;Audio → transcript → LLM note → drug‑interaction check → doctor e‑sign → immutable record. <span class="mono" style="font-size:9px;">build</span> steps animate as each completes server‑side.</span></div>
+        </div>
+      </div>
+
+      <!-- 16 Record tabs -->
+      <div class="card" style="padding:0;overflow:hidden;">
+        <div class="row g10" style="align-items:center;padding:10px 14px;background:var(--cream);border-bottom:1.5px solid var(--line);"><span class="num">16</span><div style="flex:1;"><div class="h-card" style="font-size:14px;">Health record — Samajh · Rx · Story</div><div class="tiny">Three tabs: understand it, the prescription, the timeline</div></div><span class="tag t-teal">Record</span><span class="mono" style="font-size:8.5px;background:#EAF0F2;border-radius:6px;padding:3px 7px;">screen:'record'</span></div>
+        <div class="grid3" style="padding:12px 14px;">
+          <div style="background:var(--softTeal);border-radius:10px;padding:9px;"><div class="row g8" style="align-items:center;"><span class="ms" style="font-size:16px;color:var(--teal);">lightbulb</span><b style="font-size:11px;">Samajh</b></div><p class="small" style="margin-top:4px;">"Understand" — the diagnosis in <b>simple words</b>, what to do, when to worry. Listen to the consult audio; reminder toggle.</p></div>
+          <div style="background:var(--softBlue);border-radius:10px;padding:9px;"><div class="row g8" style="align-items:center;"><span class="ms" style="font-size:16px;color:var(--blue);">prescriptions</span><b style="font-size:11px;">Rx</b></div><p class="small" style="margin-top:4px;">The signed prescription. <b>Download PDF</b> (generated on device) and <b>Find pharmacy</b> with a QR to fulfil it.</p></div>
+          <div style="background:var(--softPurple);border-radius:10px;padding:9px;"><div class="row g8" style="align-items:center;"><span class="ms" style="font-size:16px;color:var(--purple);">timeline</span><b style="font-size:11px;">Story</b></div><p class="small" style="margin-top:4px;">A <b>health timeline</b> — every consult, test &amp; report as dated dots, so history is never lost.</p></div>
+        </div>
+        <div style="margin:0 14px 12px;background:var(--softPurple);border-radius:9px;padding:6px 9px;"><span class="tiny" style="color:var(--purple);font-weight:700;">BACKEND</span><span class="small"> &nbsp;<span class="mono" style="font-size:9px;">GET /records/:id</span> returns note + FHIR prescription + timeline. PDF built client‑side from the signed payload; pharmacy QR encodes the Rx token.</span></div>
+      </div>
+    </div>
+
+    <div class="pg-ft"><div class="l"><span class="conf">CONFIDENTIAL</span><span>· Wisbox Technology · CureCall PRD v1.0</span></div><div class="n">16</div></div>
+  </section>
+
+  <!-- ============ PAGE 17 · PATIENT 17 PROFILE ============ -->
+  <section class="page">
+    <div class="pg-top"><div class="logo"><div class="mk"><span class="ms">stethoscope</span></div><div class="wd"><span class="c1">Cure</span><span class="c2">Call</span></div></div><div class="sec">A · Patient · screen 17</div></div>
+
+    <div class="row g10" style="align-items:center;"><span class="num">17</span><div><div class="h-pg">Profile &amp; Account</div><div class="tiny">Everything the patient owns and controls · <span class="mono" style="font-size:9px;">screen:'profile'</span></div></div></div>
+    <p class="lead" style="margin-top:10px;">One screen to manage money, family, identity and privacy. It is also where the trust promises from consent become real, working buttons.</p>
+
+    <div class="grid2" style="margin-top:14px;">
+      <div class="card"><div class="row g8" style="align-items:center;"><div class="ic" style="background:var(--softGreen);"><span class="ms" style="color:var(--green);">account_balance_wallet</span></div><div class="h-card" style="font-size:13px;">Med wallet</div></div><p class="small" style="margin-top:7px;">Balance with <b>Add money</b> (quick amounts), low‑balance warning under ₹300, and a success toast on top‑up. <span class="mono" style="font-size:9px;">walletBal · addAmount</span></p></div>
+      <div class="card"><div class="row g8" style="align-items:center;"><div class="ic" style="background:var(--softAmber);"><span class="ms" style="color:var(--amber);">groups</span></div><div class="h-card" style="font-size:13px;">Family / care circle</div></div><p class="small" style="margin-top:7px;">List of members (father, son…) with <b>Add member</b> (name, relation, age). Lets one account hold many records. <span class="mono" style="font-size:9px;">familyMembers · addMember</span></p></div>
+      <div class="card"><div class="row g8" style="align-items:center;"><div class="ic" style="background:var(--softBlue);"><span class="ms" style="color:var(--blue);">badge</span></div><div class="h-card" style="font-size:13px;">ABHA &amp; identity</div></div><p class="small" style="margin-top:7px;">Link/unlink ABHA, view linked status. Mirrors screen 05 so it can be done later. <span class="mono" style="font-size:9px;">abhaLinked</span></p></div>
+      <div class="card"><div class="row g8" style="align-items:center;"><div class="ic" style="background:var(--softRed);"><span class="ms" style="color:var(--red);">gpp_maybe</span></div><div class="h-card" style="font-size:13px;">Consent &amp; privacy</div></div><p class="small" style="margin-top:7px;"><b>Withdraw consent</b> (with a confirm step) and read who has viewed records. Sets <span class="mono" style="font-size:9px;">consentWithdrawn</span>; toast confirms.</p></div>
+      <div class="card"><div class="row g8" style="align-items:center;"><div class="ic" style="background:var(--softTeal);"><span class="ms" style="color:var(--teal);">notifications</span></div><div class="h-card" style="font-size:13px;">Notifications &amp; language</div></div><p class="small" style="margin-top:7px;">Toggle notification types, switch app language anytime, info modals explain each setting in plain words.</p></div>
+      <div class="card"><div class="row g8" style="align-items:center;"><div class="ic" style="background:#EAF0F2;"><span class="ms" style="color:var(--ink);">call</span></div><div class="h-card" style="font-size:13px;">IVR &amp; help · Logout</div></div><p class="small" style="margin-top:7px;">A <b>"call by phone"</b> (IVR) fallback for no‑data users, help, and a confirmed logout. <span class="mono" style="font-size:9px;">ivrModal · logoutConfirm</span></p></div>
+    </div>
+
+    <div class="eli5" style="margin-top:15px;">
+      <div class="hd"><span class="em"><span class="ms">child_care</span></span><span class="lb">Explain like I'm 6</span></div>
+      <p>This is your <b>"my stuff" drawer</b>. Your piggy bank is here, the names of family you take care of, and a big red button to say "actually, stop keeping my health stuff" — because it's <b>your</b> stuff and you're the boss of it.</p>
+    </div>
+
+    <div class="card soft" style="margin-top:14px;">
+      <div class="eyebrow" style="color:var(--muted2);">Global overlays available on many screens</div>
+      <div class="row g8 wrap" style="margin-top:9px;"><span class="tag t-ink">Notifications sheet</span><span class="tag t-ink">Add‑money sheet</span><span class="tag t-ink">Info modal</span><span class="tag t-ink">IVR modal</span><span class="tag t-ink">PDF‑downloaded toast</span><span class="tag t-ink">Wallet toast</span><span class="tag t-ink">Generic toast</span><span class="tag t-ink">Confirm dialogs</span></div>
+    </div>
+
+    <div class="pg-ft"><div class="l"><span class="conf">CONFIDENTIAL</span><span>· Wisbox Technology · CureCall PRD v1.0</span></div><div class="n">17</div></div>
+  </section>
+
+  <!-- ============ PAGE 18 · DOCTOR SECTION OPENER ============ -->
+  <section class="page dark" style="padding:0;">
+    <div style="position:absolute;inset:0;background:radial-gradient(760px 520px at 84% -6%,rgba(43,124,227,.34),transparent 58%),radial-gradient(620px 440px at 0% 106%,rgba(114,87,245,.22),transparent 60%);"></div>
+    <div style="position:relative;height:100%;display:flex;flex-direction:column;padding:0.62in 0.6in 0.7in;">
+      <div class="pg-top" style="border-color:rgba(255,255,255,.16);"><div class="logo"><div class="mk"><span class="ms">stethoscope</span></div><div class="wd" style="color:#fff;"><span style="color:#5BE0D6;">Cure</span><span style="color:#7FB4FF;">Call</span></div></div><div class="sec" style="color:#8FA8B4;">Part B</div></div>
+
+      <div class="eyebrow" style="color:#7FB4FF;">Part B · The Doctor App</div>
+      <h2 style="font-family:'Space Grotesk';font-weight:700;font-size:40px;letter-spacing:-1.2px;color:#fff;margin-top:10px;line-height:1;">For the verified<br>doctor.</h2>
+      <p class="lead" style="color:#AFC4CE;margin-top:14px;max-width:6.2in;">A one‑time verification gauntlet that proves the doctor is real, then a fast daily tool to consult, prescribe, earn, and ask peers. Patients only ever meet a doctor who cleared every step below.</p>
+
+      <div style="margin-top:20px;display:grid;grid-template-columns:repeat(4,1fr);gap:9px;">
+        <div class="fnode" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.14);"><div class="mono" style="color:#7FB4FF;font-size:9px;">01</div><div style="color:#fff;font-size:11px;font-weight:600;margin-top:2px;">Onboarding ×2</div></div>
+        <div class="fnode" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.14);"><div class="mono" style="color:#7FB4FF;font-size:9px;">02</div><div style="color:#fff;font-size:11px;font-weight:600;margin-top:2px;">Sign in (OTP)</div></div>
+        <div class="fnode" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.14);"><div class="mono" style="color:#7FB4FF;font-size:9px;">03</div><div style="color:#fff;font-size:11px;font-weight:600;margin-top:2px;">Identity</div></div>
+        <div class="fnode" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.14);"><div class="mono" style="color:#7FB4FF;font-size:9px;">04</div><div style="color:#fff;font-size:11px;font-weight:600;margin-top:2px;">Registry check</div></div>
+        <div class="fnode" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.14);"><div class="mono" style="color:#7FB4FF;font-size:9px;">05</div><div style="color:#fff;font-size:11px;font-weight:600;margin-top:2px;">Documents</div></div>
+        <div class="fnode" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.14);"><div class="mono" style="color:#7FB4FF;font-size:9px;">06</div><div style="color:#fff;font-size:11px;font-weight:600;margin-top:2px;">Liveness</div></div>
+        <div class="fnode" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.14);"><div class="mono" style="color:#7FB4FF;font-size:9px;">07</div><div style="color:#fff;font-size:11px;font-weight:600;margin-top:2px;">Under review</div></div>
+        <div class="fnode" style="background:rgba(22,189,142,.16);border-color:rgba(22,189,142,.4);"><div class="mono" style="color:#7DEBC4;font-size:9px;">08</div><div style="color:#fff;font-size:11px;font-weight:600;margin-top:2px;">Verified ✓</div></div>
+        <div class="fnode" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.14);"><div class="mono" style="color:#7FB4FF;font-size:9px;">09</div><div style="color:#fff;font-size:11px;font-weight:600;margin-top:2px;">Dashboard</div></div>
+        <div class="fnode" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.14);"><div class="mono" style="color:#7FB4FF;font-size:9px;">10</div><div style="color:#fff;font-size:11px;font-weight:600;margin-top:2px;">Patients</div></div>
+        <div class="fnode" style="background:rgba(15,163,161,.16);border-color:rgba(15,163,161,.4);"><div class="mono" style="color:#7FE0D6;font-size:9px;">11</div><div style="color:#fff;font-size:11px;font-weight:600;margin-top:2px;">Consult + gate</div></div>
+        <div class="fnode" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.14);"><div class="mono" style="color:#7FB4FF;font-size:9px;">12</div><div style="color:#fff;font-size:11px;font-weight:600;margin-top:2px;">Prescription</div></div>
+        <div class="fnode" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.14);"><div class="mono" style="color:#7FB4FF;font-size:9px;">13</div><div style="color:#fff;font-size:11px;font-weight:600;margin-top:2px;">Consult done</div></div>
+        <div class="fnode" style="background:rgba(114,87,245,.18);border-color:rgba(159,140,250,.4);"><div class="mono" style="color:#C4B6FF;font-size:9px;">14</div><div style="color:#fff;font-size:11px;font-weight:600;margin-top:2px;">Case board</div></div>
+        <div class="fnode" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.14);"><div class="mono" style="color:#7FB4FF;font-size:9px;">15</div><div style="color:#fff;font-size:11px;font-weight:600;margin-top:2px;">Earnings</div></div>
+        <div class="fnode" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.14);"><div class="mono" style="color:#7FB4FF;font-size:9px;">16</div><div style="color:#fff;font-size:11px;font-weight:600;margin-top:2px;">Profile</div></div>
+      </div>
+
+      <div class="eli5" style="margin-top:20px;background:rgba(255,248,236,.95);">
+        <div class="hd"><span class="em"><span class="ms">child_care</span></span><span class="lb">Explain like I'm 6</span></div>
+        <p>Before a doctor is allowed in, CureCall checks <b>really carefully</b> that they're a real doctor — like showing your ID, your school certificate, and even your face on camera. Only after passing every check do they get a <b>gold "verified" badge</b> and can start helping people.</p>
+      </div>
+
+      <div class="pg-ft" style="border-color:rgba(255,255,255,.14);"><div class="l" style="color:#8FA8B4;"><span class="conf">CONFIDENTIAL</span><span>· Wisbox Technology · CureCall PRD v1.0</span></div><div class="n" style="color:#fff;">18</div></div>
+    </div>
+  </section>
+
+  <!-- ============ PAGE 19 · DOCTOR VERIFY 1 ============ -->
+  <section class="page">
+    <div class="pg-top"><div class="logo"><div class="mk"><span class="ms">stethoscope</span></div><div class="wd"><span class="c1">Cure</span><span class="c2">Call</span></div></div><div class="sec">B · Doctor · the verification gauntlet (1/2)</div></div>
+
+    <div class="eyebrow">One‑time onboarding · part 1</div>
+    <h2 class="h-sec" style="margin-top:8px;">Prove you're a real doctor</h2>
+    <p class="lead" style="margin-top:9px;max-width:6.7in;">Seven gates stand between "I'm a doctor" and seeing a single patient. Each one is a hard stop — you cannot skip ahead.</p>
+
+    <div class="col g11" style="margin-top:14px;">
+      <!-- intros -->
+      <div class="card" style="padding:12px 14px;"><div class="row g12" style="align-items:flex-start;"><div class="ic" style="width:38px;height:38px;border-radius:11px;background:var(--softTeal);"><span class="ms" style="font-size:21px;color:var(--teal);">play_circle</span></div><div style="flex:1;"><div class="row" style="justify-content:space-between;align-items:baseline;"><div class="h-card">01 · Onboarding ×2 — the pitch</div><span class="mono" style="font-size:8.5px;background:#EAF0F2;border-radius:6px;padding:3px 7px;">scIntro1 / scIntro2</span></div><p class="small" style="margin-top:4px;">Two value‑prop slides: <b>"Treat patients from anywhere"</b> and <b>"Peer case boards + payments"</b>, with floating proof chips and an EN/हिं toggle. Ends on "Join as a doctor". <span class="t-blue tag" style="margin-left:4px;">→ sign in</span></p></div></div></div>
+
+      <!-- signin -->
+      <div class="card" style="padding:12px 14px;"><div class="row g12" style="align-items:flex-start;"><div class="ic" style="width:38px;height:38px;border-radius:11px;background:var(--softTeal);"><span class="ms" style="font-size:21px;color:var(--teal);">login</span></div><div style="flex:1;"><div class="row" style="justify-content:space-between;align-items:baseline;"><div class="h-card">02 · Sign in (phone OTP)</div><span class="mono" style="font-size:8.5px;background:#EAF0F2;border-radius:6px;padding:3px 7px;">screen:'signin'</span></div><p class="small" style="margin-top:4px;">Phone + 4‑box OTP (<span class="mono" style="font-size:9px;">sendOtp → verifyOtp</span>), language toggle. <b>Backend:</b> same OTP service as patients, but the account is flagged <span class="mono" style="font-size:9px;">role:doctor, status:unverified</span>.</p></div></div></div>
+
+      <!-- identity -->
+      <div class="card" style="padding:12px 14px;"><div class="row g12" style="align-items:flex-start;"><div class="ic" style="width:38px;height:38px;border-radius:11px;background:var(--softBlue);"><span class="ms" style="font-size:21px;color:var(--blue);">badge</span></div><div style="flex:1;"><div class="row" style="justify-content:space-between;align-items:baseline;"><div class="h-card">03 · Identity &amp; specialty</div><span class="mono" style="font-size:8.5px;background:#EAF0F2;border-radius:6px;padding:3px 7px;">screen:'identity'</span></div><p class="small" style="margin-top:4px;">Full name + pick one of <b>5 specialties</b> (General Physician, Physician, Pediatrics, Dermatology, Gynaecology). Drives queue routing &amp; the patient‑facing label.</p></div></div></div>
+
+      <!-- registry -->
+      <div class="card" style="padding:12px 14px;border-color:#DAD0F6;"><div class="row g12" style="align-items:flex-start;"><div class="ic" style="width:38px;height:38px;border-radius:11px;background:var(--softPurple);"><span class="ms" style="font-size:21px;color:var(--purple);">fact_check</span></div><div style="flex:1;"><div class="row" style="justify-content:space-between;align-items:baseline;"><div class="h-card">04 · Registry check (the big one)</div><span class="mono" style="font-size:8.5px;background:#fff;border-radius:6px;padding:3px 7px;">screen:'registry'</span></div><p class="small" style="margin-top:4px;">Pick the medical council (6 supported, e.g. Delhi MC, NMC national, UP, Maharashtra, Kerala, TN) + registration number. Three states: <span class="tag t-amber" style="font-size:8px;">idle</span> <span class="tag t-blue" style="font-size:8px;">checking</span> <span class="tag t-green" style="font-size:8px;">found</span>. <b>Backend:</b> live lookup against the NMC/state register; a "found" card shows the official record to confirm.</p></div></div></div>
+    </div>
+
+    <div class="eli5" style="margin-top:13px;">
+      <div class="hd"><span class="em"><span class="ms">child_care</span></span><span class="lb">Explain like I'm 6</span></div>
+      <p>First the doctor logs in with a secret number, says their name and what kind of doctor they are. Then the app <b>looks them up in the government's big list of real doctors</b> — if they're not in the list, they can't go further.</p>
+    </div>
+
+    <div class="pg-ft"><div class="l"><span class="conf">CONFIDENTIAL</span><span>· Wisbox Technology · CureCall PRD v1.0</span></div><div class="n">19</div></div>
+  </section>
+
+  <!-- ============ PAGE 20 · DOCTOR VERIFY 2 ============ -->
+  <section class="page">
+    <div class="pg-top"><div class="logo"><div class="mk"><span class="ms">stethoscope</span></div><div class="wd"><span class="c1">Cure</span><span class="c2">Call</span></div></div><div class="sec">B · Doctor · the verification gauntlet (2/2)</div></div>
+
+    <div class="eyebrow">One‑time onboarding · part 2</div>
+    <h2 class="h-sec" style="margin-top:8px;">Documents, face &amp; the board</h2>
+
+    <div class="col g11" style="margin-top:14px;">
+      <!-- documents -->
+      <div class="card" style="padding:12px 14px;"><div class="row g12" style="align-items:flex-start;"><div class="ic" style="width:38px;height:38px;border-radius:11px;background:var(--softTeal);"><span class="ms" style="font-size:21px;color:var(--teal);">upload_file</span></div><div style="flex:1;"><div class="row" style="justify-content:space-between;align-items:baseline;"><div class="h-card">05 · Documents</div><span class="mono" style="font-size:8.5px;background:#EAF0F2;border-radius:6px;padding:3px 7px;">screen:'documents'</span></div><p class="small" style="margin-top:4px;">Upload up to four: <b>MBBS degree</b> (required), <b>MD/PG</b> (optional), <b>Council certificate</b> (required), <b>Govt photo ID / ABHA</b> (required). The "Continue" button stays disabled until all required are in. Files are encrypted; only the verification team sees them.</p></div></div></div>
+
+      <!-- liveness -->
+      <div class="card" style="padding:12px 14px;"><div class="row g12" style="align-items:flex-start;"><div class="ic" style="width:38px;height:38px;border-radius:11px;background:var(--softBlue);"><span class="ms" style="font-size:21px;color:var(--blue);">face</span></div><div style="flex:1;"><div class="row" style="justify-content:space-between;align-items:baseline;"><div class="h-card">06 · Liveness (face match)</div><span class="mono" style="font-size:8.5px;background:#EAF0F2;border-radius:6px;padding:3px 7px;">screen:'liveness'</span></div><p class="small" style="margin-top:4px;">A live face scan with an animated progress ring (<span class="mono" style="font-size:9px;">liveStage: idle→running→done</span>, <span class="mono" style="font-size:9px;">livePct</span>) that must <b>match the uploaded ID photo</b>. Stops impersonation. <b>Backend:</b> liveness + face‑match vendor; store match score, not raw video.</p></div></div></div>
+
+      <!-- review -->
+      <div class="card" style="padding:12px 14px;border-color:#F2DDB8;"><div class="row g12" style="align-items:flex-start;"><div class="ic" style="width:38px;height:38px;border-radius:11px;background:var(--softAmber);"><span class="ms" style="font-size:21px;color:var(--amber);">hourglass_top</span></div><div style="flex:1;"><div class="row" style="justify-content:space-between;align-items:baseline;"><div class="h-card">07 · Under review</div><span class="mono" style="font-size:8.5px;background:#fff;border-radius:6px;padding:3px 7px;">screen:'review'</span></div><p class="small" style="margin-top:4px;">"Application submitted — the <b>CureCall medical board</b> is checking." A calm holding state. (A demo button simulates board approval.) <b>Backend:</b> human + automated review queue; status webhook flips the account when cleared.</p></div></div></div>
+
+      <!-- verified -->
+      <div class="card" style="padding:12px 14px;border-color:#BFE6D5;background:var(--softGreen);"><div class="row g12" style="align-items:flex-start;"><div class="ic" style="width:38px;height:38px;border-radius:11px;background:var(--green);"><span class="ms" style="font-size:21px;color:#fff;">verified</span></div><div style="flex:1;"><div class="row" style="justify-content:space-between;align-items:baseline;"><div class="h-card">08 · Verified! 🎉</div><span class="mono" style="font-size:8.5px;background:#fff;border-radius:6px;padding:3px 7px;">screen:'verified'</span></div><p class="small" style="margin-top:4px;">Confetti celebration, "you're now live on CureCall", and a preview of <b>how patients see you</b> (verified badge, years, languages). CTA → dashboard. <span class="mono" style="font-size:9px;">status:verified</span> unlocks consults.</p></div></div></div>
+    </div>
+
+    <div class="card soft" style="margin-top:13px;">
+      <div class="eyebrow" style="color:var(--muted2);">Verification data captured (for the trust ledger)</div>
+      <div class="row g8 wrap" style="margin-top:8px;"><span class="tag t-ink">Council + reg. no.</span><span class="tag t-ink">MBBS degree</span><span class="tag t-ink">PG (if any)</span><span class="tag t-ink">Council cert.</span><span class="tag t-ink">Govt ID / ABHA</span><span class="tag t-ink">Face‑match score</span><span class="tag t-ink">Board decision + reviewer</span></div>
+    </div>
+
+    <div class="pg-ft"><div class="l"><span class="conf">CONFIDENTIAL</span><span>· Wisbox Technology · CureCall PRD v1.0</span></div><div class="n">20</div></div>
+  </section>
+
+  <!-- ============ PAGE 21 · DOCTOR 09-10 ============ -->
+  <section class="page">
+    <div class="pg-top"><div class="logo"><div class="mk"><span class="ms">stethoscope</span></div><div class="wd"><span class="c1">Cure</span><span class="c2">Call</span></div></div><div class="sec">B · Doctor · screens 09–10</div></div>
+
+    <div class="col g14">
+      <!-- 09 Dashboard -->
+      <div class="card" style="padding:0;overflow:hidden;">
+        <div class="row g10" style="align-items:center;padding:11px 14px;background:var(--cream);border-bottom:1.5px solid var(--line);"><span class="num">09</span><div style="flex:1;"><div class="h-card" style="font-size:14px;">Today — the dashboard</div><div class="tiny">Go online, see the queue, watch earnings</div></div><span class="tag t-blue">Hub</span><span class="mono" style="font-size:8.5px;background:#EAF0F2;border-radius:6px;padding:3px 7px;">screen:'today'</span></div>
+        <div class="row g14" style="padding:13px 14px;">
+          <div class="wire"><div class="scr"><div class="row" style="justify-content:space-between;align-items:center;"><div style="font-size:6.5px;font-weight:700;color:var(--ink);">Today</div><div style="display:flex;align-items:center;gap:3px;"><span style="font-size:4.8px;font-weight:700;color:var(--green);">Online</span><div style="width:18px;height:10px;border-radius:6px;background:var(--green);position:relative;"><span style="position:absolute;right:1px;top:1px;width:8px;height:8px;border-radius:50%;background:#fff;"></span></div></div></div><div style="background:var(--softGreen);border-radius:7px;padding:5px 6px;margin-top:4px;display:flex;justify-content:space-between;align-items:center;"><div><div style="font-size:4.3px;color:#0B8A66;">This week</div><div style="font-size:8px;font-weight:700;color:#0B8A66;">₹11,940</div></div><span style="font-size:4.3px;color:#0B8A66;">48 consults</span></div><div style="font-size:5px;font-weight:700;color:var(--muted);margin-top:5px;">Patient queue</div><div style="background:#fff;border:1px solid var(--line);border-left:2.5px solid var(--green);border-radius:6px;padding:4px 6px;margin-top:2px;"><div style="font-size:5.5px;font-weight:700;color:var(--ink);">Sunita D. · 34</div><div style="font-size:4.3px;color:var(--muted);">Fever, headache · 2m wait</div></div><div style="background:#fff;border:1px solid var(--line);border-left:2.5px solid var(--amber);border-radius:6px;padding:4px 6px;margin-top:3px;"><div style="font-size:5.5px;font-weight:700;color:var(--ink);">Aisha K. · 28</div><div style="font-size:4.3px;color:var(--muted);">Itchy rash · 5m wait</div></div><div style="background:#fff;border:1px solid var(--line);border-left:2.5px solid var(--red);border-radius:6px;padding:4px 6px;margin-top:3px;"><div style="font-size:5.5px;font-weight:700;color:var(--ink);">Ramesh Y. · 52</div><div style="font-size:4.3px;color:var(--red);">Chest pain · urgent</div></div></div></div>
+          <div style="flex:1;display:grid;grid-template-columns:1fr 1fr;gap:11px;">
+            <div><div class="eyebrow" style="font-size:8.5px;color:var(--teal);">On screen</div><p class="small" style="margin-top:4px;">An <b>Online/Offline</b> toggle (only online doctors get patients), a notifications bell, the <b>patient queue</b> (each card shows name, age, concern, wait, and a <b>safety‑gate colour</b>), and a this‑week earnings summary.</p></div>
+            <div><div class="eyebrow" style="font-size:8.5px;color:var(--blue);">What happens</div><p class="small" style="margin-top:4px;"><span class="mono" style="font-size:9px;">toggleOnline</span> sets availability; tapping a queue card sets <span class="mono" style="font-size:9px;">patient</span> and opens the consult.</p></div>
+            <div style="grid-column:1/3;background:var(--softPurple);border-radius:9px;padding:7px 9px;"><span class="tiny" style="color:var(--purple);font-weight:700;">BACKEND</span><span class="small" style="color:var(--ink2);"> &nbsp;Presence write on toggle; realtime queue scoped to the doctor's specialty + language; each card carries the AI summary + triage colour.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 10 Patients -->
+      <div class="card" style="padding:0;overflow:hidden;">
+        <div class="row g10" style="align-items:center;padding:11px 14px;background:var(--cream);border-bottom:1.5px solid var(--line);"><span class="num">10</span><div style="flex:1;"><div class="h-card" style="font-size:14px;">Patients</div><div class="tiny">People you've seen &amp; can revisit</div></div><span class="tag t-blue">List</span><span class="mono" style="font-size:8.5px;background:#EAF0F2;border-radius:6px;padding:3px 7px;">screen:'patients'</span></div>
+        <div class="row g14" style="padding:13px 14px;">
+          <div class="wire"><div class="scr"><div style="height:16px;border-radius:7px;background:#fff;border:1px solid var(--line);display:flex;align-items:center;gap:4px;padding:0 6px;"><span class="ms" style="font-size:9px;color:var(--muted2);">search</span><span style="font-size:5px;color:var(--muted2);">Search patients</span></div><div style="background:#fff;border:1px solid var(--line);border-radius:8px;padding:5px 6px;margin-top:5px;display:flex;gap:5px;align-items:center;"><div style="width:16px;height:16px;border-radius:50%;background:var(--teal);display:flex;align-items:center;justify-content:center;font-size:6px;font-weight:700;color:#fff;">S</div><div style="flex:1;"><div style="font-size:5.5px;font-weight:700;color:var(--ink);">Sunita Devi</div><div style="font-size:4.3px;color:var(--muted);">Viral fever · 2 days ago</div></div></div><div style="background:#fff;border:1px solid var(--line);border-radius:8px;padding:5px 6px;margin-top:4px;display:flex;gap:5px;align-items:center;"><div style="width:16px;height:16px;border-radius:50%;background:var(--amber);display:flex;align-items:center;justify-content:center;font-size:6px;font-weight:700;color:#fff;">A</div><div style="flex:1;"><div style="font-size:5.5px;font-weight:700;color:var(--ink);">Aisha Khan</div><div style="font-size:4.3px;color:var(--muted);">Dermatitis · 1 wk ago</div></div></div><div style="background:#fff;border:1px solid var(--line);border-radius:8px;padding:5px 6px;margin-top:4px;display:flex;gap:5px;align-items:center;"><div style="width:16px;height:16px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;font-size:6px;font-weight:700;color:#fff;">R</div><div style="flex:1;"><div style="font-size:5.5px;font-weight:700;color:var(--ink);">Ramesh Yadav</div><div style="font-size:4.3px;color:var(--muted);">Referred · 2 wk ago</div></div></div></div></div>
+          <div style="flex:1;display:grid;grid-template-columns:1fr 1fr;gap:11px;">
+            <div><div class="eyebrow" style="font-size:8.5px;color:var(--teal);">On screen</div><p class="small" style="margin-top:4px;">A searchable list of past patients with their concern, last‑visit line and a coloured initial avatar. Opening one shows their <b>timeline &amp; record</b>.</p></div>
+            <div><div class="eyebrow" style="font-size:8.5px;color:var(--blue);">What happens</div><p class="small" style="margin-top:4px;">Read‑only history; a "consult again" path re‑opens the consult flow with prior context loaded.</p></div>
+            <div style="grid-column:1/3;background:var(--softPurple);border-radius:9px;padding:7px 9px;"><span class="tiny" style="color:var(--purple);font-weight:700;">BACKEND</span><span class="small" style="color:var(--ink2);"> &nbsp;<span class="mono" style="font-size:9px;">GET /doctor/patients</span> — only patients who consented to this doctor; access is logged to the consent ledger.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="eli5" style="margin-top:14px;">
+      <div class="hd"><span class="em"><span class="ms">child_care</span></span><span class="lb">Explain like I'm 6</span></div>
+      <p>This is the doctor's <b>desk</b>. They flip a switch to say "I'm ready," and a line of patients appears — each with a <b>green, yellow, or red sticker</b> so the doctor knows who's okay and who might need help fast. They can also look back at people they helped before.</p>
+    </div>
+
+    <div class="pg-ft"><div class="l"><span class="conf">CONFIDENTIAL</span><span>· Wisbox Technology · CureCall PRD v1.0</span></div><div class="n">21</div></div>
+  </section>
+
+  <!-- ============ PAGE 22 · DOCTOR 11-12-13 ============ -->
+  <section class="page">
+    <div class="pg-top"><div class="logo"><div class="mk"><span class="ms">stethoscope</span></div><div class="wd"><span class="c1">Cure</span><span class="c2">Call</span></div></div><div class="sec">B · Doctor · screens 11–13</div></div>
+
+    <div class="col g12">
+      <!-- 11 Consult -->
+      <div class="card" style="padding:0;overflow:hidden;border-color:#BFE0DD;">
+        <div class="row g10" style="align-items:center;padding:10px 14px;background:var(--softTeal);border-bottom:1.5px solid #BFE0DD;"><span class="num" style="background:var(--teal);">11</span><div style="flex:1;"><div class="h-card" style="font-size:14px;">Consult — with the safety gate</div><div class="tiny">Where the doctor actually treats</div></div><span class="tag t-teal">Core</span><span class="mono" style="font-size:8.5px;background:#fff;border-radius:6px;padding:3px 7px;">screen:'consult'</span></div>
+        <div class="row g14" style="padding:12px 14px;">
+          <div class="wire" style="height:160px;"><div class="scr"><div style="background:var(--softGreen);border:1px solid #BFE6D5;border-radius:6px;padding:3px 6px;display:flex;align-items:center;gap:3px;"><span class="ms" style="font-size:9px;color:#0B8A66;">check_circle</span><span style="font-size:5px;font-weight:700;color:#0B8A66;">GREEN · safe online</span></div><div class="row" style="gap:3px;margin-top:4px;"><div style="flex:1;background:var(--softTeal);border-radius:5px;padding:3px 1px;text-align:center;"><div style="font-size:6px;font-weight:700;color:var(--ink);">38.4</div><div style="font-size:3.6px;color:var(--muted);">Temp</div></div><div style="flex:1;background:var(--softTeal);border-radius:5px;padding:3px 1px;text-align:center;"><div style="font-size:6px;font-weight:700;color:var(--ink);">88</div><div style="font-size:3.6px;color:var(--muted);">Pulse</div></div><div style="flex:1;background:var(--softTeal);border-radius:5px;padding:3px 1px;text-align:center;"><div style="font-size:6px;font-weight:700;color:var(--ink);">98%</div><div style="font-size:3.6px;color:var(--muted);">SpO₂</div></div><div style="flex:1;background:var(--softTeal);border-radius:5px;padding:3px 1px;text-align:center;"><div style="font-size:5.2px;font-weight:700;color:var(--ink);">120/80</div><div style="font-size:3.6px;color:var(--muted);">BP</div></div></div><div style="background:#fff;border:1px solid var(--line);border-radius:6px;padding:4px 5px;margin-top:4px;"><div style="font-size:4.5px;font-weight:700;color:var(--purple);">AI SUMMARY</div><div style="font-size:4.5px;color:var(--ink2);line-height:1.3;">Fever 2 days + headache. No allergy. No current meds.</div></div><div style="margin-top:auto;height:18px;border-radius:7px;background:var(--teal);display:flex;align-items:center;justify-content:center;color:#fff;font-size:6px;font-weight:700;">Write prescription</div></div></div>
+          <div style="flex:1;display:flex;flex-direction:column;"><p class="small">A <b>safety‑gate banner</b> (green/amber/red) sits up top. Below: the patient's <b>vitals</b> (Temp · Pulse · SpO₂ · BP), the AI intake summary (history, current meds, allergies), live mic/cam controls, and a notes field with quick‑append chips. A <b>red</b> gate swaps the primary action for <b>"Emergency referral"</b>.</p>
+          <div class="row g8" style="margin-top:auto;"><div style="flex:1;background:var(--softPurple);border-radius:9px;padding:6px 9px;"><span class="tiny" style="color:var(--purple);font-weight:700;">BACKEND</span><span class="small"> &nbsp;Loads the AI intake + triage; notes autosave; same WebRTC room as the patient.</span></div></div></div>
+        </div>
+      </div>
+
+      <!-- 12 Prescription -->
+      <div class="card" style="padding:0;overflow:hidden;border-color:#DAD0F6;">
+        <div class="row g10" style="align-items:center;padding:10px 14px;background:var(--softPurple);border-bottom:1.5px solid #DAD0F6;"><span class="num" style="background:var(--purple);">12</span><div style="flex:1;"><div class="h-card" style="font-size:14px;">Prescription + CureCall Intelligence</div><div class="tiny">Prescribe safely in two taps</div></div><span class="tag t-purple">AI</span><span class="mono" style="font-size:8.5px;background:#fff;border-radius:6px;padding:3px 7px;">screen:'prescription'</span></div>
+        <div class="row g14" style="padding:12px 14px;">
+          <div class="wire" style="height:160px;"><div class="scr"><div style="font-size:6px;font-weight:700;color:var(--ink);">Prescription</div><div style="background:#fff;border:1px solid var(--line);border-radius:6px;padding:4px 5px;margin-top:3px;"><div style="font-size:5.5px;font-weight:700;color:var(--ink);">Paracetamol 500mg</div><div style="font-size:4.3px;color:var(--muted);">1 tab · twice daily · 3 days</div></div><div style="background:#fff;border:1px solid var(--line);border-radius:6px;padding:4px 5px;margin-top:3px;"><div style="font-size:5.5px;font-weight:700;color:var(--ink);">ORS sachet</div><div style="font-size:4.3px;color:var(--muted);">As needed · 2 days</div></div><div style="height:14px;border-radius:6px;background:#fff;border:1px dashed var(--purple);display:flex;align-items:center;justify-content:center;gap:3px;margin-top:4px;"><span class="ms" style="font-size:8px;color:var(--purple);">add</span><span style="font-size:4.8px;color:var(--purple);font-weight:700;">Add medicine</span></div><div style="background:var(--softPurple);border-radius:6px;padding:4px 5px;margin-top:4px;display:flex;gap:3px;align-items:center;"><span class="ms" style="font-size:10px;color:var(--purple);">verified_user</span><span style="font-size:4.5px;color:var(--purple);font-weight:700;">No interactions found</span></div><div style="margin-top:auto;height:18px;border-radius:7px;background:var(--purple);display:flex;align-items:center;justify-content:center;color:#fff;font-size:6px;font-weight:700;gap:3px;"><span class="ms" style="font-size:9px;">draw</span>Sign &amp; send</div></div></div>
+          <div style="flex:1;display:flex;flex-direction:column;"><p class="small">Add medicines from a <b>7‑drug catalogue</b> (Paracetamol, ORS, Azithromycin, Cetirizine, Pantoprazole, Ibuprofen, Vitamin D3) with editable dose &amp; timing. <b>CureCall Intelligence</b> runs a medicine check (interactions, allergy clash, dose sanity) before the doctor <b>digitally signs &amp; sends</b> to the patient.</p>
+          <div style="margin-top:auto;background:#fff;border:1px solid #DAD0F6;border-radius:9px;padding:6px 9px;"><span class="tiny" style="color:var(--purple);font-weight:700;">BACKEND / AI</span><span class="small"> &nbsp;Drug‑interaction engine + patient allergy list; signed as a <span class="mono" style="font-size:9px;">FHIR MedicationRequest</span>, immutable v1.</span></div></div>
+        </div>
+      </div>
+
+      <!-- 13 Thanks -->
+      <div class="card" style="padding:0;overflow:hidden;">
+        <div class="row g10" style="align-items:center;padding:10px 14px;background:var(--cream);border-bottom:1.5px solid var(--line);"><span class="num">13</span><div style="flex:1;"><div class="h-card" style="font-size:14px;">Consult complete</div><div class="tiny">Wrap‑up &amp; the bridge to peers</div></div><span class="tag t-green">Done</span><span class="mono" style="font-size:8.5px;background:#EAF0F2;border-radius:6px;padding:3px 7px;">screen:'thanks'</span></div>
+        <div class="row g14" style="padding:12px 14px;">
+          <div class="wire" style="height:120px;"><div class="scr" style="align-items:center;justify-content:center;text-align:center;"><div style="width:32px;height:32px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;"><span class="ms" style="font-size:18px;color:#fff;">check</span></div><div style="font-size:6.5px;font-weight:700;color:var(--ink);margin-top:6px;">Prescription sent</div><div style="margin-top:6px;background:var(--softPurple);border-radius:7px;padding:4px 7px;font-size:5px;font-weight:700;color:var(--purple);display:flex;align-items:center;gap:3px;"><span class="ms" style="font-size:9px;">forum</span>Share to case board</div></div></div>
+          <div style="flex:1;"><p class="small">Confirms the prescription was sent, returns to the dashboard, and offers <b>"Share this case to the board"</b> — handing off to peer second opinions. <span class="mono" style="font-size:9px;">shareToBoard → screen:'board'</span></p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pg-ft"><div class="l"><span class="conf">CONFIDENTIAL</span><span>· Wisbox Technology · CureCall PRD v1.0</span></div><div class="n">22</div></div>
+  </section>
+
+  <!-- ============ PAGE 23 · DOCTOR 14 CASE BOARD ============ -->
+  <section class="page">
+    <div class="pg-top"><div class="logo"><div class="mk"><span class="ms">stethoscope</span></div><div class="wd"><span class="c1">Cure</span><span class="c2">Call</span></div></div><div class="sec">B · Doctor · screen 14</div></div>
+
+    <div class="row g10" style="align-items:center;"><span class="num" style="background:var(--purple);">14</span><div><div class="h-pg">Case Board — peer second opinions</div><div class="tiny">A Quora‑style debate room for hard cases · <span class="mono" style="font-size:9px;">screen:'board'</span></div></div></div>
+    <p class="lead" style="margin-top:9px;max-width:6.7in;">A lone doctor in a village is no longer alone. Tricky cases (anonymised) can be posted for the wider verified community to weigh in — strengthening care quality and doctor confidence.</p>
+
+    <div class="grid2" style="margin-top:13px;align-items:start;">
+      <div class="card">
+        <div class="eyebrow" style="color:var(--muted2);">Posting a case</div>
+        <p class="small" style="margin-top:7px;">From a finished consult or the "Post a case" button. The patient is <b>anonymised</b> to a code (e.g. <span class="mono" style="font-size:9px;">P‑2291</span>, "F · 34") and the doctor attaches the report, vitals, a <b>proposed diagnosis</b>, and a question for peers.</p>
+        <div class="row g8 wrap" style="margin-top:9px;"><span class="tag t-ink">complaint</span><span class="tag t-ink">vitals</span><span class="tag t-ink">history</span><span class="tag t-ink">meds</span><span class="tag t-ink">allergy</span><span class="tag t-ink">findings</span><span class="tag t-ink">proposed Dx</span></div>
+      </div>
+      <div class="card">
+        <div class="eyebrow" style="color:var(--muted2);">Reading &amp; debating</div>
+        <p class="small" style="margin-top:7px;">Filter <b>All / Mine</b>. Open a case to see the full report, then the responses. Each response is typed <span class="tag t-green" style="font-size:8px;">support</span> or <span class="tag t-amber" style="font-size:8px;">correct</span>, can be <b>upvoted</b> (per‑response support count) and has <b>threaded replies</b> — a real conversation, not just comments.</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:13px;">
+      <div class="eyebrow" style="color:var(--muted2);">The interaction model (state)</div>
+      <table class="kv" style="margin-top:8px;">
+        <tr><td>openCase(id)</td><td>Opens a case into the reading view (<span class="mono" style="font-size:9px;">boardOpen</span>).</td></tr>
+        <tr><td>postCorrect</td><td>Adds your top‑level opinion, typed <span class="mono" style="font-size:9px;">support</span> or <span class="mono" style="font-size:9px;">correct</span> (<span class="mono" style="font-size:9px;">opinionKind</span>).</td></tr>
+        <tr><td>supportResponse(rid)</td><td>Up/down‑votes a peer's opinion; toggles <span class="mono" style="font-size:9px;">supportedByMe</span> &amp; the count.</td></tr>
+        <tr><td>postReply(rid)</td><td>Adds a threaded reply under a specific opinion.</td></tr>
+        <tr><td>postCase</td><td>Publishes a new anonymised case (defaults the board filter to "mine").</td></tr>
+      </table>
+    </div>
+
+    <div class="row g12" style="margin-top:13px;">
+      <div class="card soft" style="flex:1;"><div class="mono" style="font-size:18px;font-weight:700;color:var(--purple);">4</div><div class="small">seed cases span GP, cardiology, dermatology &amp; pediatrics</div></div>
+      <div class="card soft" style="flex:1;"><div class="mono" style="font-size:18px;font-weight:700;color:var(--green);">support</div><div class="small">"I agree" opinions, upvotable by peers</div></div>
+      <div class="card soft" style="flex:1;"><div class="mono" style="font-size:18px;font-weight:700;color:var(--amber);">correct</div><div class="small">"I'd change this" opinions, with a reason</div></div>
+    </div>
+
+    <div class="eli5" style="margin-top:13px;">
+      <div class="hd"><span class="em"><span class="ms">child_care</span></span><span class="lb">Explain like I'm 6</span></div>
+      <p>When a doctor isn't sure, they can <b>ask other doctors</b> — but they hide the patient's name first so it's private. Other doctors say "I agree!" or "I'd do it differently, here's why," and everyone can give a thumbs‑up to the best idea. It's <b>teamwork</b> for doctors.</p>
+    </div>
+
+    <div style="margin-top:13px;background:var(--softPurple);border:1px solid #DAD0F6;border-radius:10px;padding:9px 12px;"><span class="tiny" style="color:var(--purple);font-weight:700;">BACKEND</span><span class="small" style="color:var(--ink2);"> &nbsp;Cases stored stripped of identifiers (re‑identification blocked server‑side). Threads, votes &amp; replies are ordinary social primitives; only verified doctors can read or post; abuse/report tooling required at launch.</span></div>
+
+    <div class="pg-ft"><div class="l"><span class="conf">CONFIDENTIAL</span><span>· Wisbox Technology · CureCall PRD v1.0</span></div><div class="n">23</div></div>
+  </section>
+
+  <!-- ============ PAGE 24 · DOCTOR 15-16 ============ -->
+  <section class="page">
+    <div class="pg-top"><div class="logo"><div class="mk"><span class="ms">stethoscope</span></div><div class="wd"><span class="c1">Cure</span><span class="c2">Call</span></div></div><div class="sec">B · Doctor · screens 15–16</div></div>
+
+    <div class="col g14">
+      <!-- 15 Earnings -->
+      <div class="card" style="padding:0;overflow:hidden;">
+        <div class="row g10" style="align-items:center;padding:11px 14px;background:var(--cream);border-bottom:1.5px solid var(--line);"><span class="num">15</span><div style="flex:1;"><div class="h-card" style="font-size:14px;">Earnings</div><div class="tiny">The reason doctors stay — money, clearly</div></div><span class="tag t-green">Money</span><span class="mono" style="font-size:8.5px;background:#EAF0F2;border-radius:6px;padding:3px 7px;">screen:'earnings'</span></div>
+        <div class="row g14" style="padding:13px 14px;">
+          <div class="wire"><div class="scr"><div style="height:40px;border-radius:8px;background:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;"><span style="font-size:4.5px;color:#9FB2BD;">This week</span><span style="font-size:11px;font-weight:700;color:#fff;">₹11,940</span></div><div style="font-size:5px;color:var(--muted);margin-top:5px;">48 consults · settles Friday</div><div style="background:#fff;border:1px solid var(--line);border-radius:6px;padding:4px 6px;margin-top:3px;display:flex;justify-content:space-between;"><span style="font-size:5px;color:var(--ink2);">Settled</span><span style="font-size:5px;font-weight:700;color:var(--green);">₹9,450</span></div><div style="background:#fff;border:1px solid var(--line);border-radius:6px;padding:4px 6px;margin-top:3px;display:flex;justify-content:space-between;"><span style="font-size:5px;color:var(--ink2);">Pending</span><span style="font-size:5px;font-weight:700;color:var(--amber);">₹2,490</span></div><div style="margin-top:auto;height:18px;border-radius:7px;background:var(--green);display:flex;align-items:center;justify-content:center;color:#fff;font-size:6.5px;font-weight:700;">Withdraw to bank</div></div></div>
+          <div style="flex:1;display:grid;grid-template-columns:1fr 1fr;gap:11px;">
+            <div><div class="eyebrow" style="font-size:8.5px;color:var(--teal);">On screen</div><p class="small" style="margin-top:4px;">This‑week total, a per‑consult breakdown ("48 consults · settles every Friday"), and a <b>Withdraw</b> button to a bank/UPI.</p></div>
+            <div><div class="eyebrow" style="font-size:8.5px;color:var(--blue);">What happens</div><p class="small" style="margin-top:4px;">Withdraw triggers a payout request; the ledger shows pending vs settled.</p></div>
+            <div style="grid-column:1/3;background:var(--softPurple);border-radius:9px;padding:7px 9px;"><span class="tiny" style="color:var(--purple);font-weight:700;">BACKEND</span><span class="small" style="color:var(--ink2);"> &nbsp;Earnings ledger from completed, paid consults; weekly settlement job; <span class="mono" style="font-size:9px;">POST /payouts</span> with KYC checks.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 16 Profile -->
+      <div class="card" style="padding:0;overflow:hidden;">
+        <div class="row g10" style="align-items:center;padding:11px 14px;background:var(--cream);border-bottom:1.5px solid var(--line);"><span class="num">16</span><div style="flex:1;"><div class="h-card" style="font-size:14px;">Doctor profile</div><div class="tiny">Public identity + settings</div></div><span class="tag t-blue">Account</span><span class="mono" style="font-size:8.5px;background:#EAF0F2;border-radius:6px;padding:3px 7px;">screen:'profile'</span></div>
+        <div class="row g14" style="padding:13px 14px;">
+          <div class="wire"><div class="scr" style="text-align:center;"><div style="width:32px;height:32px;border-radius:50%;background:var(--softBlue);margin:4px auto 0;"></div><div style="font-size:6.5px;font-weight:700;color:var(--ink);margin-top:4px;">Dr. A. Verma</div><div style="display:inline-flex;align-items:center;gap:2px;background:var(--softGreen);border-radius:6px;padding:2px 5px;margin-top:3px;"><span class="ms" style="font-size:8px;color:#0B8A66;">verified</span><span style="font-size:4.5px;font-weight:700;color:#0B8A66;">Verified</span></div><div style="font-size:4.5px;color:var(--muted);margin-top:3px;">Physician · 12 yrs · हिं Eng</div><div style="background:#fff;border:1px solid var(--line);border-radius:6px;padding:4px 6px;margin-top:5px;display:flex;align-items:center;gap:4px;text-align:left;"><span class="ms" style="font-size:9px;color:var(--teal);">notifications</span><span style="font-size:5px;color:var(--ink2);">Notifications</span></div><div style="background:#fff;border:1px solid var(--line);border-radius:6px;padding:4px 6px;margin-top:3px;display:flex;align-items:center;gap:4px;text-align:left;"><span class="ms" style="font-size:9px;color:var(--blue);">translate</span><span style="font-size:5px;color:var(--ink2);">Language</span></div><div style="background:#fff;border:1px solid var(--line);border-radius:6px;padding:4px 6px;margin-top:3px;display:flex;align-items:center;gap:4px;text-align:left;"><span class="ms" style="font-size:9px;color:var(--green);">event_available</span><span style="font-size:5px;color:var(--ink2);">Availability</span></div></div></div>
+          <div style="flex:1;display:grid;grid-template-columns:1fr 1fr;gap:11px;">
+            <div><div class="eyebrow" style="font-size:8.5px;color:var(--teal);">On screen</div><p class="small" style="margin-top:4px;">Verified badge, specialty, languages, experience, registration number — the same card patients see — plus language, notifications and availability settings.</p></div>
+            <div><div class="eyebrow" style="font-size:8.5px;color:var(--blue);">What happens</div><p class="small" style="margin-top:4px;">Edits to bio/languages re‑surface in the patient‑facing profile; verification status is read‑only.</p></div>
+            <div style="grid-column:1/3;background:var(--softPurple);border-radius:9px;padding:7px 9px;"><span class="tiny" style="color:var(--purple);font-weight:700;">BACKEND</span><span class="small" style="color:var(--ink2);"> &nbsp;Profile read/write; verification fields locked to the trust ledger; rating aggregated from patient feedback.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="eli5" style="margin-top:14px;">
+      <div class="hd"><span class="em"><span class="ms">child_care</span></span><span class="lb">Explain like I'm 6</span></div>
+      <p>The doctor can see <b>how much money they earned</b> this week, like a piggy bank that fills every time they help someone, and take it out on Friday. Their profile is their <b>name badge</b> that patients see — with the gold "really a doctor" sticker.</p>
+    </div>
+
+    <div class="pg-ft"><div class="l"><span class="conf">CONFIDENTIAL</span><span>· Wisbox Technology · CureCall PRD v1.0</span></div><div class="n">24</div></div>
+  </section>
+
+  <!-- ============ PAGE 25 · SAFETY GATE ============ -->
+  <section class="page cream">
+    <div class="pg-top"><div class="logo"><div class="mk"><span class="ms">stethoscope</span></div><div class="wd"><span class="c1">Cure</span><span class="c2">Call</span></div></div><div class="sec">04 · Shared systems</div></div>
+
+    <div class="eyebrow" style="color:var(--green);">The single most important rule</div>
+    <h2 class="h-sec" style="margin-top:8px;">The Safety Gate — a traffic light for every patient</h2>
+    <p class="lead" style="margin-top:9px;max-width:6.8in;">Telemedicine's biggest risk is missing an emergency. The Safety Gate scores every intake and shows a colour on <b>both</b> apps. It is computed once and travels with the patient — same colour on the patient's screen and the doctor's queue card.</p>
+
+    <div class="grid3" style="margin-top:14px;">
+      <div class="card" style="border-color:#BFE6D5;"><div class="row g8" style="align-items:center;"><span style="width:26px;height:26px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;"><span class="ms" style="font-size:16px;color:#fff;">check</span></span><b style="font-size:14px;color:#0B8A66;">GREEN</b></div><div class="h-card" style="margin-top:8px;font-size:12px;">Safe to consult online</div><p class="small" style="margin-top:4px;">Everyday complaints with no danger signs. Proceed straight to the doctor.</p><div class="tiny" style="margin-top:6px;">e.g. viral fever, mild rash, cough</div></div>
+      <div class="card" style="border-color:#F2DDB8;"><div class="row g8" style="align-items:center;"><span style="width:26px;height:26px;border-radius:50%;background:var(--amber);display:flex;align-items:center;justify-content:center;"><span class="ms" style="font-size:16px;color:#fff;">priority_high</span></span><b style="font-size:14px;color:#C46A10;">AMBER</b></div><div class="h-card" style="margin-top:8px;font-size:12px;">Proceed with caution</div><p class="small" style="margin-top:4px;">Could be minor, could need a closer look. Doctor is alerted to watch for escalation.</p><div class="tiny" style="margin-top:6px;">e.g. contact dermatitis, possible allergy</div></div>
+      <div class="card" style="border-color:#F2C4BF;"><div class="row g8" style="align-items:center;"><span style="width:26px;height:26px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;"><span class="ms" style="font-size:16px;color:#fff;">e911_emergency</span></span><b style="font-size:14px;color:var(--red);">RED</b></div><div class="h-card" style="margin-top:8px;font-size:12px;">Emergency — refer out</div><p class="small" style="margin-top:4px;">Danger signs. The doctor's main button becomes <b>Emergency referral</b>; the patient is urged to seek in‑person care.</p><div class="tiny" style="margin-top:6px;">e.g. chest pain, possible heart attack</div></div>
+    </div>
+
+    <div class="card" style="margin-top:14px;">
+      <div class="eyebrow" style="color:var(--muted2);">Worked examples — the three seed patients</div>
+      <table class="kv" style="margin-top:8px;">
+        <tr><td style="width:24%;">Sunita Devi · 34</td><td><span class="tag t-green" style="margin-right:7px;">GREEN</span>Fever 2 days + headache · vitals normal (Temp 38.4, SpO₂ 98%) → <b>viral fever, consult online</b>.</td></tr>
+        <tr><td>Aisha Khan · 28</td><td><span class="tag t-amber" style="margin-right:7px;">AMBER</span>Itchy rash 3 days, new detergent · stable vitals → <b>contact dermatitis, watch</b>.</td></tr>
+        <tr><td>Ramesh Yadav · 52</td><td><span class="tag t-red" style="margin-right:7px;">RED</span>Chest tightness 1 hr, sweating · Pulse 104, BP 150/94 → <b>possible heart attack → emergency referral to cardiology</b>.</td></tr>
+      </table>
+    </div>
+
+    <div class="grid2" style="margin-top:14px;">
+      <div class="eli5" style="margin-top:0;">
+        <div class="hd"><span class="em"><span class="ms">child_care</span></span><span class="lb">Explain like I'm 6</span></div>
+        <p>Before the doctor talks to you, the app puts a <b>coloured light</b> on you. <b>Green</b> = "you're okay, let's chat." <b>Yellow</b> = "keep an eye on this." <b>Red</b> = "this could be very serious — go to a real hospital fast." It helps doctors <b>never miss</b> a scary problem.</p>
+      </div>
+      <div class="card soft">
+        <div class="eyebrow" style="color:var(--muted2);">How it's decided</div>
+        <p class="small" style="margin-top:7px;">A mix of <b>rules</b> (red‑flag symptoms, vital thresholds) and the <b>AI intake</b> model. Rules always win toward caution — when unsure, the gate goes <b>more</b> red, never less. The score and its reasons are stored for audit.</p>
+      </div>
+    </div>
+
+    <div class="pg-ft"><div class="l"><span class="conf">CONFIDENTIAL</span><span>· Wisbox Technology · CureCall PRD v1.0</span></div><div class="n">25</div></div>
+  </section>
+
+  <!-- ============ PAGE 26 · CURECALL INTELLIGENCE ============ -->
+  <section class="page">
+    <div class="pg-top"><div class="logo"><div class="mk"><span class="ms">stethoscope</span></div><div class="wd"><span class="c1">Cure</span><span class="c2">Call</span></div></div><div class="sec">04 · Shared systems</div></div>
+
+    <div class="eyebrow" style="color:var(--purple);">The brain in the middle</div>
+    <h2 class="h-sec" style="margin-top:8px;">CureCall Intelligence — the AI layer</h2>
+    <p class="lead" style="margin-top:9px;max-width:6.8in;">One AI service does four jobs across the journey. Its golden rule: <b>AI assists, the doctor decides.</b> Nothing reaches a patient without a verified human's e‑signature.</p>
+
+    <div class="col g11" style="margin-top:14px;">
+      <div class="card"><div class="row g12" style="align-items:flex-start;"><div class="ic" style="width:36px;height:36px;border-radius:10px;background:var(--softPurple);"><span class="ms" style="font-size:20px;color:var(--purple);">forum</span></div><div style="flex:1;"><div class="h-card">1 · Intake &amp; triage</div><p class="small" style="margin-top:3px;">Turns the patient's tapped/spoken answers into a clean clinical summary and the Safety‑Gate colour. <span class="tiny">(Patient screen 10 → Gate 11)</span></p></div></div></div>
+      <div class="card"><div class="row g12" style="align-items:flex-start;"><div class="ic" style="width:36px;height:36px;border-radius:10px;background:var(--softPurple);"><span class="ms" style="font-size:20px;color:var(--purple);">graphic_eq</span></div><div style="flex:1;"><div class="h-card">2 · Transcription</div><p class="small" style="margin-top:3px;">Converts the consult audio (captured with consent) into a transcript in the spoken language. <span class="tiny">(Record building, step 1)</span></p></div></div></div>
+      <div class="card"><div class="row g12" style="align-items:flex-start;"><div class="ic" style="width:36px;height:36px;border-radius:10px;background:var(--softPurple);"><span class="ms" style="font-size:20px;color:var(--purple);">edit_note</span></div><div style="flex:1;"><div class="h-card">3 · Note drafting &amp; "Samajh"</div><p class="small" style="margin-top:3px;">Drafts the structured clinical note for the doctor, and a plain‑language "understand it" version for the patient. <span class="tiny">(Record building, step 2 → Record tab)</span></p></div></div></div>
+      <div class="card" style="border-color:#DAD0F6;"><div class="row g12" style="align-items:flex-start;"><div class="ic" style="width:36px;height:36px;border-radius:10px;background:var(--purple);"><span class="ms" style="font-size:20px;color:#fff;">verified_user</span></div><div style="flex:1;"><div class="h-card">4 · Medicine check</div><p class="small" style="margin-top:3px;">Before signing, checks the prescription for drug interactions, allergy clashes and dose sanity against the patient's record. <span class="tiny">(Doctor prescription screen 12)</span></p></div></div></div>
+    </div>
+
+    <div class="eli5" style="margin-top:13px;">
+      <div class="hd"><span class="em"><span class="ms">child_care</span></span><span class="lb">Explain like I'm 6</span></div>
+      <p>The robot helper is like a super‑fast <b>note‑taker</b>. It listens, writes everything down neatly, explains it in easy words, and double‑checks the medicine won't clash — but a <b>real doctor</b> always reads it and signs their name before you get it. The robot never plays doctor by itself.</p>
+    </div>
+
+    <div class="card soft" style="margin-top:13px;">
+      <div class="eyebrow" style="color:var(--muted2);">Guardrails (non‑negotiable)</div>
+      <div class="grid2" style="margin-top:8px;gap:8px 16px;">
+        <div class="row g8" style="align-items:flex-start;"><span class="ms" style="font-size:15px;color:var(--green);">check_circle</span><p class="small">Every AI output is <b>doctor‑reviewed</b> and e‑signed before it's final.</p></div>
+        <div class="row g8" style="align-items:flex-start;"><span class="ms" style="font-size:15px;color:var(--green);">check_circle</span><p class="small">Triage <b>fails safe</b> — uncertainty pushes the gate toward red.</p></div>
+        <div class="row g8" style="align-items:flex-start;"><span class="ms" style="font-size:15px;color:var(--green);">check_circle</span><p class="small">All prompts, inputs &amp; outputs are <b>logged</b> for audit &amp; quality review.</p></div>
+        <div class="row g8" style="align-items:flex-start;"><span class="ms" style="font-size:15px;color:var(--green);">check_circle</span><p class="small">Models run on <b>India‑resident</b> infrastructure; no patient data leaves the region.</p></div>
+      </div>
+    </div>
+
+    <div class="pg-ft"><div class="l"><span class="conf">CONFIDENTIAL</span><span>· Wisbox Technology · CureCall PRD v1.0</span></div><div class="n">26</div></div>
+  </section>
+
+  <!-- ============ PAGE 27 · DATA MODEL & RECORD ============ -->
+  <section class="page">
+    <div class="pg-top"><div class="logo"><div class="mk"><span class="ms">stethoscope</span></div><div class="wd"><span class="c1">Cure</span><span class="c2">Call</span></div></div><div class="sec">04 · Shared systems</div></div>
+
+    <div class="eyebrow" style="color:var(--blue);">The memory box</div>
+    <h2 class="h-sec" style="margin-top:8px;">The health record &amp; data model</h2>
+    <p class="lead" style="margin-top:9px;max-width:6.8in;">Everything funnels into one permanent, patient‑owned record. It is the shared truth both apps read from, built on India's <b>ABHA</b> identity and the international <b>FHIR R4</b> standard so it's portable beyond CureCall.</p>
+
+    <div class="grid2" style="margin-top:13px;align-items:start;">
+      <div class="card">
+        <div class="eyebrow" style="color:var(--muted2);">Core entities</div>
+        <table class="kv" style="margin-top:8px;">
+          <tr><td>Patient</td><td>ABHA address, locale, family members, wallet</td></tr>
+          <tr><td>Doctor</td><td>Council reg., specialty, verification ledger, rating</td></tr>
+          <tr><td>Consult</td><td>Patient + doctor + slot + payment + triage colour</td></tr>
+          <tr><td>Intake</td><td>AI‑normalised complaint, duration, severity, flags</td></tr>
+          <tr><td>Record</td><td>Transcript, clinical note, "Samajh", timeline</td></tr>
+          <tr><td>Prescription</td><td>FHIR <span class="mono" style="font-size:9px;">MedicationRequest</span>, e‑signed, immutable</td></tr>
+          <tr><td>ConsentLog</td><td>Every grant, withdrawal &amp; record view, timestamped</td></tr>
+        </table>
+      </div>
+      <div class="col g11">
+        <div class="card soft">
+          <div class="eyebrow" style="color:var(--muted2);">Ownership &amp; access</div>
+          <p class="small" style="margin-top:7px;">The <b>patient owns the record</b>. A doctor sees it only while consent is active; <b>every view is logged</b> and shown to the patient. Withdrawal revokes future access immediately.</p>
+        </div>
+        <div class="card soft">
+          <div class="eyebrow" style="color:var(--muted2);">Immutability</div>
+          <p class="small" style="margin-top:7px;">Signed prescriptions and notes are <b>write‑once</b>. Corrections create a new version (v2) that references v1 — history is never silently edited.</p>
+        </div>
+        <div class="card" style="border-color:#DAD0F6;">
+          <div class="eyebrow" style="color:var(--purple);">Residency</div>
+          <p class="small" style="margin-top:7px;">All personal &amp; health data is <b>stored in India</b>, encrypted at rest and in transit.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:13px;">
+      <div class="eyebrow" style="color:var(--muted2);">How a record is born — one consult, end to end</div>
+      <div class="row g8 wrap" style="align-items:center;margin-top:9px;">
+        <span class="fnode" style="font-size:10px;font-weight:600;padding:6px 9px;">AI intake</span><span class="ms" style="font-size:15px;color:var(--muted2);">arrow_forward</span>
+        <span class="fnode" style="font-size:10px;font-weight:600;padding:6px 9px;">Safety gate</span><span class="ms" style="font-size:15px;color:var(--muted2);">arrow_forward</span>
+        <span class="fnode" style="font-size:10px;font-weight:600;padding:6px 9px;">Consult (audio)</span><span class="ms" style="font-size:15px;color:var(--muted2);">arrow_forward</span>
+        <span class="fnode" style="font-size:10px;font-weight:600;padding:6px 9px;">Transcript</span><span class="ms" style="font-size:15px;color:var(--muted2);">arrow_forward</span>
+        <span class="fnode" style="font-size:10px;font-weight:600;padding:6px 9px;">Note + Rx check</span><span class="ms" style="font-size:15px;color:var(--muted2);">arrow_forward</span>
+        <span class="fnode" style="font-size:10px;font-weight:600;padding:6px 9px;">Doctor e‑sign</span><span class="ms" style="font-size:15px;color:var(--muted2);">arrow_forward</span>
+        <span class="fnode" style="font-size:10px;font-weight:600;padding:6px 9px;background:var(--softGreen);border-color:#BFE6D5;">Immutable record</span>
+      </div>
+    </div>
+
+    <div class="eli5" style="margin-top:13px;">
+      <div class="hd"><span class="em"><span class="ms">child_care</span></span><span class="lb">Explain like I'm 6</span></div>
+      <p>Everything goes into one big <b>memory box</b> that belongs to <b>you</b>. Doctors can only peek inside when you say yes, and the box writes down <b>every single peek</b>. Once something is written, nobody can secretly erase it — they can only add a new page.</p>
+    </div>
+
+    <div class="pg-ft"><div class="l"><span class="conf">CONFIDENTIAL</span><span>· Wisbox Technology · CureCall PRD v1.0</span></div><div class="n">27</div></div>
+  </section>
+
+  <!-- ============ PAGE 28 · BACKEND & APIs ============ -->
+  <section class="page cream">
+    <div class="pg-top"><div class="logo"><div class="mk"><span class="ms">stethoscope</span></div><div class="wd"><span class="c1">Cure</span><span class="c2">Call</span></div></div><div class="sec">05 · Engineering</div></div>
+
+    <div class="eyebrow">For the backend team</div>
+    <h2 class="h-sec" style="margin-top:8px;">Services &amp; APIs</h2>
+    <p class="lead" style="margin-top:9px;max-width:6.8in;">A pragmatic set of services behind one API gateway. The prototype is frontend‑only; this is the <b>intended</b> backend the apps are designed to talk to.</p>
+
+    <div class="grid3" style="margin-top:13px;">
+      <div class="card"><div class="row g8" style="align-items:center;"><span class="ms" style="font-size:18px;color:var(--teal);">key</span><b style="font-size:11.5px;">Auth &amp; Identity</b></div><p class="small" style="margin-top:5px;">OTP (SMS + voice), JWT sessions, ABHA linking, roles (patient/doctor).</p></div>
+      <div class="card"><div class="row g8" style="align-items:center;"><span class="ms" style="font-size:18px;color:var(--blue);">badge</span><b style="font-size:11.5px;">Verification</b></div><p class="small" style="margin-top:5px;">Registry lookup, document store, liveness/face‑match, board review queue.</p></div>
+      <div class="card"><div class="row g8" style="align-items:center;"><span class="ms" style="font-size:18px;color:var(--purple);">smart_toy</span><b style="font-size:11.5px;">Intelligence</b></div><p class="small" style="margin-top:5px;">Intake/triage, STT transcription, note drafting, medicine check.</p></div>
+      <div class="card"><div class="row g8" style="align-items:center;"><span class="ms" style="font-size:18px;color:var(--teal);">videocam</span><b style="font-size:11.5px;">Realtime</b></div><p class="small" style="margin-top:5px;">WebRTC SFU, presence, queue, adaptive bitrate, audio fallback.</p></div>
+      <div class="card"><div class="row g8" style="align-items:center;"><span class="ms" style="font-size:18px;color:var(--green);">payments</span><b style="font-size:11.5px;">Payments</b></div><p class="small" style="margin-top:5px;">UPI collect, wallet ledger, doctor payouts, weekly settlement.</p></div>
+      <div class="card"><div class="row g8" style="align-items:center;"><span class="ms" style="font-size:18px;color:var(--blue);">database</span><b style="font-size:11.5px;">Records</b></div><p class="small" style="margin-top:5px;">FHIR store, consent ledger, immutable versions, India residency.</p></div>
+    </div>
+
+    <div class="grid2" style="margin-top:13px;align-items:start;">
+      <div class="card">
+        <div class="eyebrow" style="color:var(--muted2);">Representative endpoints</div>
+        <div class="code" style="margin-top:9px;">
+<span class="m">POST</span> <span class="p">/auth/otp/request</span> · <span class="p">/verify</span><br>
+<span class="m">POST</span> <span class="p">/consent</span>  <span class="c">// versioned grant</span><br>
+<span class="m">GET</span>&nbsp; <span class="p">/doctors</span>?concern&amp;lang&amp;filter<br>
+<span class="m">GET</span>&nbsp; <span class="p">/doctors/:id/slots</span><br>
+<span class="m">POST</span> <span class="p">/payments/intent</span><br>
+<span class="m">POST</span> <span class="p">/intake</span>  <span class="c">// → summary + triage</span><br>
+<span class="m">POST</span> <span class="p">/consults/:id/transcript</span><br>
+<span class="m">POST</span> <span class="p">/prescriptions</span> <span class="c">// FHIR, e‑signed</span><br>
+<span class="m">GET</span>&nbsp; <span class="p">/records/:id</span><br>
+<span class="m">POST</span> <span class="p">/payouts</span>
+        </div>
+      </div>
+      <div class="col g11">
+        <div class="card soft"><div class="eyebrow" style="color:var(--muted2);">Cross‑cutting</div><p class="small" style="margin-top:6px;">Idempotency keys on payments; webhooks for async (payment, board decision, payout); every health read/write writes to the consent ledger; rate‑limits on OTP &amp; intake.</p></div>
+        <div class="card soft"><div class="eyebrow" style="color:var(--muted2);">Third parties</div><p class="small" style="margin-top:6px;">SMS + voice‑OTP gateway, UPI PSP, liveness/face‑match vendor, ABDM/ABHA sandbox, LLM + STT providers (region‑locked).</p></div>
+        <div class="card" style="border-color:#DAD0F6;"><div class="eyebrow" style="color:var(--purple);">Prototype note</div><p class="small" style="margin-top:6px;">Today both apps are self‑contained front‑end state machines (no live backend). These contracts define what to wire next.</p></div>
+      </div>
+    </div>
+
+    <div class="pg-ft"><div class="l"><span class="conf">CONFIDENTIAL</span><span>· Wisbox Technology · CureCall PRD v1.0</span></div><div class="n">28</div></div>
+  </section>
+
+  <!-- ============ PAGE 29 · NON-FUNCTIONAL ============ -->
+  <section class="page">
+    <div class="pg-top"><div class="logo"><div class="mk"><span class="ms">stethoscope</span></div><div class="wd"><span class="c1">Cure</span><span class="c2">Call</span></div></div><div class="sec">05 · Engineering</div></div>
+
+    <div class="eyebrow">The rules that aren't a screen</div>
+    <h2 class="h-sec" style="margin-top:8px;">Non‑functional requirements</h2>
+
+    <div class="grid2" style="margin-top:13px;">
+      <div class="card"><div class="row g8" style="align-items:center;"><div class="ic" style="background:var(--softRed);"><span class="ms" style="color:var(--red);">lock</span></div><div class="h-card">Security &amp; privacy</div></div><ul class="small" style="margin:7px 0 0;padding-left:16px;line-height:1.7;"><li>Encryption in transit &amp; at rest; India‑resident storage.</li><li>Consent required before any health write; full audit log.</li><li>Least‑privilege access; doctor sees only consented patients.</li><li>Verification documents isolated from app data.</li></ul></div>
+      <div class="card"><div class="row g8" style="align-items:center;"><div class="ic" style="background:var(--softAmber);"><span class="ms" style="color:var(--amber);">signal_cellular_alt</span></div><div class="h-card">Low‑bandwidth &amp; resilience</div></div><ul class="small" style="margin:7px 0 0;padding-left:16px;line-height:1.7;"><li>Video auto‑falls back to <b>audio‑only</b> on weak networks.</li><li>Home &amp; record cached for offline open.</li><li><b>IVR / phone</b> fallback for no‑data users.</li><li>Lightweight assets; works on entry Android.</li></ul></div>
+      <div class="card"><div class="row g8" style="align-items:center;"><div class="ic" style="background:var(--softTeal);"><span class="ms" style="color:var(--teal);">translate</span></div><div class="h-card">Localization</div></div><ul class="small" style="margin:7px 0 0;padding-left:16px;line-height:1.7;"><li>Bilingual core (Hindi/English) via <span class="mono" style="font-size:9px;">tr()</span> pairs.</li><li>6 languages offered; architecture adds more easily.</li><li>Native scripts &amp; voice input per language.</li><li>No English required anywhere in the patient flow.</li></ul></div>
+      <div class="card"><div class="row g8" style="align-items:center;"><div class="ic" style="background:var(--softPurple);"><span class="ms" style="color:var(--purple);">accessibility_new</span></div><div class="h-card">Accessibility &amp; usability</div></div><ul class="small" style="margin:7px 0 0;padding-left:16px;line-height:1.7;"><li>Min <b>44×44px</b> touch targets everywhere.</li><li>High‑contrast text; large, friendly type.</li><li>Voice‑first intake for low‑literacy users.</li><li>Plain language; zero medical jargon for patients.</li></ul></div>
+    </div>
+
+    <div class="card soft" style="margin-top:13px;">
+      <div class="eyebrow" style="color:var(--muted2);">Performance &amp; quality targets</div>
+      <div class="grid4" style="margin-top:9px;">
+        <div><div class="mono" style="font-size:16px;font-weight:700;color:var(--teal);">&lt; 3 min</div><div class="tiny">sick → doctor</div></div>
+        <div><div class="mono" style="font-size:16px;font-weight:700;color:var(--blue);">&lt; 2 s</div><div class="tiny">screen transitions</div></div>
+        <div><div class="mono" style="font-size:16px;font-weight:700;color:var(--green);">99.9%</div><div class="tiny">consult uptime goal</div></div>
+        <div><div class="mono" style="font-size:16px;font-weight:700;color:var(--purple);">100%</div><div class="tiny">Rx doctor‑signed</div></div>
+      </div>
+    </div>
+
+    <div class="eli5" style="margin-top:13px;">
+      <div class="hd"><span class="em"><span class="ms">child_care</span></span><span class="lb">Explain like I'm 6</span></div>
+      <p>Even if your internet is <b>slow</b>, the call still works — it just becomes a voice call, like a normal phone. And if you have <b>no internet at all</b>, you can still call a phone number. Everything is locked up <b>safe</b> and kept in India, and the buttons are nice and big so they're easy to tap.</p>
+    </div>
+
+    <div class="pg-ft"><div class="l"><span class="conf">CONFIDENTIAL</span><span>· Wisbox Technology · CureCall PRD v1.0</span></div><div class="n">29</div></div>
+  </section>
+
+  <!-- ============ PAGE 30 · GLOSSARY + APPENDIX ============ -->
+  <section class="page cream">
+    <div class="pg-top"><div class="logo"><div class="mk"><span class="ms">stethoscope</span></div><div class="wd"><span class="c1">Cure</span><span class="c2">Call</span></div></div><div class="sec">06 · Appendix</div></div>
+
+    <div class="eyebrow">Quick reference</div>
+    <h2 class="h-sec" style="margin-top:8px;">Glossary &amp; state appendix</h2>
+
+    <div class="grid2" style="margin-top:13px;align-items:start;">
+      <div class="card">
+        <div class="eyebrow" style="color:var(--muted2);">Words, in plain language</div>
+        <table class="kv" style="margin-top:8px;">
+          <tr><td>ABHA</td><td>India's national health ID; makes records portable</td></tr>
+          <tr><td>FHIR R4</td><td>Global standard for health data; keeps records sharable</td></tr>
+          <tr><td>OTP</td><td>One‑time secret number to prove it's really you</td></tr>
+          <tr><td>UPI</td><td>India's instant phone‑to‑phone money system</td></tr>
+          <tr><td>Liveness</td><td>A live face check so nobody fakes being a doctor</td></tr>
+          <tr><td>Safety gate</td><td>The green/amber/red emergency traffic light</td></tr>
+          <tr><td>Samajh</td><td>"Understand" — the easy‑words version of your record</td></tr>
+          <tr><td>Triage</td><td>Sorting patients by how urgent they are</td></tr>
+          <tr><td>IVR</td><td>Call‑a‑number service for users with no data</td></tr>
+        </table>
+      </div>
+      <div class="col g11">
+        <div class="card">
+          <div class="eyebrow" style="color:var(--muted2);">Patient — every screen state</div>
+          <p class="small mono" style="margin-top:7px;font-size:9px;line-height:1.8;">onboard · welcome · otp · consent · abha · home · doctors · doctor · pay · preconsult · gate · waiting · consult · rate · building · record · profile</p>
+        </div>
+        <div class="card">
+          <div class="eyebrow" style="color:var(--muted2);">Doctor — every screen state</div>
+          <p class="small mono" style="margin-top:7px;font-size:9px;line-height:1.8;">intro1 · intro2 · signin · identity · registry · documents · liveness · review · verified · today · patients · consult · prescription · thanks · board · earnings · profile</p>
+        </div>
+        <div class="card soft">
+          <div class="eyebrow" style="color:var(--muted2);">Build status</div>
+          <div class="row g8 wrap" style="margin-top:8px;"><span class="tag t-green">Both apps · UI built</span><span class="tag t-green">Bilingual</span><span class="tag t-amber">Backend · to wire</span><span class="tag t-amber">AI services · to integrate</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:13px;">
+      <div class="eyebrow" style="color:var(--muted2);">Suggested build order (so nobody is blocked)</div>
+      <div class="row g8 wrap" style="align-items:center;margin-top:9px;">
+        <span class="fnode" style="font-size:10px;font-weight:600;padding:6px 10px;"><b class="mono" style="color:var(--teal);">1</b> &nbsp;Auth + Consent</span><span class="ms" style="font-size:15px;color:var(--muted2);">arrow_forward</span>
+        <span class="fnode" style="font-size:10px;font-weight:600;padding:6px 10px;"><b class="mono" style="color:var(--teal);">2</b> &nbsp;Doctor verification</span><span class="ms" style="font-size:15px;color:var(--muted2);">arrow_forward</span>
+        <span class="fnode" style="font-size:10px;font-weight:600;padding:6px 10px;"><b class="mono" style="color:var(--teal);">3</b> &nbsp;Booking + Payments</span><span class="ms" style="font-size:15px;color:var(--muted2);">arrow_forward</span>
+        <span class="fnode" style="font-size:10px;font-weight:600;padding:6px 10px;"><b class="mono" style="color:var(--teal);">4</b> &nbsp;Intake + Gate</span><span class="ms" style="font-size:15px;color:var(--muted2);">arrow_forward</span>
+        <span class="fnode" style="font-size:10px;font-weight:600;padding:6px 10px;"><b class="mono" style="color:var(--teal);">5</b> &nbsp;Realtime consult</span><span class="ms" style="font-size:15px;color:var(--muted2);">arrow_forward</span>
+        <span class="fnode" style="font-size:10px;font-weight:600;padding:6px 10px;background:var(--softPurple);border-color:#DAD0F6;"><b class="mono" style="color:var(--purple);">6</b> &nbsp;Record engine + Board</span>
+      </div>
+    </div>
+
+    <div class="eli5" style="margin-top:13px;">
+      <div class="hd"><span class="em"><span class="ms">child_care</span></span><span class="lb">Explain like I'm 6 — the whole thing in one breath</span></div>
+      <p>A sick person taps what hurts, a robot writes it down, a <b>real, checked</b> doctor calls them in their own language, gives medicine, and it's all saved in a safe memory box that belongs to the patient. That's CureCall. 🩺</p>
+    </div>
+
+    <div class="pg-ft"><div class="l"><span class="conf">CONFIDENTIAL</span><span>· Wisbox Technology · CureCall PRD v1.0</span></div><div class="n">30</div></div>
+  </section>
+
+  <!-- ============ PAGE 31 · BACK COVER ============ -->
+  <section class="page dark" style="padding:0;">
+    <div style="position:absolute;inset:0;background:radial-gradient(820px 560px at 50% -10%,rgba(43,124,227,.30),transparent 60%),radial-gradient(640px 460px at 50% 112%,rgba(15,163,161,.26),transparent 60%);"></div>
+    <div class="ribbon">CONFIDENTIAL</div>
+    <div style="position:relative;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0.7in 0.8in;">
+      <div class="logo">
+        <div class="mk" style="width:48px;height:48px;border-radius:14px;"><span class="ms" style="font-size:29px;">stethoscope</span></div>
+        <div class="wd" style="font-size:30px;color:#fff;"><span style="color:#5BE0D6;">Cure</span><span style="color:#7FB4FF;">Call</span></div>
+      </div>
+      <p style="margin-top:22px;font-family:'Space Grotesk';font-weight:700;font-size:24px;color:#fff;letter-spacing:-.6px;line-height:1.2;max-width:5in;">Healthcare that travels<br>to the patient.</p>
+      <p class="lead" style="color:#AFC4CE;margin-top:14px;max-width:4.6in;">This document is the build book for that promise — every screen, rule and system, written for the team and the six‑year‑old alike.</p>
+
+      <div style="margin-top:30px;padding:16px 22px;border:1px solid rgba(255,255,255,.16);border-radius:14px;background:rgba(255,255,255,.04);">
+        <div class="tiny" style="color:#7E97A4;letter-spacing:1.6px;">IDEATION · ARTWORK · DESIGN</div>
+        <div style="font-family:'Space Grotesk';font-weight:700;font-size:20px;color:#fff;margin-top:6px;letter-spacing:-.3px;">Raja Sahoo</div>
+        <div class="small" style="color:#AFC4CE;">Founder &amp; CEO · Wisbox Technology</div>
+      </div>
+
+      <div style="margin-top:auto;padding-top:30px;width:100%;border-top:1px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:space-between;">
+        <div class="mono" style="font-size:8px;color:#7E97A4;text-align:left;line-height:1.7;">© Wisbox Technology · All rights reserved<br>CC‑PRD‑0001 · v1.0</div>
+        <div class="mono" style="font-size:8px;color:var(--red);font-weight:700;text-align:right;line-height:1.7;">CONFIDENTIAL · INTERNAL<br>DO NOT DISTRIBUTE</div>
+      </div>
+    </div>
+  </section>
+
+</div>
+</x-dc>
+</body>
+</html>

@@ -1,0 +1,1559 @@
+Glow — Nearby Salon OS · PRD
+
+GLOW
+
+NEARBY SALON OS
+
+CONFIDENTIAL
+
+PRODUCT REQUIREMENTS DOCUMENT
+
+The Glow
+Build Bible
+
+Every screen, button, colour, flow and rule in the Glow salon app — the Wisbox vertical that turns an empty chair into a booked one. Written so plainly a 6-year-old gets it, and so completely an engineer can build it.
+
+v1.0
+
+Phase 1 build
+
+32
+
+Screens & states
+
+1
+
+Brain · Glow Mind
+
+Haircut Shave & trim Facial Styling Nails Massage
+
+IDEATION, ARTWORK & DESIGN BY
+
+Raja Sahoo
+
+Founder & CEO · Wisbox Technology
+
+WISBOX TECHNOLOGY
+
+Internal & Confidential · Do not distribute
+
+Issued July 2026
+
+GLOW · PRD
+
+CONFIDENTIAL
+
+Section 0 · Read me first
+
+Confidential — and how to read it
+
+Start here. Two minutes now saves an argument later.
+
+This is a confidential Wisbox Technology document
+
+It contains the full product, design and engineering plan for Glow, the salon vertical of Wisbox. Ideation, artwork and design are by Raja Sahoo, Founder/CEO . Do not share, screenshot, or forward outside the Glow build team without written permission.
+
+How to read this document
+
+Every part of the app is explained twice — once like a story, once like a spec. Watch for these three coloured boxes:
+
+🧬 Like I’m 6
+
+The simplest possible explanation. If you read only the green boxes, you still understand the whole app.
+
+👨‍💻 For the developer
+
+The exact behaviour, data, state and rules an engineer needs to build it correctly.
+
+⚠️ Watch out
+
+An edge case, validation rule, or easy-to-miss detail. Don’t ship without handling it.
+
+The words we use (plain-English glossary)
+
+Glow
+
+The app. A helper that finds you a good chair nearby and holds it for you.
+
+Glow Mind
+
+The brain. It guesses how long the wait really is and warns the shop before it goes wrong.
+
+Chair
+
+One working seat in a salon. The thing we actually sell time on.
+
+Slot
+
+A 15-minute block of one chair on one day.
+
+Queue
+
+The live line of people waiting right now. Not a calendar — a line.
+
+Hold
+
+A soft claim on your place in the queue. Free, expires if you don't show.
+
+Turn ETA
+
+When Glow thinks it's your turn. Shown as a range, never a promise.
+
+Dead hour
+
+A slot Glow predicts will go empty. The only thing we ever charge for.
+
+Look
+
+One before/after pair on a stylist's profile. Consent-tagged, always.
+
+Walk-in
+
+A customer who arrives with no booking. Still enters the same queue.
+
+Wisbox Technology · Glow — Confidential
+
+02
+
+GLOW · PRD
+
+CONFIDENTIAL
+
+Section 1 · The big idea
+
+What we are actually building
+
+Explained twice: once like a story, once like a bet.
+
+🧬 The whole app in one breath
+
+On Sunday evening you want a haircut. You open Glow. It says “Sharma Salon — 20 min wait, 2 people ahead.” You tap Hold my place . You keep shopping. Glow buzzes you when you’re next. You walk in and sit down. That’s it.
+
+THE INSIGHT WE ARE BETTING THE VERTICAL ON
+
+In tier 2–4 cities, booking is not the pain.
+Waiting is.
+
+Nobody plans a haircut three days out. They walk in, see six heads ahead of them, and leave. So Glow is not a calendar app with salons in it. Glow is a live queue you can join from 400 metres away. The calendar is a feature. The queue is the product.
+
+What is broken today
+
+You can’t see the wait
+
+Six people ahead or none — identical from outside. So Sunday evening is a coin flip and half the city just doesn’t go.
+
+You can’t see the price
+
+No board, no menu. You ask after the cut. Nobody enjoys that conversation.
+
+You can’t see the work
+
+Salon loyalty is really stylist loyalty — but a stylist’s portfolio lives on nobody’s phone.
+
+Chairs sit empty Tue–Thu
+
+Then bleed customers Sat–Sun. Same shop, same week. The owner has no lever to move demand.
+
+The phone is the booking system
+
+A busy stylist answering calls is a stylist not cutting hair.
+
+Nobody comes back on purpose
+
+No record of who came, what they took, when they’re due again.
+
+What Glow does about it
+
+Live wait, not a guess
+
+Every open salon shows minutes-to-chair, computed by Glow Mind and corrected by the shop.
+
+Hold, don’t book
+
+A free soft claim on your place. Buzzes you at T−15. Expires if you ghost.
+
+Prices on the front page
+
+Service menu with real numbers is the reason to open the app even when you’re not going.
+
+The stylist is the star
+
+Every stylist gets a profile with a before/after wall. Portable, consent-tagged, theirs.
+
+Dead hours get filled
+
+Glow Mind spots the empty Tuesday and pushes an offer to nearby regulars.
+
+Wisbox rails underneath
+
+Same location engine, Wiskeys, storefront and vendor account as the rest of Wisbox.
+
+⚠️ Watch out — the whole thing dies if the wait time lies
+
+If a shop stops marking jobs done, the ETA rots within one hour and users never trust it again. Every design decision in this document bends toward keeping the queue honest with as close to zero vendor effort as possible . Read Section 8 before you argue with any of it.
+
+Wisbox Technology · Glow — Confidential
+
+03
+
+GLOW · PRD
+
+CONFIDENTIAL
+
+Section 2 · Design system
+
+The colour palette
+
+Plum ink, violet-to-rose glow, blush paper, and four colours that mean one thing each. Use these exact hex values everywhere — never invent new ones.
+
+Brand & surfaces
+
+Ink plum
+
+#1A0B2E
+
+Deep plum
+
+#2B1247
+
+Violet
+
+#7C3AED
+
+Violet ink
+
+#6D28D9
+
+Rose
+
+#F43F5E
+
+Coral
+
+#FB7185
+
+App canvas
+
+#FBF7FF
+
+Hairline
+
+#EDE2F5
+
+Status colours — the wait light
+
+Mint · Walk in now
+
+#10B981
+< 10 min
+
+Sky · Short wait
+
+#38BDF8
+10–25 min
+
+Amber · Busy
+
+#F59E0B
+25–50 min
+
+Rose · Packed / closed
+
+#F43F5E
+> 50 min or shut
+
+tint mint #E6F7F0
+
+tint sky #E4F5FE
+
+tint amber #FEF3DC
+
+tint rose #FFE9EE
+
+The one gradient
+
+Glow gradient — violet → rose, 135°
+
+linear-gradient(135deg,#7C3AED,#F43F5E)
+
+Used in exactly four places: the logo mark, the primary CTA, the cover, and the “you’re next” moment. Nowhere else. A gradient that appears everywhere stops meaning anything.
+
+⚠️ Watch out — colour is status, never decoration
+
+The wait dot colour is computed from predicted minutes to chair , not from how many people are in the shop. Every status ships as three things together: a solid colour, a soft tint, and a word (Walk in now / Short wait / Busy / Packed). Never colour alone — roughly 1 in 12 male users cannot separate our mint from our amber.
+
+Wisbox Technology · Glow — Confidential
+
+04
+
+GLOW · PRD
+
+CONFIDENTIAL
+
+Section 2 · Design system
+
+Type, spacing & components
+
+The kit of parts. If a screen needs something not on this page, it needs a conversation first.
+
+Typefaces — three, no more
+Sora
+
+Display only. Screen titles, big numbers, the wait time. Weights 700/800. Never below 20px.
+
+Manrope
+
+Everything else. Body, labels, buttons, lists. Weights 400/600/700/800.
+
+JetBrains
+
+Data only. IDs, hex, timestamps, API paths. Never in the user app UI.
+
+Type scale
+
+Token
+Size / weight
+Face
+Used for
+
+hero
+44 / 800
+Sora
+The live wait number on a salon card
+
+h1
+28 / 800
+Sora
+Screen titles
+
+h2
+20 / 800
+Sora
+Section headers, salon name
+
+body
+15 / 400
+Manrope
+Paragraphs, descriptions
+
+label
+13 / 700
+Manrope
+Buttons, chips, list rows
+
+data
+12 / 500
+JetBrains Mono
+Booking ID, debug
+
+Spacing & shape — the 4pt grid
+
+Spacing
+
+4 / 8 / 12 / 16 / 24 / 32 / 48. Nothing else. If you typed 13, you were guessing.
+
+Radius
+
+Chips 999 · cards 16 · sheets 24 · buttons 14 · images 12.
+
+Elevation
+
+Two levels only: rest (none) and float (0 8px 24px -8px rgba(43,18,71,.18)).
+
+Touch target
+
+44×44 minimum. Our users are outdoors, one-handed, on a cracked screen.
+
+Page padding
+
+20px sides on mobile. Content never touches the edge except full-bleed images.
+
+Motion
+
+180ms ease-out. One exception: the “you’re next” pulse at 600ms.
+
+Core components
+
+Salon card
+
+Photo, name, distance, price-from, and the wait pill. The wait pill is the loudest thing on it.
+
+Wait pill
+
+Colour + dot + word + minutes. Four states. Appears on card, detail, and queue.
+
+Primary CTA
+
+Full-width, 52px, Glow gradient, 800 weight. One per screen. Always says the verb: Hold my place.
+
+Stylist chip
+
+Circular avatar, name, and a “12 looks” counter. Taps into the before/after wall.
+
+Look tile
+
+Before/after split image, 1:1, swipe divider on detail. Consent badge bottom-right.
+
+Toast
+
+Bottom, 3s, one line, one optional action. Never stacks — newest replaces oldest.
+
+Wisbox Technology · Glow — Confidential
+
+05
+
+GLOW · PRD
+
+CONFIDENTIAL
+
+Section 3 · App map
+
+Routing & navigation
+
+Every screen, and the exact path to it. Two apps, one backend, one account system.
+
+🧬 Two apps, one spine
+
+Glow is really two doors into the same building. Customers walk in the front (find a chair). Salon owners walk in the back (run the chair). Same building, same data, different door.
+
+Route tree — customer app
+
+/glow
+├── /auth
+│ ├── /phone → enter number
+│ ├── /otp → 6-digit, auto-read
+│ └── /profile-setup → name + gender-of-service (skippable)
+├── /nearby ← DEFAULT / HOME
+│ └── /filters, /map → service, price, open-now · Wisbox map layer
+├── /salon/:id
+│ ├── /services → menu + prices
+│ ├── /stylists → /stylist/:id → profile + before/after wall
+│ └── /reviews ← PHASE 2, route reserved
+├── /hold/:salonId → confirm sheet → /hold/:id/live
+├── /book/:salonId → slot picker (advance booking)
+├── /my → /bookings, /profile, /notifications
+└── /wiskeys → shared Wisbox rewards module
+Route tree — salon app (vendor)
+
+/glow-business
+├── /auth → /phone → /otp
+├── /onboarding → 6 steps, see Section 4
+├── /today ← DEFAULT / HOME · the queue
+│ ├── /queue → live line, drag to reorder
+│ └── /needs-you → the only screen that nags
+├── /bookings → all, filterable
+│ └── /booking/:id
+├── /stylists → /stylist/:id → profile + look uploader
+├── /services → menu + prices + durations
+├── /offers → dead-hour loop
+└── /insights ← PHASE 2 · /settings
+
+👨‍💻 Navigation rules
+
+Customer app: bottom tab bar, 4 tabs (Nearby / My bookings / Wiskeys / Profile). /hold/:id/live is modal-over-tabs and cannot be dismissed by back — only by Leave queue. Vendor app: bottom tab bar, 4 tabs (Today / Bookings / Stylists / More). Deep links from notifications always resolve to /hold/:id/live or /today . Cold start with an active hold skips home and lands on the live hold screen.
+
+⚠️ Watch out — back button on the OTP screen
+
+Android hardware back on /otp must return to /phone with the number pre-filled, not exit the app. We lost 8% of testers to this in the Servora build. Do not repeat it.
+
+Wisbox Technology · Glow — Confidential
+
+06
+
+GLOW · PRD
+
+CONFIDENTIAL
+
+Section 4 · Screens
+
+Auth
+
+Three screens, no passwords. The whole flow should be survivable on 2G in under 40 seconds.
+
+🧬 Signing in
+
+Type your phone number. Get a code by SMS. Type it. Done. No password, no email, no ‘create account’.
+
+Screens
+
+Phone number
+
+Country code fixed to +91 (Phase 1)
+10-digit input, numeric keypad only
+Auto-advance, no Next button
+Continue enabled at exactly 10 digits
+Fine print: T&C + privacy, tappable
+
+OTP
+
+6 boxes, auto-read on Android
+30s resend timer, then Resend as text
+Wrong code → shake + inline error
+3 fails → 60s lockout
+Change number link, always visible
+
+Profile setup
+
+First name only (required)
+Service preference: Men / Women / Both
+Skip allowed → defaults to Both
+No photo upload in Phase 1
+Lands on /nearby
+
+The rules
+
+Rule
+Behaviour
+
+One account = one phone
+No merging, no multiple logins. Vendor and customer roles can share a number — role picker appears at launch if both exist.
+
+Session length
+90 days. Silent refresh. We never log a salon owner out mid-Saturday.
+
+Guest browsing
+Allowed. Nearby, salon detail, stylist walls and prices are all public. Auth is required only at Hold my place.
+
+Auth wall placement
+Triggered by intent, not by launch. This is the single highest-leverage decision on this page.
+
+OTP provider
+Wisbox shared SMS gateway. Fallback to WhatsApp OTP if SMS undelivered in 20s.
+
+Vendor auth
+Same flow + a one-time shop code issued by the Wisbox onboarding rep.
+
+👨‍💻 State machine
+
+idle → sending → sent → verifying → success | error . Persist sent across app kill for 5 minutes so a user who leaves to read the SMS in their inbox returns to a live OTP screen, not a fresh phone screen. Store the token in Keychain / Keystore, never AsyncStorage.
+
+⚠️ Watch out — the tier-3 SMS reality
+
+Delivery is unreliable and often 40–90 seconds slow. Do not start the resend timer at request time — start it at gateway-accepted callback. And never block the UI on it: let the user paste the code the moment it lands, even at second 3.
+
+Wisbox Technology · Glow — Confidential
+
+07
+
+GLOW · PRD
+
+CONFIDENTIAL
+
+Section 4 · Screens
+
+Onboarding a salon
+
+Ten minutes, phone-only, no paperwork. Onboarding friction is the entire supply-side bottleneck.
+
+🧬 Setting up a shop
+
+A salon owner should be able to put his shop on Glow while a customer is in the chair. Six taps, ten minutes, done. If it takes longer, he stops.
+
+The six steps
+
+1 · Shop basics
+
+Name, photo, phone. Address auto-filled from GPS — he confirms the pin by dragging it, never by typing.
+
+2 · Hours
+
+Open / close, weekly off. Preset chips: 9–9, 10–10, custom. Most shops tap a chip and move on.
+
+3 · Chairs
+
+“How many people can cut hair at once?” A number stepper. That’s the entire capacity model.
+
+4 · Services
+
+Pick from a preset grid of 24 common services. He edits price only. Typing service names is optional.
+
+5 · Stylists
+
+Name + photo per stylist. Minimum 1 (can be himself). Looks can be added later.
+
+6 · Go live
+
+Preview card exactly as customers see it. One button: Open my shop.
+
+Preset service grid — Phase 1
+
+Haircut — men Haircut — women Shave Beard trim Hair wash Blow dry Hair straightening Hair colour Facial Clean-up Bleach Threading Waxing Manicure Pedicure Head massage Body massage Bridal package Hair spa Kids haircut Nail art D-Tan Party makeup Foot spa
+
+👨‍💻 Defaults do the work
+
+Every service preset ships with a default duration (haircut-men 25 min, facial 45, bridal 180) and a suggested price band derived from the city tier. The owner overrides price; he almost never overrides duration — and duration is what feeds Glow Mind. Store duration_source: 'default' | 'vendor' | 'learned' so we know how much to trust it later.
+
+⚠️ Watch out — do not ask for GST, PAN, or bank details in onboarding
+
+Phase 1 takes no money from the vendor, so asking for financial identity here kills 60% of signups for zero benefit. Collect it in Phase 2, at the moment he first earns a payout — when the ask has an obvious answer to “why do you need this?”
+
+Wisbox Technology · Glow — Confidential
+
+08
+
+GLOW · PRD
+
+CONFIDENTIAL
+
+Section 5 · Screens
+
+Today — the vendor home
+
+One screen, one job: keep the line honest with the fewest possible taps.
+
+🧬 The shop’s home screen
+
+One screen shows the line: who’s in the chair, who’s next, who’s coming. Tap a name when you start. Tap again when you finish. That’s the whole job.
+
+Anatomy of /today
+
+SHARMA HAIR STUDIO · OPEN
+
+4 waiting · 35 min
+
+Today
+₹2,340
+
+Ravi K.
+Haircut + beard · with Imran
+
+IN CHAIR
+
+Sunil P.
+Haircut · any stylist
+
+NEXT · 5 min
+
+Walk-in
+Shave
+
+WAITING
+
+Deepak M.
+Hair colour · booked 6:30
+
+BOOKED
+
+Amit R.
+Haircut
+
+HOLD — not arrived
+
+👨‍💻 The one interaction that matters
+
+Each row has exactly one tap target that advances state: waiting → in_chair → done . Long-press opens the overflow (reassign stylist, no-show, remove). Drag reorders the queue and immediately recomputes every downstream ETA optimistically, then reconciles with the server. If the reconcile disagrees by > 4 minutes, we accept the server and silently re-render — we never show the owner a conflict dialog. He is holding scissors.
+
+What is deliberately NOT on this screen
+
+No revenue charts
+
+Today's total, one number, in the header. Everything else is Phase 2 /insights.
+
+No customer profiles
+
+He knows his customers. He does not need our CRM on a Saturday.
+
+No settings
+
+Buried in More. Nothing on /today should be configurable.
+
+⚠️ Watch out — auto-advance is not optional
+
+Assume the owner forgets to tap Done. If a job exceeds expected_duration + 10 min with no input, Glow Mind auto-marks it done and quietly moves the queue — then shows a single non-blocking undo chip. Waiting for a perfect vendor is how the ETA rots. Design for the vendor you have.
+
+Wisbox Technology · Glow — Confidential
+
+09
+
+GLOW · PRD
+
+CONFIDENTIAL
+
+Section 5 · Screens
+
+Needs you
+
+The only screen in Glow allowed to nag. Everything on it is specific, current, and one tap from fixed.
+
+🧬 The nagging screen
+
+One list. Only things that are about to go wrong. When it’s empty, it says ‘All good’ and you close the app. It should be empty most days.
+
+What earns a place on this list
+
+Card
+Trigger
+Action offered
+Priority
+
+Queue has gone stale
+No state change in 25 min while ≥1 person waiting
+Mark current job done
+Critical
+
+Someone’s waiting past their ETA
+Actual wait > predicted + 15 min
+Reorder / tell them
+Critical
+
+Tomorrow looks empty
+Glow Mind predicts < 40% chair fill
+Push a dead-hour offer
+High
+
+Stylist has no looks
+Stylist profile with 0 before/after pairs after 14 days
+Add a look
+Medium
+
+Price looks wrong
+Service priced > 2.5× the local median
+Review price
+Medium
+
+You’re marked open but idle
+Open, 0 activity, 3+ hours
+Close for today
+Low
+
+4 holds no-showed this week
+No-show rate > 30%
+Turn on arrival reminders
+Low
+
+Card anatomy
+
+CRITICAL · 25 MIN AGO
+
+Sunil has been waiting 40 minutes
+
+You told him 20. He can see the difference on his phone right now. Mark Ravi’s cut done, or move Sunil up.
+
+Mark done
+Move Sunil up
+Dismiss
+
+👨‍💻 Rules of the list
+
+Sorted by priority then recency. Hard cap: 4 cards. Beyond that we are shouting and he stops reading. Dismiss hides for 24h except Critical, which returns in 30 min. Every card must name a specific person, number or thing — never “Your queue needs attention.” The card title is a sentence about his shop, not a system status.
+
+⚠️ Watch out — this screen is a badge, and badges are a budget
+
+The tab badge fires a red dot only for Critical. If we badge Medium cards, he learns the dot means nothing in about nine days, and then it means nothing forever — including on the day it matters.
+
+Wisbox Technology · Glow — Confidential
+
+10
+
+GLOW · PRD
+
+CONFIDENTIAL
+
+Section 5 · Screens
+
+All bookings & booking detail
+
+The ledger. Boring on purpose — it is the thing an owner opens when something has already gone wrong.
+
+🧬 The full list
+
+Everything that ever happened at this chair. Today at the top, yesterday below it. Tap any name to see the whole story.
+
+/bookings — the list
+
+Element
+Spec
+
+Segments
+Today · Upcoming · Past. Today is default and is the only one that live-updates.
+
+Row
+Time · name · service · stylist · status pill. 64px tall. One line each, truncate the service, never the name.
+
+Filters
+Stylist, service, status, date range. Filter state persists across app kill — owners filter to one stylist and stay there.
+
+Search
+Name or phone. Fuzzy on name, exact on phone. Debounced 250ms, client-side up to 500 rows.
+
+Empty state
+“No bookings yet today. Walk-ins still count — add one from Today.” + a button. Never an illustration with no action.
+
+Pagination
+30 rows, infinite scroll. Past is server-paged; Today is fully in memory.
+
+/booking/:id — the detail
+
+Header
+
+Name, phone (tap to call), avatar initial. Status pill, large. If it’s a hold, a live countdown to expiry.
+
+What & who
+
+Services with prices, total, assigned stylist, chair. All editable until status = done.
+
+Timeline
+
+Held 5:42 · Arrived 6:04 · In chair 6:11 · Done 6:38. The honest record. Not editable, ever.
+
+Money
+
+Amount, mode (cash / UPI / Wisbox). Phase 1 is record-only — we do not process it.
+
+Actions
+
+Mark done · No-show · Reassign stylist · Cancel. Destructive actions confirm.
+
+History
+
+“3rd visit. Last: haircut, 5 weeks ago, with Imran.” One line. This is the whole CRM in Phase 1.
+
+👨‍💻 Status is a state machine, not a field
+
+held → arrived → in_chair → done , with no_show and cancelled as terminal branches from any pre- in_chair state. Backward transitions are allowed only from done to in_chair , only within 5 minutes, only by the shop. Every transition writes an immutable row to booking_events with actor, timestamp and source ( vendor | customer | system ). Glow Mind trains on this table, so a lie here is a lie forever.
+
+⚠️ Watch out — the same human, two phone numbers
+
+People book on their own phone, then their wife’s. Do not silently merge on name similarity. Match on phone only, and surface “Possibly the same customer” as a suggestion the shop confirms. A wrong merge in a small town is a genuinely bad day for someone.
+
+Wisbox Technology · Glow — Confidential
+
+11
+
+GLOW · PRD
+
+CONFIDENTIAL
+
+Section 5 · Screens
+
+Stylist profile & the before/after wall
+
+The moat. Build this properly or build something else.
+
+🧬 The stylist wall
+
+Every barber gets a page with photos of haircuts he did — before on the left, after on the right. You pick the person, not just the shop. Because that’s what you were already doing.
+
+WHY THIS IS THE MOST IMPORTANT PAGE IN THE DOCUMENT
+
+Queue data is copyable. Prices are copyable. A stylist’s three-year portfolio, built one customer at a time, is not. Salon loyalty in India is stylist loyalty — people follow the barber when he changes shops. If stylists build their proof-of-work on Glow, we become the layer that outlives any individual salon on the platform. Everything else in Phase 1 is a feature. This is the moat.
+
+/stylist/:id — customer view
+
+Header
+
+Circular photo, 88px
+Name, 800 weight, Sora
+Years of experience
+Chips: Fades · Beard · Colour
+“42 looks · 4 yrs here”
+CTA: Hold with Imran
+
+The wall
+
+2-column grid of look tiles
+Each tile: split before/after
+Tap → full screen
+Swipe divider to compare
+Caption: service + date
+Consent badge on every tile
+
+Availability
+
+Wait if you pick him vs. anyone
+“+10 min for Imran”
+This is the honest trade-off
+Never hide the cost of choice
+Booked-out → next free day
+
+The look uploader — vendor view
+
+Step
+Rule
+
+1. Capture
+Two photos, same session. In-app camera with a ghost overlay of the ‘before’ so the ‘after’ frames identically. This one detail is the difference between a portfolio and a mess.
+
+2. Consent
+A single explicit toggle: “Customer said yes to showing this.” Cannot be skipped. Stores who tapped it, when, and the booking ID.
+
+3. Tag
+Auto-filled from the booking: service, stylist, date. Editable. Free-text caption optional, 60 chars.
+
+4. Publish
+Goes live instantly. No moderation queue in Phase 1 — but see the reporting rule below.
+
+⚠️ Watch out — consent is not a checkbox, it is a liability
+
+These are photographs of identifiable people, often women, in small towns where everyone knows everyone. Non-negotiable rules: (1) no face-forward image publishes without the consent toggle; (2) the customer gets an SMS with a one-tap “Remove my photo” link, no login needed, honoured within 60 seconds, no questions; (3) removal is a hard delete from CDN and origin, not a flag; (4) any reported image is hidden first and reviewed second. Get this wrong once and the vertical is over.
+
+Wisbox Technology · Glow — Confidential
+
+12
+
+GLOW · PRD
+
+CONFIDENTIAL
+
+Section 5 · Screens
+
+Add flows
+
+Four sheets. Every one of them has to survive being used one-handed, mid-haircut, on a Saturday.
+
+🧬 Adding things
+
+Four things ever get added: a person to the line, a service to the menu, a stylist to the shop, a look to a wall. Each is one sheet. None is a page.
+
+Add walk-in — the 8-second flow
+
+1
+
+Tap +
+
+Floating button, bottom-right of /today. Always reachable with a thumb.
+
+2
+
+Pick service
+
+The shop’s 6 most-used services as big chips. More opens the full list.
+
+3
+
+Name or skip
+
+“Walk-in” is a valid name. Do not force a name out of a busy man.
+
+4
+
+Add
+
+Enters the queue at the back. Toast: Added · Undo.
+
+The other three sheets
+
+Add service
+
+Preset grid first, custom last. Price is the only required field — duration inherits the preset default. Live preview of how it reads on the customer menu.
+
+Add stylist
+
+Photo + name + years. Optional specialities. Creates an empty wall with a prompt to add the first look.
+
+Add look
+
+Opens the two-shot camera. Consent toggle. Cannot publish without it. See page 12.
+
+Shared sheet rules
+
+Rule
+Spec
+
+Presentation
+Bottom sheet, 24px top radius, drag-to-dismiss, backdrop 40% ink plum.
+
+Height
+Content-sized, capped at 85% viewport. Never full-screen — the queue behind must stay visible.
+
+Primary CTA
+Pinned to bottom, above the keyboard. Says the verb (Add to queue). Never says Submit or Save.
+
+Dismiss
+Swipe down or backdrop tap. If any field is dirty, confirm: Discard this? — but only then.
+
+Success
+Sheet closes, toast appears with Undo, list animates the new row in. No success screen, ever.
+
+Failure
+Sheet stays open, inline error on the offending field, CTA returns to enabled. Never a modal alert.
+
+👨‍💻 Optimistic by default
+
+Every add writes to local state and renders immediately, then syncs. On failure, the row gets a rose left-border and a Retry chip — it does not vanish. A row disappearing under a vendor’s thumb during a rush is how we lose the shop’s trust in the data, and the data is the product.
+
+⚠️ Watch out — the + button and the queue order
+
+A walk-in always joins the back of the line, even if the owner adds him while a booked customer is en route. If he wants to favour someone, he drags. Do not build cleverness into the insert position — the owner must own that choice visibly, because the customer can see the order on their phone.
+
+Wisbox Technology · Glow — Confidential
+
+13
+
+GLOW · PRD
+
+CONFIDENTIAL
+
+Section 6 · Screens
+
+Nearby discovery & the live feed
+
+The customer’s front door, and the six reasons they come back to it.
+
+🧬 Finding a chair
+
+Open the app. See salons near you, closest first, each with how long the wait is right now. Green means walk in. Rose means don’t bother.
+
+/nearby — the home screen
+
+Sharma Hair Studio
+
+400 m · from ₹80 · 4 chairs
+
+● Walk in now
+
+Glamour Beauty Lounge
+
+700 m · from ₹250 · women
+
+● 18 min
+
+Royal Men’s Salon
+
+1.1 km · from ₹60 · 6 chairs
+
+● 35 min
+
+Style Point Unisex
+
+1.4 km · from ₹120
+
+● Packed · 65 min
+
+Relax Spa & Salon
+
+2.0 km · from ₹400
+
+● Closed
+
+Sort order
+
+Not distance. Walkability × wait × price fit. A green chair 900 m away outranks a packed one next door — because the user’s job is a haircut, not a map.
+
+Filters
+
+Service, gender, price band, open-now, < 15 min wait. The wait filter is used more than all the others combined.
+
+Map toggle
+
+Shares the Wisbox map layer. Pins are coloured by wait, not by category.
+
+Guest mode
+
+Everything here works logged-out. Auth appears at Hold my place, not before.
+
+The live feed — what makes a user open Glow on a Tuesday
+
+“Imran is free right now”
+
+Your usual stylist, zero wait, within 1 km. Fires max once per week per user.
+
+“You’re due for a cut”
+
+5 weeks since your last one, learned from your own history, sent on your usual day.
+
+“₹60 off, next 2 hours”
+
+A dead-hour offer from a salon you’ve visited. Only from shops you know.
+
+“New looks from Sharma’s”
+
+A stylist you follow posted work. Pure discovery, no transaction.
+
+“Quiet right now”
+
+Your saved salon is unusually empty. The single most-tapped notification in testing.
+
+Wiskeys
+
+Shared Wisbox rewards. A visit earns; the streak is what brings them back.
+
+⚠️ Watch out — notification budget is 3 per user per week, hard
+
+Not 3 per feature. Three, total, across every trigger above, enforced centrally at the send layer — not politely agreed between teams. The salon category has a genuinely low natural frequency (a haircut is a monthly event). Over-notify and the uninstall comes in week two, and it is permanent.
+
+Wisbox Technology · Glow — Confidential
+
+14
+
+GLOW · PRD
+
+CONFIDENTIAL
+
+Section 6 · Screens
+
+Profile, my bookings & notifications
+
+The quiet third of the app. Where trust is either kept or quietly lost.
+
+🧬 Your stuff
+
+Three quiet screens: where you’re going, where you’ve been, and what we told you. Nothing clever. Just correct.
+
+/my/bookings
+
+Active hold — live
+
+Big Sora number: 18 min
+“2 people ahead of you”
+Live-updating, every 20s
+Salon name, tap to call
+Directions button
+Leave queue — always visible
+
+Upcoming
+
+Date, time, salon, service
+Stylist if chosen
+Add to calendar
+Cancel — free, no penalty
+Reschedule → slot picker
+
+Past
+
+Service, price, stylist, date
+Book again — 1 tap, same everything
+Rate — Phase 2, hidden now
+Receipt: record only
+
+The live hold screen — the emotional centre of the app
+
+YOUR PLACE AT SHARMA HAIR STUDIO
+
+~18 min
+
+2 people ahead · we’ll buzz you at 5 min
+
+Directions
+Call salon
+
+Leave queue
+
+👨‍💻 Honesty rules for the ETA
+
+Always show a range or a tilde , never a hard number — “~18 min” not “18 min”. If the estimate increases , animate it upward slowly and show a one-line reason (“the cut ahead of you is running long”). Never let it jump silently. If it increases past +50% of the original promise, send a push and offer a no-blame Leave queue with the place kept warm for 10 minutes. An honest bad number keeps a user. A pretty lie loses the salon.
+
+/my/notifications & /my/profile
+
+Notification centre
+
+Reverse-chron, 30 days, read/unread. Grouped by day. Tapping deep-links to the thing.
+
+Profile
+
+Name, phone, service preference, saved salons, followed stylists, language. Nothing else.
+
+Language
+
+Hindi, English, and the state language. Set at first launch from device locale, changeable here. Not a Phase 2 nicety — a Phase 1 requirement.
+
+Wisbox Technology · Glow — Confidential
+
+15
+
+GLOW · PRD
+
+CONFIDENTIAL
+
+Section 7 · Systems
+
+The offer loop, settings & toasts
+
+Where the product and the revenue model are the same object.
+
+🧬 The empty-chair loop
+
+Tuesday at 3pm the shop is dead. Glow notices, offers ₹60 off to twelve people who live nearby and are due for a cut, and three of them come. The shop earns money it would not have earned. That is the only thing we ever charge for.
+
+The loop, step by step
+
+01
+
+Predict
+
+Glow Mind flags a window with < 40% predicted fill, 6–24h ahead.
+
+02
+
+Suggest
+
+Vendor gets one card: “Tomorrow 2–5pm looks empty. Offer ₹60 off?” He taps yes.
+
+03
+
+Target
+
+Sent to past customers within 2 km who are due, and nearby users matching the service.
+
+04
+
+Fill
+
+They hold. The window fills. The offer auto-stops the moment fill hits target.
+
+05
+
+Charge
+
+₹25 per filled dead-hour seat. Nothing else, ever.
+
+👨‍💻 Why the money model lives inside the product, not next to it
+
+Commission on every booking is a tax on customers the shop already had — he will notice within a week and tell people to call him directly, and we lose both the fee and the queue data. Commission on incremental business only is defensible in one sentence at the doorstep: “you pay ₹25 only when I bring you someone on a dead Tuesday.” Phase 1 charges nothing at all — the loop ships instrumented but free, so we learn the real fill lift before we price it.
+
+/settings — vendor
+
+Shop
+
+Name, photo, address pin, phone, hours, weekly off, chairs.
+
+Accepting bookings
+
+A single master toggle. He will abuse it. That is fine — it beats him going stale.
+
+Notifications
+
+Which nags reach him. Critical cannot be turned off.
+
+Account
+
+Language, support via WhatsApp, logout, delete shop.
+
+Toast — the whole spec
+
+State
+Text
+Colour
+Action
+
+Added
+Ravi added to the queue
+Ink plum
+Undo · 5s
+
+Done
+Marked done · queue moved
+Mint
+Undo · 5s
+
+Consent missing
+Add customer consent before publishing
+Rose
+—
+
+⚠️ Watch out — toasts never stack, and Undo is real
+
+One toast at a time; a new one replaces the old. And Undo must actually reverse the state transition server-side within its 5-second window — not just hide the toast. A fake Undo is worse than no Undo.
+
+Wisbox Technology · Glow — Confidential
+
+16
+
+GLOW · PRD
+
+CONFIDENTIAL
+
+Section 8 · Engineering
+
+Data model
+
+Six tables and one append-only log. If it isn’t here, it isn’t real.
+
+🧬 What we write down
+
+Six things: a shop, a chair, a service, a person who cuts, a person who waits, and what happened. Everything else is maths on top of those.
+
+salon
+id uuid pk
+wisbox_biz_id uuid fk → wisbox.business // shared identity, not a copy
+name text
+chairs int // the entire capacity model
+hours jsonb { mon:[9,21], ... , off:[2] }
+geo point gist index // Wisbox location engine
+city_tier int 2 | 3 | 4
+accepting bool // the master toggle
+status enum open | closed | paused
+
+service
+id, salon_id uuid pk, fk
+preset_key text 'haircut_men' | ... | null // null = custom
+name text
+price int // paise. never float. ever.
+duration_min int
+duration_src enum default | vendor | learned
+gender enum men | women | any
+
+stylist
+id, salon_id uuid pk, fk
+name, photo_url, years_exp, specialities text[]
+visible bool // hidden ≠ deleted
+
+look // the moat
+id, stylist_id, booking_id, service_id uuid
+before_url, after_url text
+consent_by uuid fk → user // WHO tapped yes
+consent_at timestamptz // never null. enforced in db.
+visible bool
+removal_token text unique // the SMS one-tap kill switch
+
+booking
+id, salon_id, services[] uuid
+stylist_id uuid null // null = any stylist
+user_id uuid null // null = vendor-added walk-in
+kind enum hold | advance | walkin
+queue_pos int
+eta_at timestamptz // what we PROMISED
+status enum held|arrived|in_chair|done|no_show|cancelled
+amount int null // record-only in Phase 1
+
+booking_event // append-only. the truth.
+id bigserial pk · booking_id uuid fk
+from_status, to_status text
+actor enum vendor | customer | system
+at timestamptz
+
+👨‍💻 Three non-negotiables
+
+1. booking_event is append-only — no updates, no deletes, ever. It is the training set for Glow Mind and the only defence in a “you said 20 minutes” dispute. 2. Money is int paise, everywhere, always. 3. eta_at stores what we promised ; the gap between it and the in_chair event is our most important quality metric and must be queryable in one join.
+
+⚠️ Watch out — salon is a projection of a Wisbox business, not a new entity
+
+Glow does not own the business identity. A salon on Glow is a Wisbox business with a salon profile attached. Same account, same storefront, same Wiskeys. Fork the business table “just for now” and the merge in month nine costs more than this whole vertical.
+
+Wisbox Technology · Glow — Confidential
+
+17
+
+GLOW · PRD
+
+CONFIDENTIAL
+
+Section 8 · Engineering
+
+Glow Mind — the wait-time engine
+
+One number, computed honestly — or not computed at all.
+
+🧬 The brain
+
+Glow Mind’s only job is to answer one question honestly: how many minutes until I sit in that chair? Everything else serves that number.
+
+How the number is built
+
+wait_minutes =
+Σ remaining_time(jobs_in_chair) // what's running now
++ Σ expected_duration(jobs_ahead) // the line
+÷ chairs_available
+× stylist_factor // if a stylist is chosen
+× time_of_day_factor // learned per salon, per weekday
++ arrival_buffer // no-show-adjusted
+
+expected_duration(service, stylist) =
+learned_median if n_observations ≥ 12
+vendor_duration if set by owner
+preset_default otherwise // cold start
+The four jobs
+
+1 · Predict the wait
+
+Per salon, per stylist. Refreshed every 60s or on any queue event. This is the product.
+
+2 · Auto-advance
+
+Job past duration + 10 min with no input → close it, move the line, undo chip.
+
+3 · Spot dead hours
+
+6–24h ahead, flag windows under 40% fill. Feeds the offer loop.
+
+4 · Learn the shop
+
+Every completed job updates that stylist’s median. 12 observations to leave the preset.
+
+Cold start — the first two weeks
+
+Signal available
+What Glow Mind does
+What the user sees
+
+Nothing (day 1)
+Preset durations × chairs. Wide error bars.
+“~20–35 min” — honestly wide.
+
+≥ 12 jobs / service
+Learned median per stylist per service.
+“~18 min” — a tilde, never a promise.
+
+Vendor silent > 25 min
+Freeze the ETA, mark Wait unknown , stop advertising a number.
+“Busy — wait unknown. Call to check.”
+
+👨‍💻 The graceful-degradation rule
+
+Glow Mind must have a mode where it refuses to answer . Below the confidence threshold the correct output is wait_unknown — not a guess rendered as a precise pill. A salon showing “wait unknown” is fixable; one showing a confident wrong number is a user we never see again. Build the refusal path first.
+
+⚠️ Watch out — Phase 1 has no ML in it
+
+Everything above is medians, counters and a decay function. Ship the arithmetic, collect booking_event for six months, then ask whether a model beats the median. The failure mode is not a bad model — it is building one instead of getting 100 salons to tap Done.
+
+Wisbox Technology · Glow — Confidential
+
+18
+
+GLOW · PRD
+
+CONFIDENTIAL
+
+Section 8 · Engineering
+
+Backend & API
+
+Nine endpoints, one stream, one outbox. Small enough to hold in your head.
+
+🧬 The plumbing
+
+The apps ask the server questions. The server answers fast, or admits it can’t. When the phone has no signal, the app keeps working and catches up later.
+
+Core endpoints
+
+Method & path
+Does
+Notes
+
+GET /v1/nearby
+Salons by geo + filters, with live wait
+Cached 30s at edge. Wisbox geo index. ≤ 300ms p95.
+
+GET /v1/salon/:id
+Detail, services, stylists, wait
+Cached 60s. Wait field bypasses cache.
+
+GET /v1/stylist/:id/looks
+The before/after wall, paged
+CDN, 24h. Purge on removal within 60s — hard requirement.
+
+POST /v1/hold
+Join the queue
+Idempotency-Key required. Returns booking + eta_at.
+
+DELETE /v1/hold/:id
+Leave the queue
+Always succeeds. Never make leaving hard.
+
+POST /v1/booking/:id/transition
+Advance state
+Body: to_status, actor. Writes booking_event. Rejects illegal transitions with 409.
+
+GET /v1/salon/:id/queue
+The live line
+Vendor + customer. SSE stream, polling fallback.
+
+POST /v1/look
+Publish a look
+422 if consent_at is null. Enforced at db and api.
+
+POST /v1/offer
+Fire a dead-hour offer
+Rate-limited: 1 per salon per 24h.
+
+Realtime & offline
+
+Transport
+
+SSE for the queue (one-way, cheap, survives bad networks). Poll every 20s as fallback. WebSockets are not worth it in Phase 1.
+
+Offline queue
+
+Vendor writes go to a local outbox and replay in order on reconnect, keyed by Idempotency-Key. The vendor app must be fully usable with no signal.
+
+Push
+
+FCM + the Wisbox notification service. WhatsApp as the fallback channel — delivery there beats push in our cities and it is not close.
+
+Stack
+
+Mobile
+
+React Native CLI — shared with the Wisbox apps. Two apps, one component library.
+
+Backend
+
+Node.js. Postgres + PostGIS. Redis for the live queue. Shared Wisbox auth and geo services.
+
+Media
+
+Direct-to-S3 presigned upload, CDN in front, aggressive compression — assume 3G and a 40MB monthly budget.
+
+⚠️ Watch out — the queue endpoint is the whole system under load
+
+Saturday 6–9pm is 60% of weekly traffic and every waiting user polls their salon. Cache the computed wait per salon in Redis with a 20s TTL and serve every reader from it — never recompute per request. Recomputing per user is how a 40-salon city takes the service down on its first good Saturday.
+
+Wisbox Technology · Glow — Confidential
+
+19
+
+GLOW · PRD
+
+CONFIDENTIAL
+
+Section 9 · Ship
+
+Edge cases, checklist & sign-off
+
+The list of things that will actually happen, and the bar for calling it done.
+
+Edge cases — none of these are theoretical
+
+Case
+Required behaviour
+
+Customer holds, never arrives
+At eta_at + 10 min → auto no-show, queue moves. Third no-show in 30 days → holds require a call-back confirm.
+
+Shop closes early with people in the queue
+Every held user gets an instant push + WhatsApp, an apology, and 2 nearby green alternatives. Non-negotiable.
+
+Two customers hold the last slot
+First write wins on Idempotency-Key. Second sees a graceful “taken 4 seconds ago” and the next available time, pre-selected.
+
+Photo removal requested by SMS
+Hard delete, CDN purge, ≤ 60s, no login, no retention appeal.
+
+Vendor marks 20 jobs done at closing
+Detect the burst, mark those ETAs untrusted, exclude from learning.
+
+Power cut, vendor phone dies
+Queue freezes → 25 min later “wait unknown” → users told honestly. Never keep counting down against a dead phone.
+
+Phase 1 ship checklist
+
+Wait accurate to ±8 min on 80% of holds
+
+Vendor can go live in < 10 min, unassisted
+
+Consent gate cannot be bypassed — db-enforced
+
+SMS removal link works, ≤ 60s, tested
+
+Vendor app fully usable offline
+
+What Phase 1 explicitly does NOT include
+
+In-app payments Ratings & reviews Memberships Home service Product sales Vendor analytics Multi-city Subscriptions Any ML model Stylist hiring Brand tie-ups Loyalty tiers
+
+SIGN-OFF
+
+This document is the single source of truth for Glow Phase 1. If a screen, rule or number is not in here, it is not in scope — raise it, don’t build it. Three questions decide whether this vertical lives: can 100 salons in one cluster keep the queue honest daily; does anyone open Glow on a Sunday evening; do stylists care about their wall. Everything in these twenty pages exists to answer one of those three.
+
+Raja Sahoo
+Founder & CEO · Product owner
+
+Engineering lead
+Build & architecture
+
+Design lead
+Screens & system
+
+Wisbox Technology · Glow — Confidential
+
+20

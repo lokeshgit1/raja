@@ -1,0 +1,2101 @@
+D O C U M E N T
+GB-PRD-
+2026-001
+V E R S I O N
+v1.0
+Source of truth
+D AT E
+07 September
+2026
+O W N E R
+Gharbar
+Product
+g G H A R B A R B E N G A L U R U C O N F I D E N T I A L · I N T E R N A L
+P R O D U C T R E Q U I R E M E N T S D O C U M E N T
+Gharbar
+घरबार — house and home. And, if you say it out loud, ghar + bar.
+“Something is happening tonight, eight minutes from you,
+and four people you like are already there.”
+A private social world for house parties in Bengaluru. Attendees discover a
+night they want to be inside. Hosts create one without touching a single
+form field. Everything else — trust, address privacy, guest approval, the
+pass at the door — is the product.
+MOBILE FIRST 18–30 TONIGHT FIRST INVITE-LED
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 1 of 67 --
+
+C O N T E N T S
+What’s inside
+Thirty-one sections in five categories. Each section header carries a coloured spine, so
+you always know whether you are reading foundation, business, product, design or
+technology. Every section opens with an In plain words box — read only those, end to
+end, and you understand the whole product.
+F O U N D A T I O N
+00 How to read this document
+01 Executive summary
+02 Vision, goals & non-goals
+30 Risks, decisions & glossary
+B U S I N E S S
+03 The problem
+04 Market & the Bengaluru wedge
+05 Competitive landscape
+06 Business model & economics
+29 Launch, metrics & delivery
+P R O D U C T
+07 Users & personas
+08 The two loops
+09 Information architecture
+10 Discover
+11 Party detail
+12 Invitations
+13 Join, approval & the pass
+14 Host — create a night
+15 Host — manage a night
+16 Party chat
+17 Spaces
+18 Profile & social graph
+19 Nothing is ever empty
+D E S I G N
+20 Design principles
+21 Colour, explained simply
+22 Typography
+23 Shape, depth & tactility
+24 Components
+25 Motion
+26 Photography direction
+T E C H & T R U S T
+27 Architecture & data model
+28 Privacy, safety & age gating
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 2 of 67 --
+
+0 0 · F O U N D A T I O N
+How to read this document
+One document, one truth. If it is not written here, it is not decided.
+? I N P L A I N W O R D S
+This is the rule book for building Gharbar. It says what we are making, who it
+is for, exactly how every screen behaves, what it looks like, and in what order
+we build it. If two people remember a decision differently, this book wins.
+T H E C O L O U R S P I N E
+Every section is categorised
+The coloured bar above each section
+title tells you which lens you are
+in. Skim by colour to find the part
+you own.
+T H E P L A I N - W O R D S B O X
+A ten-second summary
+No jargon, no numbers you have to
+hold in your head. Everything below
+the box is the detailed spec for the
+people building it.
+Conventions used throughout
+C O N V E N T I O N M E A N I N G
+I N V 1 Explicitly in scope for the first public release. Build it.
+L AT E R Deliberately deferred. Do not build in v1 even if it looks easy — each
+deferral protects the launch date.
+A S S U M P T I O N A number we are launching on but have not proven. To be validated in
+the first hundred parties before anyone treats it as fact.
+AT T E N D E E
+H O S T
+The two sides of the product. They are equally important and have
+separate loops (Section 08). Never design one at the cost of the other.
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 3 of 67 --
+
+Governance. Changes go through the product owner and are appended to the
+Decision Log (Section 30) with date and reason. Chat messages and hallway
+agreements do not override this document — they get folded back into it first.
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 4 of 67 --
+
+0 1 · F O U N D A T I O N
+Executive summary
+What we are building, why it works, and where the money is.
+? I N P L A I N W O R D S
+House parties in Bengaluru already happen every weekend. They get
+organised in group chats, which means only the same eight people ever hear
+about them, and hosts spend the night counting heads instead of enjoying it.
+Gharbar is an app where you find real parties near you tonight, see which of
+your friends are going, ask to join, and get a pass with the address on it. If
+you are the one throwing it, you set the whole thing up in about two minutes
+and the app handles the guest list, the address secrecy and the door.
+The opportunity, in one paragraph
+Bengaluru has roughly 3.5 million residents aged 18–30, a large share of them recent
+migrants working in tech and living in shared flats far from family. Their social life is
+almost entirely private and unindexed: house parties, villa weekenders, rooftop
+birthdays, dinner tables. There is no product for it. Ticketing platforms serve
+commercial events with a seller and a buyer. Social networks serve broadcasting.
+Group chats serve coordination but cap a party at the hostʼs existing contacts. Nobody
+serves the thing itself — a private night at somebodyʼs home that wants a few more of
+the right people in it.
+3.5M
+Bengaluru residents
+aged 18–30
+8
+Average group chat
+a party is trapped
+inside (Assumption)
+₹0
+Cost to host or
+attend in v1
+100%
+Of parties are
+approval-gated by
+the host
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 5 of 67 --
+
+The product
+A mobile-first social app with two equally weighted sides and four tabs. The attendee
+opens it to find tonight. The host opens it to build a night and run the door. There is no
+separate host app, no web dashboard, no ticketing checkout. Six things done properly:
+discover, invite, join, host, chat, remember.
+Why it compounds
+1 A host publishes a night to get more of the right people in
+Her existing group chat gives her twelve. She wants thirty, and she wants them
+vouched for. That is the only reason she leaves the chat.
+2 She invites her twelve, who each bring their graph
+An invitation is the strongest install trigger in the product: somebody specifically
+wants you at their house on Saturday.
+3 Their friends now see parties with real social proof
+“Four friends and eleven mutuals are going” converts far harder than any description
+of the party could.
+4 Attendees become hosts, because hosting is now easy
+The single most important conversion in the company. Every host manufactures thirty
+attendee sessions and a new pocket of graph.
+The one-line thesis. Give the host a free tool that gets her the right thirty people
+and takes the door off her hands; give the attendee proof that their friends are
+already going; let the invitation do the marketing.
+What we are deliberately not building in v1
+L AT E R No ticket sales or payment rails. No public commercial events. No dating or
+matching mechanics. No follower counts. No stories or feed posting. No web app. No
+second city. Each “no” protects the launch date and keeps the trust posture in Section
+28 defensible.
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 6 of 67 --
+
+0 2 · F O U N D A T I O N
+Vision, goals & non-goals
+What winning looks like, stated in numbers we can be wrong about in public.
+? I N P L A I N W O R D S
+We win when a Friday night in Bengaluru starts with someone opening
+Gharbar instead of scrolling a group chat. Not when we have the most users
+— when we have the most parties that actually happened.
+V I S I O N
+Every good night in this city is already
+happening. Gharbar is how you find out you
+were invited to it.
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 7 of 67 --
+
+Goals for v1
+G O A L M E A S U R E D B Y F I R S T 9 0
+D AY S
+Parties actually happen
+Published nights that reach their door time with 8+
+confirmed guests
+Completed parties /
+week 120 / wk
+Attendees convert to hosts
+The compounding loop; the only growth number that
+matters long term
+% of attendees who
+host within 60 days 6%
+Invitations are believed
+If invites feel like spam, the whole product dies. This
+is our canary.
+Invite → accept rate > 55%
+Hosting takes minutes, not effort
+Time from “Throw something” to Published, median Median create time < 2:30
+Nobody feels unsafe
+The number we will kill features to protect
+Reports per 1,000
+attendances < 2
+Non-goals, and why
+Not a ticketing platform
+The moment money changes hands
+through us, a house party becomes a
+commercial event and the host becomes
+a vendor with obligations. Contribution
+amounts are displayed, never collected.
+Not a dating product
+No swiping, no matching, no “singles
+going”. If Gharbar reads as a way to meet
+strangers romantically, hosts stop
+publishing and women stop attending.
+Non-negotiable.
+Not a popularity contest
+No public follower counts, no attendance
+leaderboards. Social proof is always
+relational (“four of your friends”),
+never absolute.
+Not a feed
+Nothing to post, nothing to scroll
+infinitely. The content is the parties, and
+there are only ever a few dozen live at
+once. Finiteness is a feature.
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 8 of 67 --
+
+0 3 · B U S I N E S S
+The problem
+Four frictions, all of them weekly, none of them priced by anyone.
+? I N P L A I N W O R D S
+If you have just moved to the city, there is nothing happening — not because
+nothing is happening, but because you cannot see it. If you are the person
+throwing the party, you spend the night texting your address to strangers and
+counting how many people showed up. Both sides are doing admin instead of
+having a Friday.
+P A I N 1 · I N V I S I B I L I T Y
+Good nights are
+locked in group chats
+A partyʼs reach equals the hostʼs
+contact list. Newcomers — the single
+largest segment in Bengaluru — are
+structurally excluded for their first two
+years in the city.
+P A I N 2 · T H E D O O R P R O B L E M
+Hosts cannot
+control who walks in
+Open the party up and you get plus-
+ones of plus-ones. Keep it closed and
+it stays the same eight people. There
+is no mechanism between “private”
+and “anyone”.
+P A I N 3 · A D D R E S S E X P O S U R E
+Publishing a party means
+publishing your home
+This is the single reason hosts refuse to
+use anything public. Any product that
+shows the flat number before approval is
+dead on arrival, especially for women
+hosting alone.
+P A I N 4 · N O S I G N A L O F Q U A L I T Y
+You cannot tell a great
+night from a bad one
+Before you go, all you have is a title and
+a time. Afterwards, nothing is recorded.
+Good hosts build no reputation and bad
+hosts pay no price.
+The gap in one sentence. Nobody has built the layer between “my group chat” and
+“the public internet” — a place where a host can reach vetted strangers-of-friends
+without handing out her address, and where an attendee can see that people they
+trust are already going.
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 9 of 67 --
+
+0 4 · B U S I N E S S
+Market & the Bengaluru wedge
+One city, six neighbourhoods, and a density argument.
+? I N P L A I N W O R D S
+A party app only works if there is a party near you tonight. So we do not
+launch in a country — we launch in six neighbourhoods where young people
+already live on top of each other, get it dense enough that the app is never
+empty, and only then move outward.
+Why Bengaluru, and why these six
+Bengaluru has the highest concentration in India of the exact person this product
+needs: 22–29, employed, living away from family in a shared flat, with disposable
+income and a social circle they had to build from scratch. Crucially, the cityʼs social life
+is already house-shaped — long commutes, expensive and early-closing bars, and
+large rented apartments push the good nights indoors.
+D E N S I T Y
+Walkable supply
+Indiranagar, Koramangala,
+HSR, Jayanagar,
+Whitefield, Frazer Town.
+Every launch party must be
+within 8 km of a user, or
+Discover feels dead.
+G R A P H O V E R L A P
+Mutuals exist
+Tech-industry social
+graphs overlap heavily.
+“Friends of friends” is a
+real, populated set here in
+a way it is not in a
+dispersed city.
+S PA C E S S U P P LY
+Villas for hire
+A mature market of party-
+friendly villas and rooftops
+on the cityʼs edge already
+exists, discovered
+today only through
+Instagram DMs.
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 10 of 67 --
+
+Sizing the wedge
+L AY E R W H O E S T I M AT E
+Total Urban Indians 18–30 in the top eight metros ~48M
+Serviceable Bengaluru 18–30, smartphone, living independently ~2.1M
+Obtainable The six launch neighbourhoods, year one (Assumption) ~180K
+Supply side Active hosts needed for Discover to feel alive every
+weekend ~400
+Read the last row first. This is a supply problem disguised as a consumer app. Four
+hundred committed hosts make the product feel infinite; four hundred thousand attendees
+with no hosts make it feel broken. Every early growth rupee goes to hosts.
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 11 of 67 --
+
+0 5 · B U S I N E S S
+Competitive landscape
+Everybody is adjacent. Nobody is here.
+? I N P L A I N W O R D S
+Other apps either sell you a ticket to a big event, or help you post about your
+life, or let you chat with people you already know. None of them help a
+normal person fill their living room on Saturday with thirty people they will
+actually like.
+C AT E G O R Y W H AT I T G E N U I N E LY
+S O LV E S W H Y I T C A N N O T S O LV E O U R S
+Event ticketing
+Selling seats to a
+commercial event at scale,
+with payment and check-
+in.
+Assumes a public venue and a buyer. A
+host cannot list her flat, and there is no
+notion of “who is going” mattering more
+than price.
+Social networks Broadcasting your life and
+browsing other peopleʼs.
+Optimised for audience, not attendance.
+Posting a party there is either invisible or
+a security incident. No approval layer, no
+address model.
+Group messaging
+Coordinating a night with
+people you already have
+the number of.
+This is the incumbent, and it is good. It
+simply cannot reach past the hostʼs
+contacts, and it has no memory — every
+party starts from zero.
+Short-stay
+rentals
+Booking a place to sleep,
+with trust and payments
+solved.
+Actively hostile to parties. Their listings
+optimise for beds and quiet; ours need
+capacity, pool, parking and a music cut-
+off time.
+Meetup-style
+groups
+Recurring interest-based
+gatherings with strangers.
+Built around a topic, not a night. The
+social proof is a group name, not your
+own friends, so the emotional pull is near
+zero.
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 12 of 67 --
+
+P O S I T I O N I N G
+Gharbar is not a bigger group chat and not a smaller Eventbrite. It is
+the approval layer for private nights: the only place where a host
+can safely let in people she does not know yet, because somebody
+she trusts does.
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 13 of 67 --
+
+0 6 · B U S I N E S S
+Business model & economics
+Free in v1, on purpose. Three revenue lines behind it, in order.
+? I N P L A I N W O R D S
+At first we charge nobody, because charging for a party nobody can find yet
+would kill it. We make money later in three ways: taking a small cut when
+someone books a villa through us, selling hosts better tools once they throw
+parties often, and letting a few good brands sponsor nights. Guests never
+pay us.
+v1: deliberately free, and deliberately
+not a payments company
+Contributions (“₹500 towards the bar”) are displayed as information, never
+collected by Gharbar. Guests settle with the host however they already do. This one
+decision keeps us out of payment aggregation, refund liability, GST on ticket sales, and
+the legal category of “event organiser” — and it keeps a house party a house party.
+The three revenue lines, in build order
+1 Spaces commission F I R S T
+A host books a villa, rooftop or terrace through Spaces (Section 17); we take
+10–12% of the booking from the space owner, not the host. High intent, real
+money already moving, and the owner is a business who expects to pay for
+demand. (Assumption: ₹14,000 average booking, ~₹1,500 per transaction.)
+2 Host tools subscription L AT E R
+For the ~5% who host monthly: recurring nights, co-hosts, a guest CRM, a
+bigger cap, custom invitation art, post-party photo albums. (Assumption:
+₹299/month.) Only ships once hosting is provably habitual — charging
+occasional hosts suppresses supply.
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 14 of 67 --
+
+3 Sponsored nights L AT E R
+A spirits or audio brand stocks a real hostʼs real party in exchange for presence
+on that partyʼs page. Hard cap: never more than one sponsored night in a
+userʼs Discover per week, always labelled, never in the featured slot.
+The rule that protects the product. Every revenue line must be paid by a business
+(a space owner, a brand) or by a heavy host who is getting real leverage. The
+moment an attendee has to pay to see who is going, the social proof becomes a
+paywall and the loop breaks.
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 15 of 67 --
+
+0 7 · P R O D U C T
+Users & personas
+Three people we build for, and one we design against.
+? I N P L A I N W O R D S
+Three kinds of people use Gharbar: someone new in the city who wants
+somewhere to be on Friday, someone who loves throwing parties and hates
+the admin, and someone who owns a villa and would rather rent it to a party
+than to a family. There is also a fourth kind we specifically keep out, and most
+of our safety design exists because of him.
+AK Aarav, 24 — the newcomer
+PRIMARY ATTENDEE · ~70% OF USERS
+S I T U AT I O N
+Eighteen months in Bengaluru, product
+analyst, flatshare in Indiranagar. Knows
+nine people well, most of them from
+work. Weekends are the problem.
+W H AT H E N E E D S
+Proof that a night is real and that
+someone he knows will be there. Low
+commitment to look, high confidence
+before he travels 40 minutes.
+F E A R
+Turning up somewhere he was not really
+wanted, and standing in a kitchen alone.
+S U C C E S S
+He gets invited to the second party by
+someone he met at the first.
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 16 of 67 --
+
+MT Meher, 27 — the host
+SUPPLY SIDE · ~4% OF USERS, 100% OF THE CONTENT
+S I T U AT I O N
+Has the terrace flat everyone ends up at.
+Throws something roughly monthly.
+Already the unpaid social secretary of
+three friend groups.
+W H AT S H E N E E D S
+A door she controls, a headcount she
+can trust, and one place to say “gate 2,
+not gate 1” instead of forty replies.
+F E A R
+Her address circulating, someone
+bringing three strangers, and neighbours
+at 1 a.m.
+S U C C E S S
+Thirty of the right people, and she did
+not have to hold her phone once after
+10 p.m.
+RV Rohan, 41 — the space owner
+REVENUE SIDE · SECTION 17
+Owns two villas near Whitefield with a pool and a lawn. Currently fills them through
+Instagram DMs and a WhatsApp broadcast list. Wants party bookings specifically —
+higher rate, single night, no families complaining about the music — and wants to
+state his rules (music until 1 a.m., no glass near the pool, twelve cars) once rather
+than forty times. He is a business. He is happy to pay for demand.
+T H E A N T I - P E R S O N A
+The stranger looking for a room full of women
+He is why there is no public guest list before approval, no exact address before
+approval, no way to browse people rather than parties, no gender filter of any kind,
+and why every party is host-approved. If a feature helps him, it does not ship — even
+if it also helps Aarav. This is the one place in the document where we accept a worse
+product for a safer one.
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 17 of 67 --
+
+0 8 · P R O D U C T
+The two loops
+Every screen in this document belongs to one of these two sentences.
+? I N P L A I N W O R D S
+There are only two journeys in this app. One is “find a party and get in.” The
+other is “throw a party and run it.” If a screen does not obviously move
+someone forward in one of those two, it should not exist.
+AT T E N D E E Discover → Desire → Connect → Join → Experience →
+Remember
+1 · Discover
+Opens the app with no plan.
+Sees what is on tonight,
+ordered by time, within
+8 km.
+§10
+2 · Desire
+Opens one. The image
+expands into the room. He
+can feel the night before he
+reads a word.
+§11
+3 · Connect
+Sees four friends and eleven
+mutuals going. This is the
+moment of conversion, not
+the copy.
+§11 · §18
+4 · Join
+Requests, or accepts an
+invitation. Host approves.
+Address and door
+code unlock.
+§12 · §13
+5 · Experience
+Pass on the lock screen,
+arrival info in party chat,
+directions in one tap.
+§13 · §16
+6 · Remember
+The night lands in his profile.
+The people he met are now
+mutuals, which feeds step 3
+for someone else.
+§18
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 18 of 67 --
+
+H O S T Imagine → Create → Invite → Manage → Host → Remember
+1 · Imagine
+Decides on Tuesday that
+Saturday should happen.
+Needs zero friction between
+impulse and draft.
+§14
+2 · Create
+Six questions, one per
+screen, each answerable by
+tapping. Never a form.
+§14
+3 · Invite
+Picks people by name. Each
+gets an invitation object, not
+a notification.
+§12 · §15
+4 · Manage
+Approves requests with the
+context to judge them.
+Watches one honest
+headcount.
+§15
+5 · Host
+One announcement reaches
+everyone. She does not
+touch her phone again.
+§16
+6 · Remember
+Guest feedback becomes
+host standing, which makes
+her next party easier to fill.
+§15 · §18
+The crossover is the business. Step 6 of the attendee loop is step 1 of the host
+loop. The whole product exists to shorten the distance between “I had a great night
+at someoneʼs place” and “I should have people over.” That is why Host is a tab and
+not a button.
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 19 of 67 --
+
+0 9 · P R O D U C T
+Information architecture
+Four tabs. No hamburger, no floating plus, no fifth idea.
+? I N P L A I N W O R D S
+The app has four buttons along the bottom. Discover is whatʼs on. Invites is
+who wants you. Host is your own parties. You is who you are here. That is
+the entire map, and you can always tell which of the four you are in.
+TA B A N S W E R S “ W H AT C A N I D O ? ” B A D G E R U L E
+Discover
+Default tab
+Find a night. Time-scoped (Tonight / This
+weekend / Later), never category-first. Also
+the entry to Spaces.
+None, ever. A badge
+here would manufacture
+false urgency.
+Invites Answer people. Holds invitations and the
+status of your own requests and party updates
+— one mental model: “the door”.
+Count of unanswered
+invitations only. Never
+updates or chat.
+Host Throw and run a night. Create entry point at
+the top, live parties below, past nights and
+host standing under that.
+Count of guests awaiting
+your approval.
+You Be someone in this world. Identity, vibes,
+upcoming, past nights, and privacy controls —
+not a settings screen.
+Only for an unresolved
+verification or safety
+action.
+Navigation rules
+— Tabs are peers. Nothing modal ever sits
+between them.
+— Party detail is pushed over the tab bar,
+full-bleed, and returns you to your exact
+scroll position.
+— The create flow and party detail are the
+only screens that hide the tab bar.
+— Chat, the pass, and an invitation all open
+as sheets — they are always about
+something you are already looking at.
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 20 of 67 --
+
+— Maximum depth from any tab to any
+action: two taps.
+— Back always means back, never “up”. No
+breadcrumbs.
+Alternatives we rejected
+Five tabs + Activity An Activity tab is a graveyard of things you have already dealt with.
+Invites absorbs it, so there is one place where people are waiting on
+you.
+Floating “+” button Makes hosting an afterthought bolted onto a browsing app. Hosting
+is half the product and needs a home with management in it.
+Category-first
+Discover
+Nobody wakes up wanting “a pool party”. They want tonight. Type is
+a filter, never the primary axis.
+A People tab Browsing people rather than parties is the anti-personaʼs feature.
+Deliberately impossible.
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 21 of 67 --
+
+1 0 · P R O D U C T
+Discover
+The most important screen in the product. It has one job: “something is
+happening near you.”
+? I N P L A I N W O R D S
+Open the app and you see tonight, as a list ordered by what starts when —
+like a programme for the evening. Big photos, party names, and under each
+one, which of your friends are going. The party happening right now sits at
+the top with a red dot on it.
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 22 of 67 --
+
+Structure, top to bottom
+B L O C K S P E C I F I C AT I O N P R I O R I T Y
+Header
+Wordmark, area selector (“Indiranagar”, tappable),
+search. Search covers parties, areas and hosts —
+never people alone.
+IN V1
+Time scope
+Three mutually exclusive windows: Tonight · This
+weekend · Later. Icon-led pill chips. Scopes must
+never repeat the same party.
+IN V1
+Featured card
+One cinematic 4:5 card. Live parties get an ember
+badge and a pulsing dot; otherwise a neutral badge
+with day and door time. Carries a floating date chip,
+the party name, one line of host-written copy, and
+the friends-going row.
+IN V1
+The programme rail
+The signature layout. A vertical hairline runs down
+the left with door times ticked off it, parties hung to
+the right in strict chronological order. When a
+scope spans more than one date, each row carries
+a date marker.
+IN V1
+Where your people
+are
+Horizontal rail of square cards, sorted by number of
+your friends attending. The only place in Discover
+not sorted by time.
+IN V1
+Spaces teaser
+A single wide card converting attendees into hosts:
+“34 villas open this weekend”. The one piece of
+supply-side marketing on the attendee side.
+IN V1
+Personalised
+ranking
+Ranking within a scope by graph distance and vibe
+affinity, rather than pure chronology. LATER
+Card content rules
+A card communicates emotion first, information second. Never show every attribute
+at once. The permitted set, in priority order: image, party name, type, area, door time,
+host, friends going, availability. A card shows at most one status badge, chosen by
+this precedence:
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 23 of 67 --
+
+YOUʼRE IN › LIVE NOW › 7 SPOTS LEFT › INVITE ONLY › NOTHING
+“Spots left” only appears at eight or fewer, and only on parties that accept requests —
+scarcity on an invite-only party is a taunt, not information.
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 24 of 67 --
+
+1 1 · P R O D U C T
+Party detail
+Not a listing. The feeling of opening the door.
+? I N P L A I N W O R D S
+You tap a party and its photo grows to fill the screen, so it feels like you
+walked into it rather than opened a new page. Then you get everything you
+need to decide: who is throwing it, when, roughly where, what it will be like,
+who is going, how the night runs, and the house rules. The exact address is
+hidden until you are actually in.
+Order of the page, and why
+01 Hero image, edge to edge, with the date chip and title over it. Feeling before
+facts. The image is the argument.
+02 One line of the hostʼs own words. Never a description field. The prompt in the
+create flow asks for one sentence, and only one.
+03 Signal card: host standing · whoʼs going · map. Three trust signals in one glance,
+before any logistics.
+04 Host row. Avatar, name, verification tick, nights hosted, rating. Follow action. The
+person is the product.
+05 Four-cell logistics grid: When · Doors · Where · Dress. Where shows area plus a
+lock and “unlocks when youʼre in”. See Section 28.
+06 The vibe. Up to five host-chosen chips. These set expectations better than any
+paragraph and are the basis of vibe affinity later.
+07 Whoʼs going. Friends first with a ring, then mutuals, then a count. A relational
+sentence, never a raw number: “Dev joined 2 hours ago.”
+08 How the night goes. A short timeline the host writes: doors, the turn, food, the end.
+Sets the exit expectation, which is what neighbours care about.
+09 Party chat entry, then house rules, then the safety line. Rules are the hostʼs
+voice; the safety line is ours, and appears on every party without exception.
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 25 of 67 --
+
+The action bar
+Pinned to the bottom, always visible, and it only ever shows one primary action in one
+of four states. Above the button sits the availability line and the contribution amount,
+so nobody is surprised by a cost after committing.
+S TAT E 1 · N O T I N
+Request to join
+Label adapts to access: Join tonight
+(open), Request to join (approval), Ask for
+an invite (invite-only).
+S TAT E 2 · R E Q U E S T E D
+Request sent
+Sets an expectation for the wait (“Raghav
+usually replies within the hour”) and offers
+Cancel. Never a dead spinner.
+S TAT E 3 · A P P R O V E D
+Youʼre in · View pass
+The address in the grid above silently
+unlocks in the same moment. Two actions
+here only, and this is the only state
+with two.
+S TAT E 4 · C L O S E D
+Full · Notify me if space opens
+A full party never shows a disabled button.
+It offers the one useful thing left.
+Spatial continuity is required, not decorative. The card image must expand into
+the hero image, and collapse back into the exact same card on return, with scroll
+position preserved. Two screens that share an object must share it visibly. Details in
+Section 25.
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 26 of 67 --
+
+1 2 · P R O D U C T
+Invitations
+“Someone specifically wants you there” — not “you have a new notification.”
+? I N P L A I N W O R D S
+An invitation looks and feels like a real paper invitation card, not a message. It
+says who invited you, why they know you, who else you know is going, and
+sometimes a handwritten note. When you accept, a stamp lands on it that
+says “Youʼre in”, and the address appears.
+The invitation is a physical object
+Invitations and passes are the only two surfaces in Gharbar rendered on bone paper
+rather than the dark ground (Section 21). They carry a perforation, notches and a
+tactile edge. This is the productʼs one deliberate piece of skeuomorphism and it is
+load-bearing: it is what makes an invitation feel like it cost the sender something.
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 27 of 67 --
+
+States
+S TAT E T R E AT M E N T & C O P Y L I V E S I N
+New Full bone paper, senderʼs name in the kicker: “Raghav
+M wants you there”. Expiry shown if under 24 hours.
+New tab ·
+badged
+Viewed
+Same paper, quieter kicker, status reads “Waiting on
+you”. Moves out of the badge count so the badge never
+lies.
+Pending
+Accepted Jade stamp, rotated, scales in over ~520ms. Then a
+“what happens next” list and a route to the pass. Past
+Declined Flips to the dark ground, image desaturated. “You said
+no.” Never guilt-worded, never re-promoted. Past
+Expired Dark, desaturated, “Expired”. The host is not told you
+ignored it — only that it lapsed. Past
+Revoked Host withdrew it. Says so plainly, without a reason, and
+the address re-locks immediately. Past
+Rules that keep invitations meaningful
+— An invitation always names a person,
+never “Gharbar”. If we cannot attribute it,
+we do not send it.
+— Every invitation shows the relationship:
+mutual count, or where you met, or that
+you follow each other.
+— A host may invite at most 2× her guest
+cap per party. This caps spam
+structurally rather than by policy.
+— Declining is one tap, needs no reason,
+and is never shown to other guests.
+— Invitations expire at door time at the
+latest, and are removed from Invites
+rather than lingering.
+— Accepting an invitation skips approval
+entirely — the host already chose you.
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 28 of 67 --
+
+1 3 · P R O D U C T
+Join, approval & the pass
+The one flow where trust, privacy and delight all have to work at once.
+? I N P L A I N W O R D S
+You ask to come. The host says yes. Only then do you get the real address
+and a door code, on a card that looks like a ticket. If she says no, you are told
+kindly and quickly, and nobody else ever knows you asked.
+The three access models
+A C C E S S W H O C A N S E E I T O N D I S C O V E R E N T R Y
+Invite only Nobody. It does not exist in search or Discover
+for anyone but its guests. Named invitation
+Friends of friends The hostʼs circle and exactly one step beyond it.
+Never two. The default.
+Request →
+approve
+Open to requests Verified users within the partyʼs radius. Area
+only — never the building.
+Request →
+approve
+There is no fourth model, and in particular no instant-join for strangers. Even “Open”
+means open to asking. A host approves every single person who is not personally
+invited, always.
+The pass
+Issued the instant a guest is approved. Bone paper, perforated, with notches — the
+same object language as the invitation. It carries date, door time, the full address,
+now unlocked, a four-digit door code, the guestʼs name and plus-one count, and a
+scannable code for hosts who want to check people in at the gate. Two actions only:
+add to calendar, and directions.
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 29 of 67 --
+
+G U A R A N T E E
+The pass works offline. A guest standing
+in a basement car park with no signal can
+still show the door code.
+C O N S T R A I N T
+The pass is personal and non-
+transferable. Sharing a pass removes the
+guest from the list — and the app says so
+on the pass itself, before they do it.
+Declines are a designed experience
+A rejected request is the most fragile moment in the product — it is a small social
+wound and it happens often. Rules: the hostʼs decline is never labelled “rejected”; the
+guest sees “Not this time” with no reason and no host name attached to the refusal;
+the party disappears from their Invites rather than sitting there as a scar; and Discover
+immediately surfaces two alternatives for the same night. Nobody is left on a dead end.
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 30 of 67 --
+
+1 4 · P R O D U C T
+Host — create a night
+Six questions, one per screen. Never a form.
+? I N P L A I N W O R D S
+Making a party should feel like being asked six easy questions, not filling in a
+form. What are you throwing? Where? When? Whatʼs it like? Who gets in?
+Then you see exactly what guests will see, and you press publish. Two and a
+half minutes, and you can tap your way through almost all of it.
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 31 of 67 --
+
+# T H E Q U E S T I O N A S K E D I N P U T, A N D T H E H E L P W E G I V E
+1 What are you throwing?
+A grid of photographic type tiles: House party,
+Rooftop, Pool, Dinner, Birthday, Game night, Theme
+night, Something else. Tap only. The choice picks
+the default photography and the vibe suggestions
+downstream.
+2 Where is it happening?
+Two doors: My place (pre-filled from her saved
+address, shown once and then hidden) or Find a
+space, which hands off to Spaces and returns with
+the venue attached. Never a raw address field on
+first run.
+3 Which night, and when do
+doors open?
+Day chips (Tonight, Tomorrow, named dates, Pick a
+date) plus door-time chips. Contextual advice
+changes with the pick — early doors suit dinners,
+late doors mean a thin room until midnight. The app
+has an opinion.
+4 What kind of night is it?
+Up to five vibe chips, hard-capped, plus the partyʼs
+name in a large serif field. Placeholder is a real
+example, never “Enter title”. Helper text earns its
+place: “A name beats ‘house partyʼ every time.”
+5 Who gets in?
+The three access models from Section 13 as full-
+width radio cards with their real consequences
+written out, plus a guest cap stepper. Cap advice is
+human: “Past forty-five, tell your neighbours before
+you tell your friends.” Closes with the privacy note
+for the chosen model.
+6 This is what people will
+see.
+The actual Discover card, rendered exactly as
+guests get it, above a five-row summary. The
+publish button is the only bone-coloured primary
+button in the app — it is the most committing action
+a host takes.
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 32 of 67 --
+
+Flow rules
+— Six ticks at the top, filled as you go.
+Progress is always legible.
+— The continue button is dimmed but
+never removed, and the line above it
+says exactly what is missing.
+— Back moves one step; back on step one
+leaves the flow. The draft survives either
+way.
+— Nothing is required that we can infer.
+Photos, end time and rules are all post-
+publish.
+— Steps slide horizontally in the direction
+of travel, so the flow has a spatial
+memory.
+— Publishing lands on a celebration screen
+that names the audience reached, then
+routes straight to inviting people.
+Photos after publish, not before. Demanding three good photographs before a
+host can publish is the single biggest drop-off risk in this flow. Publish with type-
+based imagery, then prompt for real photos on the celebration screen and again the
+morning after — when she actually has them.
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 33 of 67 --
+
+1 5 · P R O D U C T
+Host — manage a night
+One honest headcount, a queue she can judge, and one way to tell
+everyone something.
+? I N P L A I N W O R D S
+This is the hostʼs control room for one party. It shows how many people are
+definitely coming, who is waiting to be let in and enough about them to
+decide, and a box to post one message that reaches every guest. That is all.
+It is not a dashboard.
+B L O C K 1 · H E A D C O U N T
+Confirmed, out of cap, with a fill bar
+One number, set in the display face at scale, because it is the thing she checks nine
+times a day. Confirmed means approved — pending requests are counted separately
+and never inflate it. Under the bar: places left, and how many people are waiting on
+her. Approving a guest animates the bar, so the action has a visible consequence.
+B L O C K 2 · WA I T I N G O N Y O U
+The approval queue, with enough context to be fair
+Each request shows avatar, name, verification tick, how you are connected (“5 mutuals
+· was at Salt & Static in July”), how long they have been waiting, and their note if they
+wrote one. Two actions: Not this time and Let Sana in — the approve button names the
+person, because approving a name is a different decision from approving a row.
+Deliberately absent: age, gender, photos of the requester beyond their profile avatar,
+or any attribute that would let a host sort people by looks. See the anti-persona in
+Section 07.
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 34 of 67 --
+
+B L O C K 3 · T E L L E V E R Y O N E
+One composer, pinned to the top of party chat
+The single highest-value feature for a host. Placeholder shows the archetypal
+message (“Gate 2, not gate 1 — security has the list…”) so she knows what it is for.
+Posting pins it in chat and pushes it to every approved guest. Once posted, the
+composer is replaced by the live announcement, not stacked below it.
+B L O C K 4 · G U E S T L I S T & T H E D O O R
+Who is coming, and check-in on the night
+Avatar grid of approved guests. From door time, this block becomes a door list: tap a
+name to check them in, or scan a pass. A host can revoke a guest at any point, which
+re-locks the address instantly. Closes with the standing privacy reassurance about
+address release.
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 35 of 67 --
+
+1 6 · P R O D U C T
+Party chat
+A utility with a lifespan, not a messaging app.
+? I N P L A I N W O R D S
+Every party has a chat, but it is for useful things: where to park, which gate,
+who is bringing ice. The hostʼs message stays stuck at the top. It opens when
+you are in, and it closes a day after the party ends.
+Pinned host announcement
+Always at the top, in a marigold-outlined
+block, timestamped. Only the host can
+post one. It is the reason the chat exists.
+Opens on approval
+You cannot read a partyʼs chat before
+you are in it. Pending requesters get no
+visibility — the guest list stays private.
+Closes 24 hours after
+Read-only, then archived. This keeps
+chat from becoming a general-
+purpose group and keeps the app quiet
+on Tuesdays.
+No direct messages
+LATER Private DMs between guests
+are the fastest route to harassment. If
+they ship at all, it is opt-in, mutual, and
+after v1.
+Copy sets the norm. The composer placeholder reads “Ask something useful…” rather
+than “Message…”. Placeholder text is the cheapest culture-setting tool we have, and
+party chat is where we spend it.
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 36 of 67 --
+
+1 7 · P R O D U C T
+Spaces
+Not accommodation. “Where can we throw an incredible night?”
+? I N P L A I N W O R D S
+Sometimes your flat is too small. Spaces is a list of villas, rooftops and
+terraces you can rent for one night specifically to have a party in — showing
+the things that actually matter for that: how many people fit, is there a pool,
+where do cars go, and how late can the music run.
+The attributes we show, and the ones we refuse to
+W E S H O W
+Area · party capacity (not beds) · pool ·
+indoor / outdoor split · parking in cars ·
+music cut-off time · neighbour
+sensitivity · whether the owner has
+hosted parties before · price for one
+night · which dates are free this month
+W E R E F U S E
+Bedroom and bathroom counts as
+headline stats · star ratings on a five-
+point scale · nightly-stay language ·
+wishlists · instant book · a map-first
+browse — all of it drags the product
+back towards accommodation, which is
+the wrong mental model
+Two entry points, two intents
+From Discover, Spaces is aspirational — a teaser card that turns an attendee into a
+first-time host. The call to action is “Plan a night here”, and picking a space starts the
+create flow with the venue already attached. From step 2 of the create flow, it is
+transactional: the header says “Step 2 of 6 · choose a space”, the call to action is “Use
+this space”, and choosing returns to the flow with a confirmation chip and a Change
+link. Same screen, different verb, no dead ends in either direction.
+Owners are onboarded manually in v1 — there is no self-serve listing tool. Thirty to
+forty verified spaces across the launch neighbourhoods is enough, and hand-curating
+them is also how we guarantee they genuinely allow parties. LATER an owner app,
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 37 of 67 --
+
+availability sync and instant confirmation.
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 38 of 67 --
+
+1 8 · P R O D U C T
+Profile & social graph
+“Who is this person in the Gharbar world?” — not an account settings page.
+? I N P L A I N W O R D S
+Your profile shows what kind of nights you turn up for, what you have
+coming up, the parties you have been to, and how you rate as a host. It does
+not show how many followers you have, because that would turn this into
+a competition.
+What a profile contains
+— Avatar, name, age, area, and the
+verification tick — the four things a host
+judges an approval on.
+— Three stats only: nights out, nights
+hosted, host rating. No followers, no
+streaks, no points.
+— “What you turn up for” — the same vibe
+vocabulary hosts use, so the two sides
+speak one language.
+— Next up, with the RSVP state on each
+(Youʼre in / Invited, not answered).
+— Nights you were there — a photo grid,
+each captioned with the party and the
+month.
+— “Who can see you” — privacy toggles
+sitting on the profile, not buried in
+settings.
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 39 of 67 --
+
+How the graph works
+R E L AT I O N S H I P H O W I T F O R M S W H AT I T U N L O C K S
+Friend Mutual, explicit, and
+confirmed by both sides.
+Shows in “friends going”, can invite you,
+sees your upcoming if you allow it.
+Mutual
+Derived: a friend of a
+friend. Never a request
+you send.
+Counts as social proof, satisfies “friends
+of friends” access, gives a host context to
+approve you.
+Been there Automatic: you both
+attended the same party.
+The strongest trust signal we have. “Was
+at Salt & Static in July” is what gets a
+stranger approved.
+Following a
+host
+One-directional, and only
+ever towards a host.
+You hear when she publishes. Counts are
+visible to her alone.
+Social proof is always relational. Never “432 people going” where “4 of your
+friends and 11 mutuals” will do. Absolute numbers create a popularity contest;
+relational numbers create a decision.
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 40 of 67 --
+
+1 9 · P R O D U C T
+Nothing is ever empty
+Every state is designed. No blank screens, no dead buttons, no half-
+finished flow.
+? I N P L A I N W O R D S
+A screen with nothing on it makes people close the app. So every screen has
+something to say even when there is no data: what is missing, why, and the
+one thing you can do about it. And no button in this app is ever grey and
+unclickable with no explanation.
+The five states every surface must ship
+A screen is not done until all five exist in the build. QA rejects a surface that is missing
+any one of them.
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 41 of 67 --
+
+S TAT E R E Q U I R E M E N T W O R K E D E X A M P L E
+Loading
+Skeletons in the exact shape of the content,
+never a centred spinner. Images fade in;
+layout never shifts once loaded.
+Discover shows three
+card-shaped skeletons
+with the time rail already
+drawn.
+Empty
+A sentence in the display face, one line of
+explanation, and exactly one action. Never
+an illustration of a cactus.
+Invites, none: “Nothing
+here yet. When someone
+wants you at their night, it
+lands here first.”
+Sparse
+The dangerous one. Fewer than three
+parties in scope must never look broken —
+widen the radius, then offer the next scope,
+and say so honestly.
+“Quiet tonight in
+Indiranagar. Two nights
+within 12 km, and eleven
+this weekend.”
+Error
+Says what failed in human words, keeps
+whatever we already had on screen, and
+offers a retry. Never a code.
+“Couldnʼt reach Gharbar.
+Showing what you had at
+9:12 PM.” + Retry.
+Success
+Confirms in place, states the consequence,
+and offers the next step. A toast alone is not
+a success state.
+Accepting shows the
+stamp, then “what
+happens next”, then the
+pass.
+Rules about buttons
+— A dimmed button is always paired with a
+line saying what would enable it. No
+unexplained dead ends.
+— Never two primary buttons on one
+screen. If there appear to be two, the
+screen is asking two questions.
+— Every tap gets a response within 100ms,
+even if the result takes longer. Press
+states are mandatory, not optional
+polish.
+— Destructive actions (revoke a guest,
+cancel a party) confirm once, naming the
+consequence and the number of people
+affected.
+— Minimum touch target 44×44pt
+everywhere, including the small icon
+buttons on the hero.
+— Optimistic UI for RSVP and approval; if
+the server disagrees, we revert visibly
+and explain, never silently.
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 42 of 67 --
+
+2 0 · D E S I G N
+Design principles
+Six rules. Any of them can be used to reject a design, including one of ours.
+? I N P L A I N W O R D S
+The app should be dark and quiet so the parties look bright and loud. The
+photos do the shouting. The buttons and menus stay out of the way.
+01 The UI does not scream. The parties do.
+Chrome is dark, quiet and repeatable. Colour and brightness are spent almost
+entirely on photography. If a control is competing with an image for attention, the
+control is wrong.
+02 Emotion first, information second.
+Every surface leads with the feeling of the night — image, name, who is going — and
+only then the logistics. Never show every attribute you have just because you have it.
+03 One question per screen.
+Progressive disclosure is not a nicety here, it is the reason hosting works. A screen
+that asks two things gets split into two screens.
+04 Screens that share an object share it visibly.
+If a card becomes a hero, it must travel. Motion carries continuity, not decoration.
+The app should feel physically connected, never like a slideshow of unrelated pages.
+05 Trust is visible, not implied.
+Locks, verification ticks and “unlocks when youʼre in” are shown at the exact moment
+a user wonders. Safety that nobody can see does not reassure anybody.
+06 Warm, not neon.
+This is a home at night: lamps, plum shadow, skin tones. Not a nightclub poster. No
+cyan, no cyberpunk, no all-over gradients, no glass for the sake of glass.
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 43 of 67 --
+
+2 1 · D E S I G N
+The colour system, explained simply
+Five colours, one dark room. Every colour has exactly one job and is never
+borrowed for another.
+? E X P L A I N E D L I K E Y O U ʼ R E S I X
+Imagine the app is a dark room at night. Almost everything is dark, so the
+photos of parties glow like windows.
+Now imagine five people in that room, and each one wears a different colour
+shirt so you always know who does what. The red-orange one is the only
+one allowed to say “press me”. The yellow one only ever talks about time —
+whatʼs starting, whatʼs nearly full. The purple one only talks about people —
+your friends, who invited you. The green one only ever says yes. And the
+cream one is not a person at all — it is paper, and it shows up only when the
+app is pretending to hand you a real invitation or a real ticket.
+If the yellow one starts talking about people, or the red one shows up
+on something you cannot press, the room gets confusing. That is the
+whole rule.
+The five accents and their one job each
+Ember
+#FF4B3E
+I T S O N E J O B — T H E G O C O L O U R
+Primary action, and nothing else. Join, Request, Accept,
+Continue, Publish. Also the live-now badge, because a party
+happening right now is an action. Never used for decoration, never
+for a heading, never on two buttons on the same screen.
+Marigold
+#FFB020
+I T S O N E J O B — T H E C L O C K C O L O U R
+Time and scarcity. Door times on the programme rail, date
+markers, “7 spots left”, the pinned host announcement, the create-
+flow progress ticks. If it is about when or how much is left, it
+is marigold.
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 44 of 67 --
+
+Orchid
+#9B6BFF
+I T S O N E J O B — T H E P E O P L E C O L O U R
+The social graph. Friend rings on avatars, “4 friends and 11
+mutuals”, invitation senders, mutual context on an approval. Orchid
+is how you spot, at a glance, that something involves people
+you know.
+Jade
+#17C08A
+I T S O N E J O B — T H E Y E S C O L O U R
+Confirmation. “Youʼre in”, the acceptance stamp, the approve
+button, an unlocked address, a free date on a space. Jade appears
+only after something has actually been granted — never as
+a promise.
+Bone
+#FBF6EF
+I T S O N E J O B — T H E PA P E R C O L O U R
+Physical objects only. Invitations, passes, and the single Publish
+button. Bone is the most precious surface in the app precisely
+because it is rare — the moment it becomes a general-purpose light
+background, invitations stop feeling like objects.
+The room itself — the neutral ramp
+A warm plum-black, never a blue-black. This is the single decision that makes Gharbar
+feel like a lamp-lit home rather than a tech product.
+Midnight
+#150B18
+App ground
+Plum
+#241130
+Raised card,
+sheet
+Ash
+#3A2440
+Input, chip,
+divider
+Muted
+#9A8FA0
+Secondary text
+Bone
+#FBF6EF
+Primary text on
+dark
+Why every accent has two versions
+A colour bright enough to glow on Midnight is too pale to read as text on Bone. So each
+accent ships as a glow value for the dark app and an ink value for paper surfaces,
+printed documents and light contexts. Never use a glow value as text on paper — that
+is the single most common way this system gets broken.
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 45 of 67 --
+
+A C C E N T G L O W — O N M I D N I G H T I N K — O N B O N E / PA P E R T E X T O N T H E
+F I L L
+Ember #FF4B3E #CE2A1D #26100C
+Marigold #FFB020 #8A5D00 #26100C
+Orchid #9B6BFF #6B3BD4 #1B0E1A
+Jade #17C08A #0A7D5C #08221A
+Hard rules
+A LWAY S
+Body text at 4.5:1 against what is
+behind it · full-opacity ink over
+photography, never a faded overlay ·
+one accent per meaning · scrims under
+any text on an image · a lock icon
+wherever something is hidden
+N E V E R
+More than two accents on one card · a
+gradient as a page background · ember
+on anything unpressable · bone as a
+generic light theme · colour as the only
+carrier of meaning — always pair it with
+an icon or a word
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 46 of 67 --
+
+2 2 · D E S I G N
+Typography
+Two faces. One shouts party names, one runs the app.
+? I N P L A I N W O R D S
+Party names are written in a bold, poster-ish font so they look exciting.
+Everything else — times, buttons, explanations — is written in a plain, friendly
+font so it is easy to read fast. Two fonts, and we never add a third.
+D I S P L AY
+Bricolage
+Grotesque
+Weights 600–800. Party names, screen
+titles, big numbers, the wordmark.
+Always tight tracking (−0.02 to
+−0.035em) and line-height at or under
+1.0. It has personality without being a
+novelty face, which is exactly the
+register a party name needs.
+T E X T & U I
+Instrument
+Sans
+Weights 400–700. Body, labels,
+buttons, times, everything functional.
+Micro-labels are 600 weight,
+uppercase, tracked 0.15–0.2em
+— this is the third voice, achieved
+with case and tracking rather than a
+third typeface.
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 47 of 67 --
+
+The scale
+T O K E N S I Z E / L H F A C E U S E D F O R
+hero 44 / 0.95 Bricolage 800 Party name on detail hero
+title 34 / 1.0 Bricolage 700 Screen titles, featured card name
+card 25 / 1.0 Bricolage 700 Party name on rail cards
+lead 17 / 1.5 Instrument 400 Hostʼs one line, plain-words boxes
+body 15 / 1.5 Instrument 400 Rules, schedule, chat
+action 15 / 1.0 Instrument 700 Buttons
+meta 12 / 1.4 Instrument 500 Host line, distance, timestamps
+micro 10 / 1.2 Instrument 600
+· caps Section eyebrows, chips, badges
+Floor: nothing below 10pt in the app, and nothing that carries meaning below 12pt. Micro-
+labels never wrap to two lines — if they would, the label is too long.
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 48 of 67 --
+
+2 3 · D E S I G N
+Shape, depth & tactility
+Radius carries meaning. Depth is earned, never sprinkled.
+? I N P L A I N W O R D S
+Round corners mean “you can touch this”. The rounder something is, the
+more it wants to be pressed — buttons are fully round pills, photo cards are
+softly rounded, and small badges are tiny pills. Invitations and tickets get a
+bumpy paper edge, because real tickets have one.
+Radius scale
+T O K E N VA L U E A P P L I E D T O
+pill 999 Every button, every chip, every badge, the navʼs active state.
+Touchable things are pills, full stop.
+sheet 30 top Bottom sheets: chat, pass, invitation.
+object 24 Invitations and passes — plus notches and a perforated dash
+line. The only surfaces with a cut edge.
+card 22 Party cards, venue cards, all photographic containers, grouped
+info blocks.
+tile 14 Thumbnails, memory grid tiles, the floating date chip, avatar
+squares.
+full 0 The detail hero only. It runs to the physical edge of the screen,
+so it has no corners to round.
+Depth, in four permitted forms
+1 · Hairline
+A 1px inset border at 10–14% bone. The
+default way to separate anything. Cheap,
+quiet, and it never muddies a photo.
+2 · Scrim
+A vertical gradient over imagery so text
+stays at 4.5:1. Mandatory on every image
+that carries type. Not a mood effect — a
+legibility tool.
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 49 of 67 --
+
+3 · Lift
+A single soft shadow, reserved for things
+that genuinely float above the page: the
+nav bar, sheets, the pass, the overlay
+card on a featured image. Four uses.
+No more.
+4 · Glow
+A coloured shadow beneath the primary
+button and the live dot only, at low alpha.
+It is the closest the app comes to light
+spilling out of a room.
+Tactility, kept on a leash
+Gharbar borrows from physical objects in exactly two places: the invitation and the
+pass. They get paper stock, a perforation, notches, a rotated rubber stamp and a
+printed door code. Nothing else in the app is allowed to pretend to be an object — no
+leather, no felt, no embossed toggles, no drop-shadowed everything. The restraint is
+what makes the two exceptions land.
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 50 of 67 --
+
+2 4 · D E S I G N
+Components
+The complete inventory. If a screen needs something not on this list, it goes on
+this list first.
+? I N P L A I N W O R D S
+These are the reusable Lego bricks the whole app is built from. Because
+everything is made of the same bricks, every screen feels like the same app
+— and when we improve one brick, every screen gets better at once.
+C O M P O N E N T D E F I N I T I O N & VA R I A N T S §
+Primary button
+Ember pill, 54pt tall, dark ink label, leading circular
+glyph optional, trailing arrow. Variants: ember
+(default), bone (publish only), jade (approve),
+dimmed-with-reason.
+11, 14
+Secondary button
+Hairline pill, no fill. Never sits beside a primary at
+equal width — always narrower, so the hierarchy is
+unmistakable.
+12, 13
+Icon button
+38pt circle on a translucent dark ground with a
+hairline, for chrome floating over imagery (back,
+save, share). 44pt hit area regardless.
+11
+Party card
+Three sizes: featured 4:5 with overlay card, rail 16:10,
+square 1:1 for horizontal rails. All carry image, scrim,
+one badge, date chip, name; meta line sits outside
+the image.
+10
+Date chip
+Floating bone tile, month above day, 14pt radius.
+Appears on every party card and the detail hero. The
+most recognisable single element in the app.
+10, 11
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 51 of 67 --
+
+C O M P O N E N T D E F I N I T I O N & VA R I A N T S §
+Overlay card
+A lifted, blurred panel sitting on the lower third of a
+featured image, holding name, host, avatar row and
+the action. Exactly one per screen, never on a rail
+card.
+10
+Avatar
+Circle, monogram fallback on an assigned palette
+colour. Sizes 20/26/38/46/84. Orchid ring = your
+friend. Overlapping stacks use −9pt margin, max five
+plus a count.
+18
+Badge
+Filled micro pill. Five kinds only: youʼre in (jade), live
+(ember), scarcity (marigold), invite-only (hairline),
+sponsored (hairline + label). One per card.
+10
+Chip
+Pill, uppercase micro label, optional leading icon.
+States: idle (hairline), selected (accent fill + dark ink).
+Used for scope, vibes, filters, amenities.
+10, 11
+Programme row
+A 48pt time column (time, meridiem, optional date
+marker) with a tick onto the vertical rail, plus a rail
+card. The signature layout unit.
+10
+Data grid A hairline-divided 2×2 of micro-label + value cells.
+Used for logistics on detail and for pass fields. 11, 13
+Paper object
+Bone card, 24pt radius, perforation with side
+notches, optional rotated stamp and barcode. Two
+instances: invitation, pass.
+12, 13
+Sheet Bottom sheet, 30pt top radius, grab handle, scrim
+behind, max 88% height. Chat, pass, invitation. 12, 13, 16
+Section header
+Micro label, a hairline rule filling the remaining width,
+and an optional count. Used everywhere; it is what
+gives the app its editorial rhythm.
+all
+Nav bar
+Floating, lifted, four items. Active item is an ember pill
+with icon plus label; inactive are icon only. Badges
+are ember dots with counts.
+09
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 52 of 67 --
+
+C O M P O N E N T D E F I N I T I O N & VA R I A N T S §
+Toggle & stepper
+46×27 track, marigold when on. Stepper is two 40pt
+circles flanking a display-face number. Used for
+privacy and guest cap.
+14, 18
+Skeleton
+Shape-accurate placeholder at ash, with a slow
+shimmer. One per card type. Mandatory — see
+Section 19.
+19
+Spacing: a 4pt base scale, used at 4 / 8 / 12 / 16 / 22 / 30 / 44. Screen gutter is 22pt
+on every screen without exception, which is what makes unrelated screens feel like
+one product.
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 53 of 67 --
+
+2 5 · D E S I G N
+Motion
+Motion explains where things went. It is never applause.
+? I N P L A I N W O R D S
+When you tap a party, its picture grows into the next screen instead of the
+screen just swapping. That way your eyes never lose the thing you tapped.
+Everything moves for a reason, and everything moves quickly.
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 54 of 67 --
+
+T R A N S I T I O N D U R AT I O N B E H AV I O U R & W H Y
+Card → detail hero 540ms
+out-expo
+Shared element. The cardʼs image frame
+morphs to the heroʼs bounds while the image
+counter-scales so it never distorts. Content
+behind it rises 18pt and fades in at 150ms. The
+single most important animation in the
+product.
+Detail → back 400ms
+Exactly reversed, landing in the original card,
+with the feedʼs scroll position restored first so
+the card is where the user left it.
+Tab change 320ms
+Fade with a 10pt rise. No horizontal slide — tabs
+are peers, not a sequence, and sliding implies
+an order that does not exist.
+Create step 330ms
+Horizontal slide in the direction of travel, 16pt,
+so the flow has spatial memory. This one is a
+sequence, so it does slide.
+Sheet in / out 420 / 280ms
+Rises from beyond the bottom edge on a soft-
+expo curve; leaves faster than it arrives, on an
+accelerating one. Arrivals are gentle, departures
+are decisive.
+Invitation accepted 520ms
+The stamp scales from 1.9× down through a
+slight overshoot to rest at −8°, while the paper
+card compresses to 0.985 and back. The one
+moment where delight is the point.
+Approval → headcount 500ms
+The row leaves, the number ticks up, and the fill
+bar grows. Cause and effect must be visible in
+one glance.
+Press feedback 240ms Scale to 0.97 and back on every button.
+Mandatory. Within 100ms of touch, always.
+Live dot 1.9s loop
+The only infinite animation in the app, and it
+appears only on parties that are genuinely
+happening right now.
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 55 of 67 --
+
+Perceived speed beats real speed. Skeletons render before data arrives, RSVP
+states change optimistically, and images fade rather than pop. Also: every animation
+respects the OS reduce-motion setting by collapsing to a cross-fade — and the
+shared-element transition is the first thing we drop on a low-end device, never
+the last.
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 56 of 67 --
+
+2 6 · D E S I G N
+Photography direction
+Photography is not decoration in this product. It is most of the persuasion.
+? I N P L A I N W O R D S
+The pictures should look like someone at the party took them on their phone,
+not like an advert. A bit dark, a bit blurry, warm light, real faces — the kind of
+photo that makes you think “I wish I was there”, not “that is a nice photo”.
+W E WA N T
+Warm, low, motivated light — lamps,
+string lights, a kitchen at midnight ·
+slight motion blur · grain · candid faces
+mid-conversation · hands, food, ice, a
+record sleeve · terraces at dusk · pools
+lit from below · a room from the
+doorway · imperfect framing
+W E R E J E C T
+Stock imagery of any kind · everyone
+facing the camera · flat even lighting ·
+empty styled interiors with no people ·
+AI-generated crowds · cyan or magenta
+club lighting · drinks-brand advertising
+language · anything that looks
+composed
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 57 of 67 --
+
+Where images come from
+S O U R C E R U L E P R I O R I T Y
+Hostʼs own photos
+Always preferred, always first. Prompted after
+publish and again the morning after, when she has
+them. Up to six per party.
+1st
+Previous nights
+Photos from her last party at the same place, clearly
+labelled with the date. Honest, and far more
+persuasive than anything staged.
+2nd
+Space photos
+For venue-hosted parties, the space ownerʼs shoot
+— commissioned by us to this direction, not
+supplied as marketing material.
+3rd
+Commissioned set
+A library shot in real Bengaluru homes with real
+friends, one set per party type. The fallback when a
+first-time host has nothing — never captioned as if
+it were her party.
+4th
+Atmosphere plate
+A generated warm-dark gradient with grain and
+bokeh, carrying no subject. Last resort, and it must
+still hold type at 4.5:1.
+Last
+Treatment
+No filters, no duotone, no brand colour wash. The only processing applied is a warm-
+shadow lift to keep dark images from crushing to black on cheap screens, and the
+mandatory scrim. Faces are never cropped by a badge or a date chip — the safe zone
+for overlays is the top-left, top-right and bottom 30% of any image, and the create flow
+will nudge a host to re-crop if her subject sits there.
+Consent, non-negotiable. No guestʼs face may be used in a partyʼs public imagery or in
+shared memories without their per-party opt-in (Section 18). The photo toggle defaults to
+off. A great photo is not worth a personʼs complaint.
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 58 of 67 --
+
+2 7 · T E C H & T R U S T
+Architecture & data model
+Boring on purpose. The interesting part is where the address lives.
+? I N P L A I N W O R D S
+One phone app, one server. The important trick: a partyʼs exact address is
+kept in a separate locked drawer, and the app is only handed the key once
+the host has approved you. Even if someone found a bug in the party screen,
+the address is not sitting there waiting to leak.
+Stack
+— Client: one cross-platform mobile app,
+iOS and Android from a single codebase.
+No web app in v1.
+— API: a single service, REST, versioned.
+Realtime only for party chat and approval
+events.
+— Store: relational primary with a graph-
+friendly index for mutuals; object storage
+plus CDN for images.
+— Auth: phone number with OTP. One
+account per number. No social login in
+v1.
+— Images: uploaded originals never
+served; four derived sizes, all stripped of
+EXIF including GPS on ingest.
+— Admin: an internal web console for
+verification, reports and Spaces
+onboarding. Never customer-facing.
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 59 of 67 --
+
+Core entities
+E N T I T Y K E Y F I E L D S S E N S I T I V I T Y
+User id, phone, name, dob, area, avatar, verification state,
+vibes, privacy flags HIGH
+Party
+id, host, type, name, one-liner, area, door time, end
+time, cap, access model, vibes, dress, schedule,
+rules, contribution, state
+NORMAL
+PartyLocation
+Separate table. party, exact address, flat number,
+lat/lng, door code, arrival notes. Encrypted at rest.
+Only ever returned for a caller with an approved
+attendance.
+CRITICAL
+Attendance party, user, state (requested / approved / declined /
+revoked / attended), note, plus-ones, timestamps MEDIUM
+Invitation party, from, to, note, state, expiry. Always attributed to
+a person, never to the platform. MEDIUM
+Pass attendance, code, issued at, checked in at. Cached on
+device so it works offline. HIGH
+Edge from, to, kind (friend / following / been-there), created
+at. Mutuals are derived at read time, never stored. MEDIUM
+Space owner, name, area, party capacity, amenities, music
+cut-off, price, availability, verified flag NORMAL
+The one architectural rule. PartyLocation is never joined into a party response. It is a
+separate authorised call, gated on an approved Attendance, audited on every read. Any pull
+request that widens a party serialiser to include address fields is rejected on sight.
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 60 of 67 --
+
+2 8 · T E C H & T R U S T
+Privacy, safety & age gating
+The section that gets us shut down if we get it wrong.
+? I N P L A I N W O R D S
+We are sending people to strangersʼ homes. So: everyone proves they are
+a real adult, hosts choose every guest, nobody sees an address until they
+are let in, and anyone can report anybody in two taps and hear back the
+same day.
+Location disclosure — the four tiers
+W H O I S L O O K I N G W H AT T H E Y G E T P R E C I S I O N
+Anyone browsing Neighbourhood name and an approximate
+distance. Nothing else. No map. ~2 km
+Viewing the party
+Area, plus a map thumbnail centred on a jittered
+point, with a visible lock and “unlocks when
+youʼre in”.
+~800 m
+Requested, pending
+No change whatsoever. Asking earns nothing —
+this closes the “request to farm addresses”
+hole.
+~800 m
+Approved guest
+Full address, flat number, door code, arrival
+notes and directions — on the pass, and re-
+locked instantly if revoked.
+Exact
+Verification & age
+Gharbar is 18+ only, stated at signup, on every party page and in the store listing. Date
+of birth is collected at signup and is not editable by the user afterwards. Two
+verification levels: phone-verified (everyone, required to browse) and ID-verified
+(required to host, and required to attend an “open to requests” party). ID checks are
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 61 of 67 --
+
+done by a licensed provider; we store the pass/fail result and the derived age band,
+never the document. A host can require ID-verified guests only, and this is the only
+guest filter that will ever exist.
+Reporting, blocking & consequences
+— Report is reachable in two taps from any
+party page, profile or chat message. It
+never asks the reporter to justify
+themselves at length.
+— Blocking is symmetric and total: you
+disappear from each otherʼs Discover,
+guest lists, mutual counts and search.
+— A blocked user is silently prevented from
+requesting any party you are attending.
+They are not told why.
+— Every report is human-reviewed within
+12 hours, and the reporter always hears
+the outcome. Committed publicly.
+— Two upheld safety reports removes
+hosting rights. Three removes the
+account. No appeal path in v1.
+— Post-party, each guest is asked one
+private question about whether they felt
+safe. It feeds host standing and nothing
+else.
+Data handling
+All personal data is held in-region under Indiaʼs DPDP Act. Consent for each processing
+purpose is separate and withdrawable. GPS is only read while the app is in the
+foreground — never in the background, ever. Party chat and guest lists are deleted 30
+days after the party; passes and locations 7 days after. Account deletion is self-serve,
+removes the graph, and anonymises attendance history rather than rewriting other
+peopleʼs memories out of existence.
+Design against the anti-persona, every time. No browsing people. No gender
+filters. No public guest lists pre-approval. No DMs in v1. No location before approval.
+Every one of these makes the product slightly less convenient and considerably
+more likely to still exist in three years.
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 62 of 67 --
+
+2 9 · B U S I N E S S
+Launch, metrics & delivery
+Supply first, one neighbourhood at a time, in four phases.
+? I N P L A I N W O R D S
+First we find forty people who love throwing parties and make the app
+perfect for them. Their guests become our first users. Then we do the same
+in the next neighbourhood. We never open a new area until the last one has
+parties every weekend.
+Phased delivery
+P H A S E S C O P E G AT E T O T H E N E X T
+P H A S E
+P0 — Forty hosts
+Weeks 1–6
+Invite-only, Indiranagar and Koramangala.
+Create, invite, approve, pass, chat. No
+Spaces, no search, no requests from
+strangers — invitations only.
+25 real parties
+completed · invite
+accept rate above
+55%
+P1 — The door
+opens
+Weeks 7–14
+Friends-of-friends access, request-and-
+approve, Discover with the programme rail,
+ID verification, reporting. Public in six
+neighbourhoods.
+120 parties/week ·
+under 2 reports per
+1,000 attendances
+P2 — Spaces
+Weeks 15–22
+Curated villas and rooftops, create-flow
+handoff, booking and commission. First
+revenue. Memories and host standing ship
+here too.
+30 verified spaces · 40
+bookings/month
+P3 — Depth
+Weeks 23+
+Host tools subscription, personalised
+ranking, recurring nights, co-hosts. Second
+city evaluated, not launched.
+6% attendee–to–host
+conversion sustained
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 63 of 67 --
+
+The metric tree
+N O R T H S TA R
+Parties completed per
+week
+The only number on the
+wall. It cannot be gamed by
+acquisition spend.
+H E A LT H
+Supply density
+Parties within 8 km of the
+median user on a Friday.
+Below three, Discover feels
+dead — that is the alarm.
+G U A R D R A I L
+Reports per 1,000
+attendances
+If this rises, growth stops
+until it falls. It outranks
+every other number in this
+document.
+Vanity metrics we will not report: downloads, registered users, monthly actives, time in
+app. Time in app is actively bad here — the product succeeds when people close it and go
+to a party.
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 64 of 67 --
+
+3 0 · F O U N D A T I O N
+Risks, decisions & glossary
+What could kill this, what we already decided, and what the words mean.
+Risks & mitigations
+R I S K M I T I G AT I O N S E V E R I T Y
+A safety incident at
+a Gharbar party
+ID verification for hosts and open-request guests,
+host approval on every entry, 12-hour report SLA,
+address gating, a written incident protocol and a
+named on-call owner from day one.
+FATAL
+Empty Discover
+Neighbourhood-by-neighbourhood launch, host-first
+spend, and a designed sparse state (Section 19) so
+low supply never reads as a broken app.
+HIGH
+Hosts churn after
+two parties
+Hosting must save real effort, not add it: sub-2:30
+create time, the announcement tool, one honest
+headcount, and host standing that makes the next
+party easier to fill.
+HIGH
+Read as a dating
+app
+No people browsing, no DMs, no gender signals
+anywhere, and copy that is always about the night
+rather than who is at it. Policed in marketing as
+strictly as in product.
+MED
+Noise complaints
+and building rules
+End times are a first-class field, the schedule sets an
+exit expectation, and music cut-off is a headline
+attribute on every space. We surface the neighbour,
+we do not hide them.
+MED
+Regulatory
+reclassification as
+an event organiser
+No money collected, no tickets sold, contributions
+displayed only, and clear terms stating the host is the
+organiser. Reviewed by counsel before P2.
+MED
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 65 of 67 --
+
+Decision log
+D AT E D E C I S I O N R E A S O N I N G
+07 Sep 26 Four tabs, Activity folded
+into Invites
+One mental model — “the door” — for
+anything where a person is waiting on you.
+An Activity tab collects dealt-with items
+and rots.
+07 Sep 26 Host is a tab, not a floating
+button
+Hosting is half the product and needs room
+for management, not just creation. Also
+signals to attendees that hosting is normal.
+07 Sep 26 No payments in v1
+Keeps us out of payment aggregation,
+refunds, GST on tickets and the “event
+organiser” category — and keeps a house
+party a house party.
+07 Sep 26 Discover is time-scoped, not
+category-first
+People want tonight, not a party genre.
+Type becomes a filter. The programme rail
+follows from this decision.
+07 Sep 26 Address lives in a separate
+gated table
+Makes the most dangerous leak
+structurally hard rather than a matter of
+discipline in a serialiser.
+07 Sep 26 Bone paper reserved for
+invitations and passes
+Scarcity is what makes them feel like
+objects. A general light theme would spend
+the effect for nothing.
+07 Sep 26 Photos requested after
+publish
+Requiring three good photographs up front
+is the biggest measurable drop-off risk in
+the create flow.
+Glossary
+Access model — one of invite-only,
+friends-of-friends or open-to-requests. Set
+at create, changeable until publish.
+Atmosphere plate — a generated warm-
+dark image with no subject, used only when
+no real photograph exists.
+Been there — a derived edge between two
+people who attended the same party. Our
+strongest trust signal.
+Confirmed — a guest the host has
+approved. Pending requests are never
+counted as confirmed.
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 66 of 67 --
+
+Contribution — an amount a host asks
+guests to chip in. Displayed by Gharbar,
+never collected by it.
+Door time — when guests may arrive. The
+sort key for the whole Discover programme.
+Glow / ink — the two versions of every
+accent colour: glow for the dark app, ink for
+paper and print.
+Mutual — a friend of a friend. Derived at
+read time, never stored, never requestable.
+Paper object — the bone-surfaced
+component family: invitation and pass. The
+only skeuomorphism in the app.
+Programme rail — Discoverʼs signature
+layout: a vertical time rail with parties hung
+off it in chronological order.
+Space — a villa, rooftop or terrace available
+to hire for one night, curated by us. Never
+called a “listing”.
+Sparse state — a screen with real but
+insufficient data. Designed separately from
+the empty state.
+E N D O F D O C U M E N T
+Gharbar PRD v1.0 — the single source of truth. Every change is logged
+above. If it is not written here, it is not decided.
+G H A R B A R P R D V 1 .0 G B - P R D - 2 0 2 6 - 0 0 1 · C O N F I D E N T I A L
+
+-- 67 of 67 --
+

@@ -1,0 +1,1367 @@
+Vesperon Tech
+P R O D U C T S T U D I O · B E N G A L U R U C O N F I D E N T I A L · I N T E R N A L
+P R O D U C T R E Q U I R E M E N T S D O C U M E N T
+Vidwan
+िवान् — the learned one
+"Aapke bachche ki poori padhai ka hisaab — attendance, fees,
+test, report — sab kuch ek app mein."
+The operating system for India's home tutors. One app that runs the batch, marks
+attendance in a tap, collects fees over WhatsApp, and turns every class into a
+monthly report card the parent is proud to pay for.
+D O C U M E N T
+VT-VIDWAN-PRD-
+2026-001
+V E R S I O N
+v1.0 — Source of
+Truth
+D A T E
+05 July 2026
+O W N E R
+Vesperon Product
+VIDWAN · VESPERON TECH Page 1 / 33
+
+-- 1 of 33 --
+
+C O N T E N T S
+What's inside this document
+33 sections, five categories. Colour-coded so you always know whether you're reading business, product, tech, or go-to-
+market.
+F O U N D A T I O N
+00 How to read this document
+01 Executive summary
+05 Vision, goals & non-goals
+30 Risks & mitigations
+31 Decision log
+32 Glossary — business & tech
+B U S I N E S S
+02 The problem & gap analysis
+03 Market analysis — TAM / SAM / SOM
+04 Competitive landscape
+14 Business logic — two money flows
+15 Revenue model & unit economics
+16 Pricing
+26 Analytics & engagement
+P R O D U C T
+06 Users & personas
+07 Product overview & IA
+08 Onboarding & setup
+09 Timetable & attendance
+10 Fee engine
+11 Tests, marks & monthly report
+12 Parent premium & WhatsApp
+13 Notices & defaulters
+T E C H N O L O G Y
+17 System architecture
+18 Data model / ERD
+19 API surface & integration
+20 WhatsApp / BSP architecture
+21 Payments — Razorpay / Autopay
+22 Report generation pipeline
+23 Web vs mobile integration
+24 Notifications & templates
+25 Security, DPDP & compliance
+G O - T O - M A R K E T
+27 Go-to-market strategy
+28 Success metrics & KPIs
+29 Phased delivery plan
+VIDWAN PRD v1.0 · VT-VIDWAN-PRD-2026-001 · VESPERON TECH · CONFIDENTIAL
+VIDWAN · VESPERON TECH Page 2 / 33
+
+-- 2 of 33 --
+
+0 0 F O U N D A T I O N
+How to read this document
+One doc, one truth. If it isn't written here, it isn't decided.
+S A M J H O A I S E — E X P L A I N L I K E I ' M S I X
+This is the rule book for building Vidwan. It tells everyone — designers, engineers, and even the AI helping us —
+exactly what to build, how it works, why it makes money, and in what order to build it. If two people disagree, this book
+wins.
+This PRD is the single source of truth for Vidwan v1. Engineering, design, QA, marketing, and any AI agent contributing
+to the build all defer to this document. Verbal decisions and chat messages do not override it — they get folded back in
+here first.
+READING THE COLOUR CODE
+Every section carries a category
+FOUNDATION framing & governance · BUSINESS money &
+market · PRODUCT what the user sees · TECH how it's built ·
+GTM how it reaches tutors. The coloured spine on each
+section header is the fastest way to navigate.
+THE ELI5 BOX
+"Samjho aise" appears in every major section
+A plain-language, ten-second summary anyone on the team
+can read — no jargon. If you only read the ELI5 boxes end-to-
+end, you understand the whole product. Everything under
+them is the detailed spec.
+Conventions used throughout
+Convention Meaning
+IN v1 Explicitly in scope for the first release. Build it.
+v1.1+ Deliberately deferred. Do not build in v1 even if easy — protects the timeline.
+Hypothesis A number (price, conversion, ARPU) that is a launch assumption, to be validated in the 50-tutor pilot
+before it is treated as fact.
+Flow A / Flow B The two separate money movements (Section 14). Never conflate them — they have different owners,
+rails, and economics.
+Governance.
+Changes to this document go through the product owner. Each material change is appended to the Decision Log (Section 31)
+with date and rationale, so the reasoning behind every choice survives even after the people who made it move on.
+VIDWAN PRD v1.0 · SECTION 00 · VESPERON TECH · CONFIDENTIAL
+VIDWAN · VESPERON TECH Page 3 / 33
+
+-- 3 of 33 --
+
+0 1 F O U N D A T I O N
+Executive summary
+What we're building, why now, and how it prints money.
+S A M J H O A I S E
+A home tutor teaches 20–60 kids from her living room and runs everything on a paper register. Vidwan is a free app that
+does her whole job — timetable, attendance, fee collection, report cards — automatically. Parents pay a small monthly
+amount to get their child's report card, test alerts and attendance on WhatsApp. The tutor earns a cut of that.
+That's the whole business.
+The opportunity in one paragraph
+India has roughly 71 million students in private tuition (NSSO) and a private-tutoring market worth ≈USD 4.1 billion in
+2024, growing ~7.5% a year (IMARC). The individual home tutor and small-batch teacher — 2–4 batches, 20–60 students,
+₹800–3,000/student/month — sits at the centre of this and is almost entirely unserved by software. The big edtech names
+(Teachmint, Classplus) have moved upmarket to coaching-institute ERP and hardware. The home tutor still runs on a diary,
+memory, and awkward fee reminders. That is the wedge.
+71M
+Students in private tuition in
+India (NSSO)
+$4.1B
+India private tutoring market,
+2024 (IMARC)
+₹0
+Cost for the tutor — free
+forever in v1
+30%
+Revenue share the tutor
+earns on premium parents
+The product
+Vidwan is a tutor-first mobile app (Flutter) with a single backend. The tutor is the only logged-in user. The parent is
+reached entirely over WhatsApp — no app, no login. The student is a record, not a user. Five boring things done perfectly:
+timetable, attendance, fees, tests, and the monthly report card.
+How it makes money — the flywheel
+1 Tutor uses Vidwan free
+She sets up her batches in under 10 minutes and runs her whole tuition from it. Zero cost removes every reason not to adopt.
+2 Parents get free basics on WhatsApp
+Attendance pings, fee reminders with a UPI link, and receipts — paid for by the platform because the tutor needs parents to
+receive these.
+3 Parents upgrade to Premium per child
+For a small monthly amount (Hypothesis ₹49–99/child) via UPI Autopay, the parent unlocks the monthly report card, per-test
+score alerts and full attendance history — the analytics they actually crave.
+4 The tutor sells it for us
+She earns 30% of every premium parent she converts. The free tutor becomes an unpaid, motivated salesforce — and premium
+reports make her look professional. Revenue scales with student count, not tutor count.
+The one-line thesis.
+Give the tutor a free tool she can't run her business without; charge the parent for the pride and peace-of-mind of seeing their
+child's progress; pay the tutor to grow it. Necessity on one side, aspiration on the other, incentive in the middle.
+What we are deliberately NOT building in v1
+v1.1+ No live/video classes. No student app. No course/content selling. No tutor-discovery marketplace. No parent app.
+No tutor web app (mobile only; internal admin is web). Each "no" protects the timeline and the DPDP posture (Section 25).
+VIDWAN · VESPERON TECH Page 4 / 33
+
+-- 4 of 33 --
+
+VIDWAN PRD v1.0 · SECTION 01 · VESPERON TECH · CONFIDENTIAL
+0 2 B U S I N E S S
+The problem & gap analysis
+A universal, daily, unglamorous pain that nobody has priced correctly.
+S A M J H O A I S E
+The tutor forgets who paid and who didn't. She feels awkward asking parents for money. Parents have no idea if their kid
+actually attended or is improving. Everyone is guessing. Vidwan replaces the guessing with proof.
+The tutor's day today
+PAIN 1 · FEE LEAKAGE
+Money quietly goes missing
+Fees tracked in a diary or memory. Some parents "forget",
+some pay late, some short-pay. The tutor has no clean
+defaulter list and loses real income every month — often 5–
+15% of billings.
+PAIN 2 · AWKWARD CHASING
+Asking for money hurts the relationship
+Reminding a parent face-to-face is uncomfortable, so tutors
+delay it, which makes leakage worse. There is no polite,
+automatic, deniable channel to ask.
+PAIN 3 · ZERO PARENT VISIBILITY
+Parents fly blind
+Parents pay ₹1,000–3,000/month and receive nothing back —
+no attendance, no marks, no report. Trust rests entirely on
+word of mouth and the child's exam result months later.
+PAIN 4 · EVERYTHING IS MANUAL
+Admin eats teaching time
+Attendance, scheduling, marks, receipts, reminders — all by
+hand. The tutor's scarcest resource, time, is spent on
+paperwork instead of teaching.
+The gap — why this is unserved
+The market has bifurcated. Consumer edtech (BYJU'S, Vedantu, Unacademy) sells courses to parents/students and
+competes with the tutor. Institute software (Teachmint, Classplus) sells ERP, live-class tooling and course-storefronts to
+coaching institutes — priced and designed for organisations with staff, not a solo teacher. Neither serves the offline home
+tutor whose product is her physical living-room class.
+The gap in one sentence.
+Nobody sells the home tutor a simple account-book-plus-parent-window at a price a solo tutor accepts — and nobody
+monetises the parent's desire for their child's analytics without first stealing the tutor's students.
+Our solution mapped to each pain
+Pain Vidwan solution Section
+Fee leakage & late payment Auto monthly WhatsApp reminder + UPI
+link + auto-receipt + live defaulter view
+10, 13
+Awkward chasing Automatic, templated, gentle cadence —
+the app asks, not the tutor
+10, 24
+No parent visibility Monthly auto report card + per-test alerts
++ attendance history over WhatsApp
+(Premium)
+11, 12
+VIDWAN · VESPERON TECH Page 5 / 33
+
+-- 5 of 33 --
+
+Pain Vidwan solution Section
+Manual admin 10-minute setup, one-tap attendance,
+auto-generated reports from data she
+already enters
+08, 09, 11
+Trust deficit Parents see proof monthly; tutor looks
+professional; retention rises on both sides
+12, 26
+VIDWAN PRD v1.0 · SECTION 02 · VESPERON TECH · CONFIDENTIAL
+0 3 B U S I N E S S
+Market analysis — TAM / SAM / SOM
+Sized top-down from the industry and bottom-up from per-child revenue.
+S A M J H O A I S E
+TAM is "how big is the whole ocean." SAM is "the part of the ocean our boat can actually reach." SOM is "the fish we
+can realistically catch in the first three years." We size all three so nobody over- or under-dreams.
+The market, top-down
+India's private-tutoring market was ≈USD 4.1B in 2024, forecast to reach ≈USD 7.8B by 2033 at ~7.5% CAGR (IMARC).
+Roughly 55% of Indian students take private tuition (Cambridge International); NSSO counted ~71M students in tuition.
+Offline/home tutoring still dominates delivery. This is a large, growing, culturally-entrenched, recession-resistant category —
+parents cut many things before their child's tuition.
+Bottom-up sizing — Vidwan's revenue is per premium child
+Vidwan does not tax the whole tuition economy; it earns on premium parent subscriptions. So we size on students whose
+parents could pay ₹49–99/month for analytics. Model assumptions are Hypotheses to validate in pilot.
+Layer Definition Students in scope Annual revenue potential @ ₹79 ARPU ×
+12
+TAM — Total Addressable All home/small-batch
+tuition students in India
+~28M (≈40% of 71M in
+home/small-batch vs
+institutes)
+≈₹2,650 Cr / yr (~$315M) if every such
+parent went premium
+SAM — Serviceable
+Available
+Smartphone-active
+tutors in metros + tier-
+1/2,
+English/Hindi/regional
+~8M students under
+reachable tutors
+≈₹760 Cr / yr (~$90M)
+SOM — Serviceable
+Obtainable (3-yr)
+Realistic capture at
+~15–20% premium
+conversion within
+acquired tutor base
+~0.6–1.0M premium
+children
+≈₹55–95 Cr / yr (~$7–11M) ARR
+Why per-child beats per-tutor.
+A per-tutor SaaS caps at (tutors × one fee). Vidwan's revenue is (premium children × ARPU), and a single tutor brings 20–60
+children. Growth compounds on the student axis, which is 20–60× larger than the tutor axis. This is the structural reason the
+model can reach nine figures.
+VIDWAN · VESPERON TECH Page 6 / 33
+
+-- 6 of 33 --
+
+Secondary / future revenue surface (not counted above)
+Fee-collection take-rate
+Optional small % or flat on tuition GMV
+as a tutor "Pro" add-on. v1.1+
+Tutor discovery listing
+Paid visibility once supply density
+exists in a cluster. v1.1+
+Extra-class marketplace
+Per-session paid extra classes,
+platform takes a cut. v1.2+
+Counting only premium subscriptions keeps the v1 model honest; every add-on above is upside layered on the same
+installed base.
+VIDWAN PRD v1.0 · SECTION 03 · VESPERON TECH · CONFIDENTIAL
+0 4 B U S I N E S S
+Competitive landscape
+Everyone is fighting over institutes or selling courses. The solo tutor is open ground.
+S A M J H O A I S E
+The big players either sell classes instead of the tutor, or sell heavy software to big coaching centres. None of them
+make a simple, cheap tool for one teacher in her home. That empty spot is ours.
+Player Who they serve What they sell Why they don't serve the home tutor
+Teachmint Coaching institutes Institute ERP, live classes, digital
+boards/hardware
+Priced & designed for orgs with staff;
+overkill for a solo tutor
+Classplus Coaching institutes,
+creators
+Branded app + course storefront (sell
+content)
+Wants tutors to sell courses;
+cannibalises the physical class
+BYJU'S /
+Vedantu /
+Unacademy
+Parents & students
+directly
+Their own courses & live classes Compete with the tutor for the same
+student
+Paper diary /
+WhatsApp /
+Excel
+The home tutor today Manual everything The real incumbent — free, but leaky,
+manual, invisible to parents
+Positioning
+Vidwan's wedge is deliberately boring: attendance, fees, timetable, reports, trust — executed at a price this segment
+accepts (free for the tutor), with a parent-analytics layer none of the incumbents can bolt on without breaking their own
+model. The nearest "competitor" is the paper diary, and we beat it on the one axis that matters: it makes the tutor look
+professional and gets her paid on time.
+Defensibility.
+Once a tutor's batches, fee history and parent WhatsApp relationships live in Vidwan, switching cost is high (her whole business
+memory is here) and the parent's Autopay mandate + monthly report habit compound. The moat is data + habit + the tutor's
+own incentive to keep parents premium.
+VIDWAN · VESPERON TECH Page 7 / 33
+
+-- 7 of 33 --
+
+Where an incumbent could attack — and our answer
+"Classplus adds a free tutor tier"
+Their DNA and sales motion are course-storefront + institute
+pricing. A truly free, parent-WhatsApp-monetised tool
+cannibalises their core. We move faster in a segment they
+structurally discount.
+"A parent app clone appears"
+Our monetisation needs zero parent install — the friction that
+kills parent-app clones is exactly the friction we removed. Plus
+tutor rev-share gives us distribution they'd have to buy.
+VIDWAN PRD v1.0 · SECTION 04 · VESPERON TECH · CONFIDENTIAL
+0 5 F O U N D A T I O N
+Vision, goals & non-goals
+What winning looks like — and what we refuse to build to get there.
+S A M J H O A I S E
+Our dream: every home tutor in India runs her tuition like a real business, and every parent trusts what they pay for. To
+keep the first version small and shippable, we say a loud "no" to lots of tempting extras.
+Product vision
+Every home tutor in India runs her tuition like a real business — and every parent can see, and trust,
+exactly what they are paying for.
+v1 goals — first 6 months post-launch
+Goal Metric Target (Hypothesis)
+Tutor activation Tutors with ≥1 batch, ≥10 students, ≥1 fee cycle run 500 active tutors
+Fee GMV through platform Monthly tuition collected via in-app UPI links ₹1.2 Cr / month
+Premium conversion Linked parents with ≥1 active premium child 15–20% of linked parents
+Report delivery Monthly report cards successfully delivered on
+WhatsApp
+≥95% delivery success
+Tutor retention 3-month tutor retention ≥80%
+Non-goals for v1 — say no loudly
+No live / video classes
+The class happens in a living room. We schedule it; we don't
+stream it. Streaming is a different, heavier product.
+No student app
+Two entities only: tutor (user) and parent (WhatsApp).
+Students are records, not users — simplest DPDP posture for
+minors.
+No course / content selling
+That is Classplus's war, not ours. We are the account book,
+not a storefront.
+No tutor-discovery marketplace
+Discovery listing ships only once cluster supply density exists.
+v1.1+
+VIDWAN · VESPERON TECH Page 8 / 33
+
+-- 8 of 33 --
+
+No parent app in v1
+Parents live on WhatsApp. Zero install is a feature, not a
+limitation.
+No tutor web app in v1
+Flutter mobile only for tutors. Internal ops/admin is web.
+Guiding principles
+Timetable is home. The tutor app opens on the week grid — the mental model tutors already have.
+Every tap must earn its place. Setup under 10 minutes; attendance in seconds. Admin is the enemy.
+Data the tutor already enters powers everything. Reports are generated, never authored. Zero extra effort is the
+pitch.
+The parent never installs anything. WhatsApp is the entire parent surface.
+Free for the tutor is sacred. Monetisation lives on the parent side; touching the tutor's wallet in v1 breaks the flywheel.
+VIDWAN PRD v1.0 · SECTION 05 · VESPERON TECH · CONFIDENTIAL
+0 6 P R O D U C T
+Users & personas
+One user, one payer-over-WhatsApp, one record. Never blur them.
+S A M J H O A I S E
+Only the teacher uses the app. The parent just gets WhatsApp messages and pays. The student is only a name in a
+list — never logs in. Keeping it to these three roles keeps the app simple and the child's data safe.
+PRIMARY USER
+Sunita, the home tutor
+32, teaches Maths & Science to 34
+kids across 3 batches from her home
+in a tier-2 city. Android phone,
+WhatsApp-fluent, not "techy". Runs
+fees on a diary. Wants to look
+professional and get paid on time
+without awkward conversations.
+PAYER (WHATSAPP ONLY)
+Rajesh, the parent
+Pays ₹1,500/month for his son Aarav.
+Anxious about whether Aarav attends
+and improves. Will happily pay a little
+more to see proof on WhatsApp. Will
+never install another app.
+RECORD (NOT A USER)
+Aarav, the student
+Class 8. A record inside a batch:
+attendance, marks, fee status. A minor
+— deliberately never given a login,
+which keeps our data-protection
+surface minimal.
+Persona needs → product response
+Persona Core need How Vidwan answers it
+Tutor Get paid on time without begging Automated WhatsApp fee reminders + UPI link + defaulter
+view
+Tutor Spend time teaching, not on admin 10-min setup, one-tap attendance, auto reports
+Tutor Look professional to parents Branded receipts & monthly report cards sent in her name
+Parent Know my child attends & improves Same-day absent alert (free) + monthly report + test alerts
+(premium)
+Parent Pay fees easily One-tap UPI link in WhatsApp, instant receipt
+VIDWAN · VESPERON TECH Page 9 / 33
+
+-- 9 of 33 --
+
+Internal / ops persona
+A Vesperon ops admin uses the internal web dashboard (not the tutor app) for onboarding support, KYC/settlement checks,
+BSP template management, dispute handling and pilot analytics. This is a distinct role with its own access, covered in
+Sections 23 and 25.
+VIDWAN PRD v1.0 · SECTION 06 · VESPERON TECH · CONFIDENTIAL
+0 7 P R O D U C T
+Product overview & information architecture
+Five surfaces in the tutor app; WhatsApp is the sixth surface, for parents.
+S A M J H O A I S E
+The app has five main screens the teacher taps between: her weekly timetable (home), her batches & students, the fee
+book, tests & marks, and reports. Parents don't get screens — they get WhatsApp messages.
+Vidwan Tutor App
+Timetable
+HOME · week grid
+Batches
+students & setup
+Fees
+book & defaulters
+Tests
+marks entry
+Reports
+& notices
+Backend · one shared database
+Parent surface = WhatsApp
+reminders · receipts · reports · alerts (no app)
+FIGURE 7.1 — INFORMATION ARCHITECTURE: FIVE TUTOR SURFACES, ONE BACKEND, WHATSAPP AS THE PARENT SURFACE
+Navigation model
+Bottom tab bar with five destinations: Timetable · Batches · Fees · Tests · More (reports, notices, settings, earnings). The
+app always launches on Timetable because that is where a tutor's day lives. Every other surface is one tap from home.
+VIDWAN PRD v1.0 · SECTION 07 · VESPERON TECH · CONFIDENTIAL
+0 8 P R O D U C T
+Feature spec — onboarding & setup
+Batch + students live in under 10 minutes, entirely in-app, in her language.
+S A M J H O A I S E
+A new teacher opens the app, proves her phone number, picks her language, makes a "batch" (a class group with days,
+time and fee), then adds her students' names and their parents' WhatsApp numbers. Done in the time it takes to drink a
+chai.
+VIDWAN · VESPERON TECH Page 10 / 33
+
+-- 10 of 33 --
+
+Onboarding flow
+1 Phone OTP sign-in
+Enter mobile number → 6-digit OTP. No passwords. Phone number is the tutor identity.
+2 Language selection
+Hindi / English / Bangla / Tamil / Telugu / Marathi at launch. Sets app UI language and the default language of parent WhatsApp
+messages (overridable per parent).
+3 Profile basics
+Name, subject(s), city. Used on receipts and report cards so they go out in her name.
+4 Create first batch
+Batch name (e.g. "Class 8 Maths — Evening"), days of week, start time, monthly fee per student, fee cycle day (default 1st).
+5 Bulk-add students
+Add student name + parent WhatsApp number. Fast entry: add one-by-one or paste a list. Each student can override the batch
+fee (scholarship / sibling discount).
+6 Land on Timetable
+Setup complete. The week grid now shows her batches. She can mark attendance and run fees immediately.
+Field-level spec — Batch
+Field Type Required Rules
+Batch name Text Yes ≤40 chars, unique per tutor
+Days of week Multi-select Yes ≥1 day; drives which timetable slots generate sessions
+Start time Time Yes Local time; used to order the day view
+Fee / student / month Currency ₹ Yes ≥0; default for all students, overridable per student
+Fee cycle day Int 1–28 Yes Default 1; day of month invoices generate
+Subject / grade tag Text No Optional label for reports
+Field-level spec — Student
+Field Type Required Rules
+Student name Text Yes ≤50 chars
+Parent WhatsApp no. Phone Yes E.164; validated; the sole parent contact & premium identity
+Fee override Currency ₹ No Falls back to batch fee if empty
+Parent name / lang Text / enum No Personalises messages; language overrides batch default
+Join date Date No Default today; pro-rates first invoice
+Design rule.
+Nothing in onboarding blocks on data the tutor may not have to hand. Only name, days, time, fee, and student name + parent
+number are mandatory. Everything else is optional and can be filled later — friction is the enemy of a 10-minute setup.
+VIDWAN PRD v1.0 · SECTION 08 · VESPERON TECH · CONFIDENTIAL
+VIDWAN · VESPERON TECH Page 11 / 33
+
+-- 11 of 33 --
+
+0 9 P R O D U C T
+Feature spec — timetable & attendance
+The home screen, and the single most-used action in the app.
+S A M J H O A I S E
+The home screen is a weekly calendar of her classes. She taps today's class, sees the student list already marked
+"present", and just taps the few who are absent. Save. If a child is absent, the parent gets a WhatsApp: "Aarav aaj class
+mein absent tha."
+Timetable (home)
+A week grid (Mon–Sun columns, sessions as blocks) generated from each batch's days + time. Today is highlighted.
+Tapping a session opens attendance for that session. A tutor can also add a one-off session or cancel a session (holiday) —
+cancelled sessions are excluded from the attendance denominator so reports stay fair.
+One-tap attendance flow
+1 Open today's session
+From Timetable, tap the class. Student list loads, all defaulted to Present (the common case).
+2 Toggle absentees
+Tap only the students who didn't come — they flip to Absent. Optional "Late" state if enabled.
+3 Save
+One tap commits the session. Attendance counts update instantly for every affected student's monthly figures.
+4 Auto absent-alert
+For each Absent student, an optional same-day WhatsApp goes to the parent. Free tier — this ping builds trust and is
+funded by the platform.
+Rules & edge cases
+Case Behaviour
+Session on a holiday Tutor cancels session → excluded from "classes held" denominator
+Student joins mid-month Attendance % counts only sessions on/after join date
+Attendance edited later Allowed within the current cycle; report recomputes from live data
+Extra / makeup class Tutor adds a one-off session; counts toward held & attended
+Bulk mark all absent Single control for a fully-cancelled day before cancellation is set
+Why "default present".
+In a real tuition, the vast majority attend. Defaulting to Present means the tutor touches only the exceptions — turning
+attendance from a 30-tap chore into a 2-tap action. This is the difference between a feature that gets used daily and one that
+gets abandoned.
+VIDWAN PRD v1.0 · SECTION 09 · VESPERON TECH · CONFIDENTIAL
+VIDWAN · VESPERON TECH Page 12 / 33
+
+-- 12 of 33 --
+
+1 0 P R O D U C T
+Feature spec — fee engine
+Auto-reminder → UPI link → auto-receipt → defaulter view. The tutor never chases.
+S A M J H O A I S E
+On fee day, the app itself messages each parent on WhatsApp: "Aarav ki is mahine ki fees
+₹1,500 — yahan pay karein"
+with a UPI button. Parent pays, gets a receipt instantly, and the app marks it Paid. Anyone who hasn't paid shows up in
+a red "defaulter" list.
+Fee lifecycle
+Invoice
+auto on cycle day
+WhatsApp
+reminder + UPI link
+Parent pays
+UPI, one tap
+Auto-receipt
+to WhatsApp
+Ledger: Paid
+tutor sees status
+If unpaid after N days → Defaulter view + gentle re-reminder
+FIGURE 10.1 — FEE ENGINE LIFECYCLE (FLOW A: PARENT → TUTOR, PLATFORM TAKE = ₹0 IN V1)
+Behaviour spec
+Trigger System action
+Cycle day reached Generate one FeeInvoice per active student (amount = student fee, pro-rated if joined mid-cycle)
+Invoice created Send WhatsApp utility message to parent: amount + due date + UPI deep-link (Razorpay)
+Parent pays Razorpay webhook → mark invoice Paid, store UPI ref → send auto-receipt PDF/message to
+parent
+Unpaid after N days Student appears in Defaulter view; automatic gentle re-reminder at configured cadence
+Tutor taps "Remind now" Manual reminder any time, outside the auto-cadence
+Partial / cash payment Tutor can mark Paid manually (cash) or record partial; ledger reflects balance
+Defaulter view
+A dedicated red-tinted list: every student with an unpaid invoice past due, sorted by days overdue and amount. One-tap
+"Remind" per row and "Remind all". This is the tutor's single most valuable screen — it converts fuzzy memory into a
+precise, actionable list and directly recovers leaked revenue.
+Money-flow boundary.
+Tuition fees (Flow A) are a pass-through to the tutor — Vidwan takes ₹0 in v1. This keeps "free for the tutor" true and avoids
+becoming a payment aggregator prematurely. See Sections 14 & 21 for the exact rails and settlement model.
+VIDWAN PRD v1.0 · SECTION 10 · VESPERON TECH · CONFIDENTIAL
+VIDWAN · VESPERON TECH Page 13 / 33
+
+-- 13 of 33 --
+
+1 1 P R O D U C T
+Feature spec — tests, marks & the monthly report
+The magic: a report card the tutor never writes, that parents pay to receive.
+S A M J H O A I S E
+The teacher types in test marks now and then. At month-end, the app automatically writes a little report for each child —
+"Aarav ne 14/16 classes attend kiye aur last test mein 72% score kiya" — and sends it to premium parents. The teacher
+writes nothing; the app does it from data she already put in.
+Tests & marks entry
+Tutor creates a Test (batch, date, name, max marks). Then enters each student's score in a fast list — one number per
+student. Optional subject tag. Scores immediately feed the report engine and trigger a per-test alert to premium parents
+(Section 12).
+Monthly report — auto-composition logic
+Attendance data
+Test marks
+Report engine
+rule-based · no tutor writing
+Report card PDF
+→ Premium parent
+FIGURE 11.1 — THE REPORT CARD IS GENERATED, NEVER AUTHORED
+COMPUTATION (PER STUDENT, PER CYCLE)
+Metric Formula / logic
+Attendance % attended ÷ classes_held (held excludes cancelled sessions; both since join date)
+Latest test score Most recent test's score ÷ max × 100, with ▲/▼ arrow vs previous test
+Trend verdict Rule-based tag: Consistent · Improving · Attendance dropping · Needs attention
+Report sentence Template filled with the above, in the parent's chosen language
+Example auto-composed line (Hindi).
+"Aarav ne is mahine 14/16 classes attend kiye (88%) aur last test mein 72% score kiya — pichhle test se 6% behtar. Verdict:
+Improving." English/regional variants generated from the same data.
+Report card artifact
+A one-page branded PDF per premium student: tutor name/header, month, attendance ring, latest + previous test with trend,
+verdict tag, and a short encouraging note. Rendered server-side (Section 22) and delivered as a WhatsApp media
+message. Free-tier parents receive a shortened text summary or an upsell prompt (policy set in Section 12).
+VIDWAN PRD v1.0 · SECTION 11 · VESPERON TECH · CONFIDENTIAL
+VIDWAN · VESPERON TECH Page 14 / 33
+
+-- 14 of 33 --
+
+1 2 P R O D U C T
+Feature spec — parent premium & WhatsApp
+The only thing a parent pays for — unlocked with one WhatsApp tap, no install.
+S A M J H O A I S E
+Every parent gets the basics free on WhatsApp. If they want the full report card, test alerts and attendance history, they
+tap a link once and set up a small monthly auto-payment. Their child's "premium" turns on. No app to download, ever.
+Free vs Premium — exact split
+What lands on the parent's WhatsApp Free Premium (per child)
+Fee reminder + UPI pay link Yes Yes
+Payment receipt Yes Yes
+Same-day "child was absent" alert Yes Yes
+Monthly report card (full PDF) No Yes
+Per-test score alert No Yes
+Full attendance breakdown / history No Yes
+Upcoming-notice broadcasts (per batch) No Yes
+Price: Hypothesis ₹49–99 / child / month — two points tested in pilot.
+Activation flow (zero install)
+1 Tutor adds student
+Parent receives a WhatsApp: "Aarav ki tuition ab Vidwan par hai. Uski monthly report card, test alerts aur attendance paane ke
+liye
+₹X/month → activate karein: [link]"
+2 Parent taps the link
+Opens a lightweight web page (no app). Confirms child, sees exactly what premium unlocks.
+3 Sets up UPI Autopay mandate
+One-time UPI Autopay authorisation for the monthly amount (Flow B → platform). This is the consent event for the child's data
+(Section 25).
+4 Premium stream begins
+Report cards, test alerts and attendance history start flowing. Tutor earns 30% rev-share on this parent.
+5 Lapse handling
+If the mandate fails/cancels, the child auto-downgrades to Free at cycle end; parent keeps free basics.
+Why WhatsApp-only is a feature.
+A parent app would need install, login, and retention — three places to lose the parent. WhatsApp already has 100% install
+among our parents and near-100% open rates. Removing the app removes the funnel's biggest leak and is precisely why per-
+child monetisation works here.
+VIDWAN PRD v1.0 · SECTION 12 · VESPERON TECH · CONFIDENTIAL
+VIDWAN · VESPERON TECH Page 15 / 33
+
+-- 15 of 33 --
+
+1 3 P R O D U C T
+Feature spec — notices & defaulter management
+Broadcast once, reach every parent; recover every rupee owed.
+S A M J H O A I S E
+The teacher can send one message ("No class on Friday — holiday") to a whole batch's parents at once. And she has a
+red list of everyone who hasn't paid, so nobody slips through.
+Notices / broadcasts
+Tutor composes a notice (text, optional date) and sends it to a chosen batch. Delivered as a WhatsApp message to each
+parent in that batch. Use cases: holidays, timing changes, test announcements, fee-cycle notes, upcoming-syllabus alerts.
+Premium parents receive richer/upcoming-notice broadcasts; free parents receive essential operational notices
+(holiday/timing) so no child is ever stranded by missing info.
+Defaulter management (detail)
+Capability Detail
+Live defaulter list All students with unpaid past-due invoices, sorted by days overdue & amount
+Auto re-reminder cadence Configurable (e.g. day 3, day 7, day 14 after due) — gentle, templated
+Manual remind Per-student or "remind all" one-tap
+Mark paid (cash) Tutor records offline/cash payments to clear the flag
+Monthly recovery view Collected vs outstanding for the cycle — the tutor's income scoreboard
+Tone matters.
+All fee-chasing copy is polite, brief, and framed as the app's routine ("Yeh Vidwan ki taraf se automatic reminder hai") so the
+tutor–parent relationship stays warm. The app absorbs the awkwardness the tutor used to carry.
+VIDWAN PRD v1.0 · SECTION 13 · VESPERON TECH · CONFIDENTIAL
+1 4 B U S I N E S S
+Business logic — the two money flows
+Two separate rivers of money. Mixing them up breaks the whole model.
+S A M J H O A I S E
+Money moves in two different ways. River A: parent → teacher, the tuition fee — Vidwan takes nothing. River B: parent
+→ Vidwan, the small premium subscription — and Vidwan pays the teacher 30% of it. Two rivers, two rulebooks.
+VIDWAN · VESPERON TECH Page 16 / 33
+
+-- 16 of 33 --
+
+Parent
+on WhatsApp
+Tutor
+free user
+Vidwan
+platform
+Flow A · Tuition fee (UPI link) — platform take ₹0
+Flow B · Premium subscription (UPI Autopay) → Vidwan
+30% rev-share → Tutor
+FIGURE 14.1 — TWO MONEY FLOWS AND THE TUTOR REV-SHARE
+Flow A — Parent → Tutor (tuition fee)
+Attribute Detail
+What The actual monthly tuition (e.g. ₹1,500)
+Rail UPI collect link generated per invoice (Razorpay)
+Platform take ₹0 in v1 — pure pass-through; this is the hook
+Settlement Straight to the tutor's account (Razorpay Route / linked account)
+Why free Taxing tuition would break "tutor free" and trigger heavier compliance
+Flow B — Parent → Platform (premium)
+Attribute Detail
+What Per-child premium subscription (Hypothesis ₹49–99/mo)
+Rail UPI Autopay mandate — recurring, set up once from a WhatsApp link
+Platform take 70% to platform, 30% rev-share to the tutor
+Settlement Razorpay Route split — tutor's 30% auto-settled to her linked account
+Revenue role This is Vidwan's only v1 revenue line
+Non-negotiable rule.
+Flow A and Flow B never share a ledger, a wallet, or a reminder. They have different owners (tutor vs platform), different rails
+(collect link vs Autopay mandate), and different economics (0% vs 70/30). Every engineer touching payments must keep them
+strictly separate — see Section 21.
+VIDWAN PRD v1.0 · SECTION 14 · VESPERON TECH · CONFIDENTIAL
+VIDWAN · VESPERON TECH Page 17 / 33
+
+-- 17 of 33 --
+
+1 5 B U S I N E S S
+Revenue model & unit economics
+How a free tutor with 30 students turns into recurring platform revenue.
+S A M J H O A I S E
+Each teacher brings ~30 kids. If a fifth of their parents pay
+₹79/month, and the teacher keeps 30%, Vidwan still earns
+steady money from every classroom — and it grows every time a teacher adds students or converts one more parent.
+Per-tutor economics (illustrative, Hypothesis)
+Variable Value
+Students per active tutor ~30
+Premium conversion of linked parents 20%
+Premium children per tutor ~6
+ARPU (premium) ₹79 / child / month
+Gross premium revenue / tutor / month ₹474
+Less tutor rev-share (30%) −₹142
+Net platform revenue / tutor / month ₹332
+₹332
+Net platform revenue per
+active tutor / month
+₹142
+Tutor's monthly earning (her
+incentive to sell)
+₹1.99L
+Net MRR at 600 active tutors
+~24×
+Revenue leverage of student
+axis vs tutor axis
+Cost lines against each premium child
+WhatsApp/BSP messaging — per-message utility/marketing template cost (Section 20). The single largest variable
+cost; must be tracked per message. Confirm current BSP rates before locking unit economics.
+Payment fees — Razorpay MDR/Autopay charges on Flow B (and any on Flow A if we ever monetise it).
+Report render — server-side PDF compute (marginal).
+Tutor rev-share — 30% of Flow B, already netted above.
+The growth identity.
+Net revenue ≈ active_tutors × students_per_tutor × premium_rate × ARPU × 70%. Every lever except tutor
+count is a multiplier on the student base — which is why this compounds far faster than a per-seat tutor SaaS.
+VIDWAN PRD v1.0 · SECTION 15 · VESPERON TECH · CONFIDENTIAL
+VIDWAN · VESPERON TECH Page 18 / 33
+
+-- 18 of 33 --
+
+1 6 B U S I N E S S
+Pricing
+Free where it must be, priced where a parent will happily pay.
+S A M J H O A I S E
+Teachers pay nothing. Parents pay a small amount per child for the good stuff. We'll test two prices in the pilot to find the
+sweet spot.
+TUTOR
+Free — forever in v1
+All core tools: batches, attendance, fees, tests, reports,
+notices, defaulter view. Zero cost, zero card. Earns 30% on
+premium parents.
+PARENT · PER CHILD
+Premium — ₹49–99 / mo Hypothesis
+Monthly report card, per-test alerts, full attendance history,
+upcoming-notice broadcasts. UPI Autopay. Two price points
+A/B-tested in pilot.
+Pricing tests in the 50-tutor pilot
+Variable What we learn
+₹49 vs ₹99 Price elasticity of premium conversion; revenue-maximising point
+Sibling / multi-child
+discount
+Whether a family cap lifts conversion in multi-child households
+Annual vs monthly Whether a discounted annual mandate improves retention & LTV
+Rev-share 30% vs 40% How much extra tutor incentive lifts parent conversion (test only if 30% underperforms)
+Locked v1 decisions.
+Tutor is free. Rev-share is 30%. Same-day absent alert is in the free tier. Everything else about price is a pilot hypothesis,
+revisited before scale — recorded in the Decision Log (Section 31).
+VIDWAN PRD v1.0 · SECTION 16 · VESPERON TECH · CONFIDENTIAL
+1 7 T E C H N O L O G Y
+System architecture
+One mobile app, one API, one database, three external rails.
+S A M J H O A I S E
+The teacher's phone talks to one central "brain" (the backend). The brain remembers everything in a database and,
+when needed, calls three outside helpers: WhatsApp (to message parents), Razorpay (for money), and a PDF maker
+(for report cards).
+VIDWAN · VESPERON TECH Page 19 / 33
+
+-- 19 of 33 --
+
+Tutor app
+Flutter · Android/iOS
+Ops admin
+Web dashboard
+Parent
+WhatsApp + pay page
+API / Backend
+Node.js (NestJS)
+auth · business logic
+PostgreSQL
+Supabase · RLS
+Job workers
+reminders · reports · queue
+WhatsApp BSP (Interakt/Wati)
+templates · media · webhooks
+Razorpay
+UPI links · Autopay · Route
+PDF render (Puppeteer)
+report cards · receipts
+Analytics (PostHog) · Sentry
+events · errors · funnels
+FIGURE 17.1 — V1 SYSTEM ARCHITECTURE
+Component responsibilities
+Component Responsibility
+Tutor app (Flutter) All tutor UX; offline-tolerant attendance capture; talks only to the API
+API / backend (NestJS) Auth (OTP/JWT), business rules, invoice & report orchestration, webhook handling
+PostgreSQL (Supabase) System of record; Row-Level Security isolates each tutor's data
+Job workers / queue Scheduled fee reminders, month-end report generation, retry & dead-letter
+WhatsApp BSP Outbound templates & media, inbound delivery/status webhooks
+Razorpay UPI collect links (Flow A), Autopay mandates + Route split (Flow B)
+PDF render Report cards & receipts as PDF media for WhatsApp
+Ops web dashboard Internal support, KYC/settlement checks, template & pilot analytics
+Why this stack.
+Supabase gives auth + Postgres + Row-Level Security + realtime out of the box, compressing v1 build time. A thin NestJS layer
+owns the money/messaging logic that shouldn't live in the client. Everything external is a swappable adapter (BSP, payments,
+render) so no single vendor is load-bearing.
+VIDWAN PRD v1.0 · SECTION 17 · VESPERON TECH · CONFIDENTIAL
+VIDWAN · VESPERON TECH Page 20 / 33
+
+-- 20 of 33 --
+
+1 8 T E C H N O L O G Y
+Data model / ERD
+Nine core entities. Everything the product does maps to these.
+S A M J H O A I S E
+Think of nine labelled boxes: Tutor owns Batches, a Batch has Students and Sessions, a Session records Attendance, a
+Test holds Marks, and Fees have Payments. Draw arrows between them and you have the whole memory of the app.
+Tutor
+Batch
+Student Session Test
+Attendance Mark FeeInvoice
+Payment
+1:N
+1:N 1:N
+1:N
+1:N 1:N 1:N
+1:N
+FIGURE 18.1 — ENTITY-RELATIONSHIP DIAGRAM (V1)
+Entity dictionary
+Entity Key fields Notes
+Tutor id, phone, name, subjects, city, lang,
+linked_account_id
+The only authenticated user; owns everything
+Batch id, tutor_id, name, days[], start_time, fee,
+cycle_day
+Generates sessions & invoices
+Student id, batch_id, name, parent_whatsapp,
+fee_override, join_date, premium_status,
+mandate_id, parent_lang
+A record, not a user; premium tracked here
+Session id, batch_id, date, status(held/cancelled) Cancelled excluded from denominator
+Attendance session_id, student_id,
+state(present/absent/late)
+Drives attendance %
+Test id, batch_id, date, name, max_marks Triggers per-test alerts
+Mark test_id, student_id, score Feeds report score & trend
+FeeInvoice id, student_id, cycle, amount, status, due_date Flow A; status: due/paid/overdue
+VIDWAN · VESPERON TECH Page 21 / 33
+
+-- 21 of 33 --
+
+Entity Key fields Notes
+Payment id, invoice_id or subscription_id, upi_ref, amount,
+flow(A/B)
+Explicit flow tag keeps rivers separate
+Tenancy.
+Every row carries a tutor_id; Row-Level Security enforces that a tutor can only ever read/write her own data. This is the
+primary data-isolation control (Section 25).
+VIDWAN PRD v1.0 · SECTION 18 · VESPERON TECH · CONFIDENTIAL
+1 9 T E C H N O L O G Y
+API surface & integration logic
+A compact REST surface; heavy lifting behind webhooks and jobs.
+S A M J H O A I S E
+The app asks the backend simple questions and gives it simple commands — "make a batch", "save attendance", "who
+hasn't paid". Money and messages are handled quietly in the background so the app stays fast.
+Core endpoints (representative)
+Endpoint Method Purpose
+/auth/otp · /auth/verify POST Phone OTP request & verification → JWT session
+/batches GET/POST List / create batches
+/batches/:id/students GET/POST List / bulk-add students
+/sessions/:id/attendance PUT Commit one-tap attendance for a session
+/tests · /tests/:id/marks POST Create test / enter marks
+/fees/cycle/run POST (Admin/worker) generate invoices for a cycle
+/fees/defaulters GET Live overdue list
+/reports/:studentId/latest GET Fetch computed monthly report
+/notices POST Broadcast a notice to a batch
+/webhooks/razorpay POST Payment success/mandate events (idempotent)
+/webhooks/whatsapp POST Delivery/read status & inbound events
+Integration principles
+Webhook-driven state. Payment & message status is authoritative from provider webhooks, verified by signature,
+processed idempotently (dedupe on event id).
+Adapters, not hard-wires. BSP, payments, and render sit behind interfaces so a provider can be swapped without
+touching business logic.
+Jobs for anything time-based. Reminders and month-end reports run as scheduled/queued jobs with retry + dead-
+letter, never inline in a request.
+Offline tolerance. Attendance can be captured offline in the app and synced; server reconciles on the session key.
+VIDWAN · VESPERON TECH Page 22 / 33
+
+-- 22 of 33 --
+
+VIDWAN PRD v1.0 · SECTION 19 · VESPERON TECH · CONFIDENTIAL
+2 0 T E C H N O L O G Y
+WhatsApp / BSP architecture
+The entire parent channel — and the biggest variable cost line.
+S A M J H O A I S E
+Vidwan sends parents official WhatsApp messages through a licensed partner (a "BSP"). Some messages are cheap
+"utility" ones (receipts, reminders); the sign-up-please message is a "marketing" one. Every message costs a little, so we
+count them carefully.
+Message taxonomy
+Message Template type Trigger
+Fee reminder + UPI link Utility Invoice created / re-reminder cadence
+Payment receipt Utility Payment webhook success
+Absent-today alert Utility Attendance saved with an absentee
+Monthly report card (PDF) Utility (media) Month-end report job (premium)
+Per-test score alert Utility Marks entered (premium)
+Notice / broadcast Utility Tutor sends a notice
+Premium activation upsell Marketing Student added / lapse win-back
+Cost discipline — critical.
+Meta's per-message pricing (utility vs marketing categories) shifted through 2025. Confirm current utility & marketing
+template rates with the BSP (Interakt/Wati) before finalising unit economics — this is a real per-message cost, not free,
+and it caps how liberally we can broadcast. Marketing templates cost more, so the upsell is used sparingly and win-back is
+capped.
+Reliability
+Delivery tracking via status webhooks; failed sends retried with backoff, then surfaced to ops.
+Opt-out handling honoured per WhatsApp policy; a parent who opts out still receives essential operational notices only
+where permitted.
+Template pre-approval — all templates registered & approved with Meta ahead of launch; copy stored centrally and
+versioned.
+VIDWAN PRD v1.0 · SECTION 20 · VESPERON TECH · CONFIDENTIAL
+VIDWAN · VESPERON TECH Page 23 / 33
+
+-- 23 of 33 --
+
+2 1 T E C H N O L O G Y
+Payments architecture — Razorpay, Autopay & Route
+Two flows, two mechanisms, one strict separation.
+S A M J H O A I S E
+For tuition fees, the app makes a "pay now" link that sends money to the teacher — Vidwan takes nothing. For the
+premium subscription, the app sets up an "auto-pay" that charges the parent monthly, and automatically slices 30% to
+the teacher.
+Flow A — tuition collect (pass-through)
+Mechanism: Razorpay UPI collect / payment link generated per invoice.
+Settlement: to the tutor's linked account (Razorpay Route linked account or direct), platform take ₹0.
+Reconciliation: payment webhook marks the specific FeeInvoice Paid; receipt fired.
+Flow B — premium subscription (recurring + split)
+Mechanism: UPI Autopay mandate created at activation; charged monthly per child.
+Split: Razorpay Route auto-splits each successful charge — 70% platform, 30% tutor linked account.
+Lifecycle: mandate created → monthly debit → on failure, retry per policy → on cancel/expiry, downgrade child to Free
+at cycle end.
+Concern Handling
+Idempotency All webhooks deduped on Razorpay event id; charges keyed to (student, cycle)
+Failed mandate debit Retry window; parent nudged on WhatsApp; grace period before downgrade
+Refund / dispute Handled via ops dashboard; reverses split proportionally
+Tutor KYC / linked account Required before rev-share can settle; blocks Flow B payout until complete
+Ledger separation Payment.flow ∈ {A,B}; never co-mingled in reporting or settlement
+Compliance note.
+Recurring UPI Autopay and marketplace split settlement carry RBI/aggregator requirements. Confirm current Razorpay Route +
+UPI Autopay onboarding, KYC, and mandate rules before go-live; treat tutor payout enablement as gated on KYC.
+VIDWAN PRD v1.0 · SECTION 21 · VESPERON TECH · CONFIDENTIAL
+2 2 T E C H N O L O G Y
+Report generation pipeline
+From raw taps to a WhatsApp-delivered PDF, on a schedule.
+S A M J H O A I S E
+At month-end, a background robot gathers each premium child's attendance and marks, fills a template, turns it into a
+pretty PDF, and sends it to the parent on WhatsApp — all without anyone pressing a button.
+VIDWAN · VESPERON TECH Page 24 / 33
+
+-- 24 of 33 --
+
+Cron: cycle
+month-end
+Gather data
+attend + marks
+Compute
+%, trend, verdict
+Render PDF
+Puppeteer
+Send WA
+media msg
+Track
+delivery
+FIGURE 22.1 — MONTH-END REPORT PIPELINE (PREMIUM CHILDREN ONLY)
+Pipeline guarantees
+Idempotent per (student, cycle) — reruns never double-send a report.
+Only premium & active mandate children enter the pipeline; lapsed children skipped.
+Failure isolation — one child's render/send failure doesn't block the batch; failures retried & surfaced.
+Language per parent — template selected from parent_lang; falls back to batch default.
+Same engine, on demand — the tutor can also preview/trigger a student's report ad-hoc from the app.
+Pipeline reuse.
+Vesperon's existing Puppeteer/Chromium PDF pipeline (with WeasyPrint as documented fallback) is reused for both report
+cards and receipts, so we ship on a proven rendering path rather than a new one.
+VIDWAN PRD v1.0 · SECTION 22 · VESPERON TECH · CONFIDENTIAL
+2 3 T E C H N O L O G Y
+Web vs mobile integration logic
+Mobile for the tutor, thin web for the parent's one tap, web for ops.
+S A M J H O A I S E
+The teacher's tool is a phone app. The parent only opens one tiny web page (from a WhatsApp link) to turn on premium
+— nothing to install. Our own team uses a separate website to help and to watch the numbers.
+Surface Tech Audience Scope
+Tutor app Flutter (mobile) Tutor All core product; the only tutor surface in v1
+Parent pay page Lightweight
+web (Next.js)
+Parent Premium activation + UPI Autopay only; opened from
+WhatsApp; no login, no app
+Ops dashboard Web (Next.js) Vesperon ops Support, KYC/settlement, template mgmt, pilot analytics
+Why this split
+Tutor = app because she uses it daily and needs offline attendance, push, and speed.
+Parent = web page because the single job (authorise Autopay) must have zero install friction; a WhatsApp link → web
+page → UPI mandate is the shortest possible path to revenue.
+Ops = web because internal tooling belongs on a desk, not a phone, and must never share the tutor's app binary.
+Shared backend.
+All three surfaces hit the same API and database; the parent pay page and ops dashboard are thin web clients, not separate
+systems. One source of truth, three windows into it.
+VIDWAN · VESPERON TECH Page 25 / 33
+
+-- 25 of 33 --
+
+VIDWAN PRD v1.0 · SECTION 23 · VESPERON TECH · CONFIDENTIAL
+2 4 T E C H N O L O G Y
+Notifications & message templates
+Every message the system can send, and when.
+S A M J H O A I S E
+Here's the full list of messages Vidwan ever sends — to parents on WhatsApp and to the teacher as phone notifications
+— so nothing is a surprise and nothing gets sent twice.
+Parent (WhatsApp)
+Template Tier Sample (Hinglish)
+Fee reminder Free "Aarav ki {month} fees ₹{amt} — pay: {link}"
+Receipt Free "Received ₹{amt} for Aarav. Dhanyavaad! Receipt: {link}"
+Absent alert Free "Aarav aaj ({date}) class mein absent tha."
+Report card Premium "Aarav ki {month} report ready hai 📄 {PDF}"
+Test alert Premium "Aarav ne {test} mein {pct}% score kiya ({arrow})."
+Notice Free/Prem "{tutor} notice: {text}"
+Activation upsell Marketing "Aarav ki report card & alerts ke liye ₹{price}/mo → {link}"
+Tutor (push)
+Payment received (real-time) · New defaulter crossed threshold · Report job completed · Mandate failed for a parent ·
+Weekly earnings summary.
+Governance.
+All templates are centrally versioned, pre-approved with Meta, and localised per supported language. Copy changes go through
+the Decision Log. Send-rate and category (utility vs marketing) are logged per message for cost tracking (Section 15/20).
+VIDWAN PRD v1.0 · SECTION 24 · VESPERON TECH · CONFIDENTIAL
+2 5 T E C H N O L O G Y
+Security, DPDP & compliance
+Minors' data, parents' consent, and India's data-protection law.
+S A M J H O A I S E
+The kids are children, so their information must be handled very carefully. The parent gives permission (when they turn
+on premium and pay), and we keep the child's data locked to only their own teacher. India has a new privacy law we
+follow from day one.
+VIDWAN · VESPERON TECH Page 26 / 33
+
+-- 26 of 33 --
+
+DPDP posture
+Students are minors, stored only as records. The parent is the consenting data principal; consent is captured
+explicitly at premium activation and logged.
+No student login = smallest possible attack surface and no minor-facing account to protect.
+Data minimisation — we collect only what the five features need (name, attendance, marks, fee status, parent
+number).
+Rights — data access, correction and deletion supported via ops; parent can withdraw consent (ends premium data
+stream).
+Regulatory clock.
+India's DPDP Act full-compliance deadline is 13 May 2027, with enforcement already active in Q1 2026 against
+edtech/fintech/gaming. Build consent capture, consent logging, and data-deletion in from day one — not as a later retrofit.
+Security controls
+Area Control
+Tenant isolation Row-Level Security on tutor_id; a tutor can never read another's data
+Auth Phone OTP → short-lived JWT; ops dashboard behind separate SSO/role
+Secrets Never in the app binary or shared docs; server-side vault only (per Vesperon secrets-mgmt guide)
+Payments No card/UPI credentials stored by us; delegated to Razorpay; webhooks signature-verified
+Transport & rest TLS in transit; encryption at rest via managed DB
+PII in messages Only necessary fields in WhatsApp templates; media links time-limited
+VIDWAN PRD v1.0 · SECTION 25 · VESPERON TECH · CONFIDENTIAL
+2 6 B U S I N E S S
+Analytics, events & engagement
+The funnel we instrument from day one, so pilot decisions are data-led.
+S A M J H O A I S E
+We quietly count what people do — did the teacher finish setup, does she mark attendance daily, did the parent tap the
+premium link — so we know exactly where people get stuck and can fix it.
+Tutor installs & verifies OTP
+Completes setup (batch + ≥10 students) <10 min
+Active: marks attendance + runs a fee cycle
+Parents receive messages, tap UPI
+Parent converts to Premium
+FIGURE 26.1 — ACTIVATION → MONETISATION FUNNEL (EACH BAND = A TRACKED DROP-OFF)
+VIDWAN · VESPERON TECH Page 27 / 33
+
+-- 27 of 33 --
+
+Key events to instrument (PostHog)
+Event Why it matters
+otp_verified Top of funnel; install→identity
+setup_completed The 10-minute promise; core activation gate
+attendance_saved Daily-habit signal; predicts retention
+fee_cycle_run /
+invoice_paid
+GMV & the tutor's "aha" (getting paid)
+premium_link_opened /
+mandate_created
+Parent monetisation funnel
+report_delivered Premium value delivery & delivery health
+mandate_failed / churned Revenue leakage signals
+Engagement analysis we run in pilot
+Activation rate = setup_completed ÷ otp_verified; target the 10-minute completion.
+Daily-habit = tutors marking attendance ≥3×/week (leading retention indicator).
+Monetisation = premium conversions ÷ linked parents, split by ₹49 vs ₹99 cohort.
+Report → retention — does receiving a report card lift the parent's next-month mandate survival?
+VIDWAN PRD v1.0 · SECTION 26 · VESPERON TECH · CONFIDENTIAL
+2 7 G O - T O - M A R K E T
+Go-to-market strategy
+Win one cluster of tutors completely, then let the tutor sell the parent for us.
+S A M J H O A I S E
+We don't shout at all of India at once. We pick one area, sign up lots of teachers there, make them love it, and then each
+happy teacher brings her own parents. Slow and dense beats wide and thin.
+The motion — cluster-dense, tutor-led
+1 Pick one cluster
+One city / locality with tutor density (start where Vesperon already has ground presence). Depth over spread — a dense cluster
+creates word-of-mouth and later enables discovery.
+2 50-tutor pilot
+Hand-onboard 50 tutors. Validate the 10-minute setup, fee-cycle success, and the two premium price points. This is where every
+Hypothesis becomes a fact.
+3 Tutor as distribution
+Every tutor brings 20–60 parents on WhatsApp automatically. The 30% rev-share turns her into a motivated seller of premium.
+CAC on the parent side ≈ ₹0.
+4 Referral loop
+Tutors refer tutors (they know each other locally). In-app referral + a small incentive compounds density inside the cluster.
+VIDWAN · VESPERON TECH Page 28 / 33
+
+-- 28 of 33 --
+
+5 Replicate cluster-by-cluster
+Only after a cluster hits target activation & conversion do we open the next. A repeatable per-cluster playbook, not a national
+blitz.
+Channels
+Channel Role
+Ground / field onboarding Pilot & early clusters — hand-hold first tutors, gather deep feedback
+Tutor WhatsApp/community
+groups
+Where home tutors already congregate; low-cost, high-trust
+In-app tutor referral Primary scalable loop once product-market fit is shown
+Parent word-of-mouth Report cards make tutors look premium → parents ask their other tutors for it
+Local social (regional-
+language reels)
+Vesperon social pipeline; awareness within a cluster
+Web + mobile GTM integration
+Mobile is the tutor acquisition & retention surface (the app itself is the product demo). Web plays two GTM roles: the
+friction-free parent activation page (converts WhatsApp taps to paying mandates) and a lightweight landing/referral site for
+tutor sign-ups. The two reinforce: a tutor acquired on mobile generates parent conversions on web, whose revenue funds
+her rev-share, which motivates more tutor referrals on mobile.
+VIDWAN PRD v1.0 · SECTION 27 · VESPERON TECH · CONFIDENTIAL
+2 8 G O - T O - M A R K E T
+Success metrics & KPIs
+The dials we watch — north star, activation, money, retention.
+S A M J H O A I S E
+One big number tells us if we're winning: how many children have a paying premium parent. Around it, a few smaller
+dials tell us why the big number is moving.
+★
+North Star: active premium
+children (paying mandates)
+<10m
+Median tutor setup time
+15–20%
+Premium conversion of linked
+parents
+≥80%
+3-month tutor retention
+KPI tree
+Layer Metric Target (Hypothesis)
+North star Active premium children Grow MoM; pilot: 300–600
+Acquisition Active tutors (≥10 students, ≥1 cycle) 500 in 6 months
+Activation Setup completion rate ≥70% of installs
+Engagement Tutors marking attendance ≥3×/wk ≥60% of active
+Monetisation Premium conversion; ARPU 15–20%; ₹79
+VIDWAN · VESPERON TECH Page 29 / 33
+
+-- 29 of 33 --
+
+Layer Metric Target (Hypothesis)
+Revenue Net platform MRR ₹1.99L @ 600 tutors
+Retention Tutor 3-mo; mandate survival ≥80%; ≥85%/mo
+Reliability Report & message delivery success ≥95%
+Decision rule.
+We do not open cluster #2 until cluster #1 hits ≥70% activation and ≥15% premium conversion. Metrics gate expansion —
+growth is earned, not assumed.
+VIDWAN PRD v1.0 · SECTION 28 · VESPERON TECH · CONFIDENTIAL
+2 9 G O - T O - M A R K E T
+Phased delivery plan
+Four phases from foundation to first revenue and beyond.
+S A M J H O A I S E
+We build in four steps: first the plumbing, then the teacher's daily tools, then the money + report magic, then the polish
+and pilot. Each step ships something usable.
+Wk 1–3 Wk 4–7 Wk 8–11 Wk 12–15
+P0 Foundation
+P1 Tutor core
+P2 Money + report
+P3 Premium + WA
+P4 Polish + pilot
+auth · DB · CI
+batch·attend·fees UI
+UPI·receipt·report
+Autopay·Route·WA
+QA·50-tutor pilot
+FIGURE 29.1 — INDICATIVE 15-WEEK DELIVERY TIMELINE (HYPOTHESIS; SEQUENCING FIXED, DATES FLEX)
+Phase detail & exit criteria
+Phase Scope Exit criteria
+P0 · Foundation Repo, CI/CD, Supabase schema + RLS, OTP auth, app
+shell, analytics/Sentry wiring
+Tutor can sign in; data model live
+P1 · Tutor core Onboarding, batches/students, timetable, one-tap
+attendance, tests & marks entry
+A tutor can run her class end-to-end (no money yet)
+P2 · Money +
+report
+Fee engine (Flow A UPI links), receipts, defaulter view,
+report engine + PDF render
+Invoices sent, payments reconciled, report cards
+generated
+VIDWAN · VESPERON TECH Page 30 / 33
+
+-- 30 of 33 --
+
+Phase Scope Exit criteria
+P3 · Premium +
+WhatsApp
+BSP integration & templates, parent pay page, UPI
+Autopay + Route split (Flow B), premium gating, rev-
+share settlement
+A parent can go premium; tutor earns 30%; reports
+delivered on WA
+P4 · Polish +
+pilot
+Multi-language, notices, hardening, DPDP
+consent/deletion, ops dashboard, 50-tutor pilot
+Pilot live; pricing & conversion hypotheses tested
+Sequencing logic.
+Money & reports (P2) ship before premium (P3) so the tutor experiences value (getting paid) before we ask any parent to pay.
+Premium is meaningless until report cards exist to sell.
+VIDWAN PRD v1.0 · SECTION 29 · VESPERON TECH · CONFIDENTIAL
+3 0 F O U N D A T I O N
+Risks & mitigations
+What could break the model, and how we've hedged each one.
+S A M J H O A I S E
+Here's everything that could go wrong — parents not paying, WhatsApp getting expensive, rules changing — and our
+plan for each so nothing catches us by surprise.
+Risk Severity Mitigation
+Low premium conversion High Test ₹49/₹99 + sibling cap in pilot; tutor rev-share drives conversion; absent-alert
+free builds the habit that sells premium
+WhatsApp/BSP cost creep High Per-message cost tracked; utility-first template mix; cap marketing sends; revisit unit
+economics at current rates before scale
+Payment/UPI Autopay friction Med Shortest possible activation path; retries + WhatsApp nudge on mandate fail; grace
+period before downgrade
+DPDP / minor-data compliance High Parent-consent model, consent logging, deletion from day one; no student login; data
+minimisation (Section 25)
+Tutor churn after setup Med Daily-habit hooks (attendance, defaulter recovery = real money); the tool pays for
+itself in recovered fees
+Incumbent adds free tutor tier Med Move fast in a segment they structurally discount; data + habit + rev-share moat
+(Section 04)
+Vendor lock-in (BSP/payments) Low Adapter pattern — providers swappable without touching business logic
+Fee pass-through abuse /
+disputes
+Low Flow A settles to tutor; ₹0 platform take limits our exposure; disputes via ops
+VIDWAN PRD v1.0 · SECTION 30 · VESPERON TECH · CONFIDENTIAL
+VIDWAN · VESPERON TECH Page 31 / 33
+
+-- 31 of 33 --
+
+3 1 F O U N D A T I O N
+Decision log
+The choices that are locked, and why — so we never re-litigate them by accident.
+S A M J H O A I S E
+A list of decisions we've already made and won't keep re-arguing. If someone asks "why did we do it this way?", the
+answer is here.
+# Decision Rationale
+D1 Product name = Vidwan (िवान्) Premium, ownable, flatters the child; "the learned one" fits a per-child paid product;
+rejected "Hazri" (too payroll)
+D2 WhatsApp-only for parents; no
+parent app
+Zero install = biggest funnel-leak removed; 100% reach; cleaner minor-data posture
+D3 Parents pay per child; tutor free
+forever (v1)
+Necessity on tutor side, aspiration on parent side; revenue scales on student axis
+D4 Tutor rev-share = 30% Enough to turn the tutor into a motivated seller without breaking platform margin;
+40% tested only if 30% underperforms
+D5 Same-day absent alert = free tier Builds the parent trust/habit that later sells premium; funded by platform
+D6 Student is a record, not a user No minor login → smallest DPDP surface
+D7 Two strictly separate money flows
+(A ₹0, B 70/30)
+Different owners/rails/economics; avoids becoming a payment aggregator
+prematurely
+D8 Reports generated, never authored Zero extra tutor effort is the whole pitch; data she already enters powers it
+D9 Premium price = ₹49–99 Hypothesis Two points A/B-tested in the 50-tutor pilot before locking
+D10 New brand palette Vidya Indigo Distinct from Vesperon client navy/orange/gold and social blue/white/black; scholarly,
+premium, ownable
+VIDWAN PRD v1.0 · SECTION 31 · VESPERON TECH · CONFIDENTIAL
+3 2 F O U N D A T I O N
+Glossary — business & tech terms
+Every term in this doc, in plain words.
+S A M J H O A I S E
+A dictionary. If any word in this document confused you, its plain-English meaning is right here.
+Business & product terms
+Term Plain meaning
+TAM / SAM / SOM Whole market / the slice we can reach / the slice we'll realistically capture in 3 years
+VIDWAN · VESPERON TECH Page 32 / 33
+
+-- 32 of 33 --
+
+Term Plain meaning
+ARPU Average revenue per (paying) user — here, per premium child per month
+MRR / ARR Monthly / annual recurring revenue
+CAC Cost to acquire a customer; on the parent side ≈₹0 because the tutor brings them
+LTV Lifetime value — total money a premium parent pays over their whole subscription
+Conversion rate Share of linked parents who become paying premium
+Rev-share The 30% of premium the tutor earns
+Fee leakage Tuition money lost to forgotten/late/short payments
+North-star metric The single number that best captures product success (active premium children)
+Flywheel A loop where each part makes the next stronger (free tutor → parents → premium → rev-share →
+more tutors)
+Flow A / Flow B Tuition fee (parent→tutor, 0% take) / premium subscription (parent→platform, 70/30)
+Hypothesis A number we assume for now and will prove/adjust in the pilot
+Technology terms
+Term Plain meaning
+Flutter Google's toolkit for building one app that runs on Android & iOS
+NestJS / Node.js The backend framework/runtime — the app's "brain" on the server
+PostgreSQL / Supabase The database / a hosted platform giving us database + auth + security
+RLS (Row-Level Security) Database rule so a tutor can only ever see her own rows
+API / REST endpoint The doors the app uses to talk to the backend
+Webhook A message a provider (Razorpay/WhatsApp) sends us when something happens
+Idempotent Safe to run twice — never double-charges or double-sends
+BSP WhatsApp Business Solution Provider — the licensed partner that sends our messages
+Utility / Marketing template WhatsApp message categories; marketing costs more per send
+UPI Autopay / mandate A one-time approval letting us charge a small amount monthly
+Razorpay Route Splits a payment automatically (70% us, 30% tutor)
+Puppeteer Headless Chrome we use to turn HTML into report-card PDFs
+DPDP Act India's data-protection law; full compliance due 13 May 2027
+JWT / OTP Login token / one-time code sent to the phone to prove identity
+PostHog / Sentry Tools for product analytics / catching software errors
+VIDWAN PRD v1.0 · VT-VIDWAN-PRD-2026-001 · VESPERON TECH · END OF DOCUMENT
+VIDWAN · VESPERON TECH Page 33 / 33
+
+-- 33 of 33 --
+

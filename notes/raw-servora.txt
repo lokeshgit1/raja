@@ -1,0 +1,984 @@
+SERVORA
+
+SMART KITCHEN OS
+
+CONFIDENTIAL
+
+Product Requirements Document
+
+The Servora
+Build Bible
+
+Every screen, button, colour, flow and piece of logic in the Servora mobile app — written so plainly a 6-year-old gets it, and so completely an engineer can build it.
+
+v2.0
+
+App build
+
+30+
+
+Screens & states
+
+1
+
+Brain · Servora Mind
+
+Ideation, Artwork & Design by
+
+Raja Sahoo
+
+Founder & CEO · Wisbox Technology
+
+WISBOX TECHNOLOGY
+
+Internal & Confidential · Do not distribute
+
+Issued June 2026
+
+SERVORA · PRD
+
+CONFIDENTIAL
+
+Section 0
+
+Read me first
+
+🔒
+
+This is a confidential Wisbox Technology document
+
+It contains the full product, design and engineering plan for Servora. Ideation, artwork and design are by Raja Sahoo, Founder/CEO . Do not share, screenshot, or forward outside the Servora build team without written permission.
+
+How to read this document
+
+Every part of the app is explained twice — once like a story, once like a spec. Watch for these three coloured boxes:
+
+🧬
+Like I’m 6
+The simplest possible explanation. If you read only the green boxes, you still understand the whole app.
+
+👨‍💻
+For the developer
+The exact behaviour, data, state and rules an engineer needs to build it correctly.
+
+⚠️
+Watch out
+An edge case, validation rule, or easy-to-miss detail. Don’t ship without handling it.
+
+The words we use (plain-English glossary)
+
+Servora
+The app itself. A helper that watches a restaurant’s kitchen stock.
+
+Servora Mind
+The brain (the AI). It guesses, predicts, and does chores by itself.
+
+Raw material / item
+One thing in the kitchen — rice, paneer, oil, parcel boxes.
+
+Density
+How full a jar looks: Full, Half, Low, or Empty. No weighing.
+
+Days of cover
+How many days until you run out at today’s selling speed.
+
+Burn rate
+How fast an item gets used up each day.
+
+POS
+The billing system (Wisbox, Petpooja). Every sale flows from here.
+
+Auto-deduct
+When a dish sells, Servora subtracts its ingredients by itself.
+
+Spoilage push
+When food may go bad, offer a deal to sell it fast.
+
+Neighbourhood
+Nearby kitchens you can borrow from or lend to in a pinch.
+
+Wisbox Technology · Servora — Confidential
+02
+
+SERVORA · PRD
+
+CONFIDENTIAL
+
+Section 1
+
+What is Servora?
+
+🧬
+
+Like I’m 6
+
+Imagine a restaurant kitchen has lots of jars — rice, paneer, oil. If a jar gets empty, the cook can’t make food. If food sits too long, it goes bad and money is thrown away. Servora is a helper on the phone that watches all the jars. It says “this one is nearly empty, buy more” and “use this one today before it spoils” — and it can even buy things by itself. The cook just taps how full each jar looks. That’s it.
+
+The two problems it kills
+
+🔥 Running out
+No paneer at dinner rush = lost sales & angry customers.
+
+🍅 Wasting
+Cream spoils overnight = money straight in the bin.
+
+Who uses it
+
+🍽️ Restaurants & dhabas
+
+☕ Cafés & bakeries
+
+🚚 Cloud kitchens & tiffin services
+
+Owner = our user. Low-tech, busy, hates typing.
+
+The 5 clever moves (why it works when others failed)
+
+1 Photograph the menu, not type it. Servora Mind reads the dishes and figures out every raw material. Setup goes from weeks to minutes.
+
+2 Tap “how full”, never weigh. Full / Half / Low / Empty. The AI turns that into real quantity and days of cover.
+
+3 Learn the kitchen in 7 days. It watches what sells vs. what empties, then predicts for THIS kitchen. Then autopilot turns on.
+
+4 Traffic lights = days left, not amount. Half a sack of rice is green; half a tray of paneer is red. Same fullness, opposite urgency.
+
+5 Connect menu ↔ stock. “Paneer spoils tomorrow” becomes “push a paneer combo now.” The loop other tools miss.
+
+Wisbox Technology · Servora — Confidential
+03
+
+SERVORA · PRD
+
+CONFIDENTIAL
+
+Section 2 · Design system
+
+The colour palette
+
+A warm, calm, premium kitchen palette: deep navy ink, gold highlight, cream paper, and three meaning colours for status. Use these exact hex values everywhere — never invent new ones.
+
+Brand & surfaces
+
+Ink navy
+#0D1929
+
+Text navy
+#16202E
+
+Gold accent
+#E0B057
+
+Gold ink
+#9A6E1E
+
+App canvas
+#F4F0E8
+
+Card tint
+#FBF9F4
+
+Card / white
+#FFFFFF
+
+Hairline
+#ECE6D9
+
+Status / meaning colours — the traffic light
+
+Green · Fresh
+#3E9B6E
+≥ 4 days cover
+
+Purple · Use soon
+#6A4BB0
+aging perishable
+
+Amber · Low
+#E0B057
+1.5–4 days
+
+Red · Critical
+#D2553B
+< 1.5 days / out
+
+tint green #E4F0E8
+
+tint purple #EBE4F7
+
+tint amber #F6EFDC
+
+tint red #FBE7E0
+
+⚠️
+Watch out — colour means status, never decoration
+The dot colour is computed from days of cover , not how full the jar is. Each status has a matching solid colour, a soft tint background, and a word (Healthy / Use soon / Low / Critical). Always pair them — never show colour alone (accessibility).
+
+Wisbox Technology · Servora — Confidential
+04
+
+SERVORA · PRD
+
+CONFIDENTIAL
+
+Section 2 · Design system
+
+Type, shape & parts
+
+Two typefaces
+
+Bricolage
+
+Display & headings · weights 700/800. Big numbers, titles, the brand mark.
+
+Hanken Grotesk
+
+Body, labels, buttons · 400–800. Everything the user reads.
+
+Shape & spacing
+
+Cards radius 18–22px
+
+Pills / chips radius 999px
+
+Phone screen 420 × 910
+
+Screen padding 16–26px
+
+Min hit target ≥ 44px
+
+Min body text 14–17px
+
+Icon style
+
+Friendly emoji for food categories (🍚 🧀 🥛), thin 2px line-icons (Lucide style) for navigation & controls. No detailed illustrations.
+
+The reusable parts (component kit)
+
+Primary button
+Navy #16202E fill, white text, radius 14–16, soft drop shadow. The main action on a screen.
+
+Gold button
+Gold #E0B057 fill, navy text. Reserved for the “hero” moment (Create account, Enter Servora).
+
+Status dot + meter
+Coloured dot, a thin progress meter, and a status word. Appears on every stock item.
+
+Jar fill selector
+Four tappable jars (Full/Half/Low/Empty) that fill up. The core input of the whole app.
+
+Bottom sheet
+Slides up from the bottom (radius 28 top), dark scrim behind. Used for Add, Item detail, Offer, Report.
+
+Full-screen overlay
+Covers the app (Profile, Notifications, Connections, Live feed, Settings). Has its own back button.
+
+Toast
+Navy pill near the bottom with a green tick. Confirms an action for ~2.2 seconds, then fades.
+
+Toggle switch
+Green when on, grey when off. Used for connections & settings.
+
+👨‍💻
+For the developer
+Animations are tiny & consistent: svFade (page in), svUp (sheet rise), svPop (scale in), svPulse (live dot), svScan (OCR line), svSpin (loader). Durations 0.2–0.6s, ease.
+
+Wisbox Technology · Servora — Confidential
+05
+
+SERVORA · PRD
+
+CONFIDENTIAL
+
+Section 3
+
+The whole app, one map
+
+🧬
+Like I’m 6: The app has three big rooms you walk through in order — the Door (sign in), the Setup table (first-time setup), and the Kitchen (the real app). Inside the Kitchen there are 3 main spots at the bottom, and lots of little drawers that pop open.
+
+👨‍💻
+For the developer: the app is one component driven by a single phase state — 'auth' → 'onb' → 'app' . There is no URL router; navigation is state. Overlays (profile, notif, add, etc.) are independent booleans layered with z-index, so several flows can stack.
+
+PHASE 1 · AUTH
+
+Landing → Sign up / Sign in → Forgot (3 steps) → PIN
+
+→
+
+PHASE 2 · ONBOARDING
+
+5 setup steps: details → menu → fill → connect → all-set
+
+→
+
+PHASE 3 · APP
+
+The live product. 3 tabs + overlays.
+
+Inside the app — bottom navigation (always 3)
+
+📊 Dashboard
+Glance health, do-this-first, order list, ask neighbourhood
+
+📦 Stock
+Two sub-tabs: Needs you & All items
+
+⚡ Count
+One-item-at-a-time count → report → PDF
+
+Overlays & drawers (open over any tab, each its own z-layer)
+
+Add chooser (z50)
+Add flow (z55)
+Profile (z56)
+Connections hub (z57)
+Notifications (z58)
+My orders (z58)
+Live feed (z58)
+Item detail (z60)
+Servora report (z60)
+Push offer (z61)
+Connect flow (z62)
+Terms / Privacy / Settings (z64)
+Toast (z70)
+
+Key state variables (the app’s memory)
+
+phase auth / onb / app
+
+tab dashboard / stock / count
+
+densities fullness 0–3 per item
+
+orderQty what’s queued to buy
+
+connections which POS are linked
+
+countIdx which item being counted
+
+selId open item detail
+
+stockTab needs / all
+
+Wisbox Technology · Servora — Confidential
+06
+
+SERVORA · PRD
+
+CONFIDENTIAL
+
+Section 4 · Screen by screen
+
+Phase 1 · The door (Auth)
+
+🧬 Like I’m 6: This is the front door. You say who you are, make a secret password, and a little 4-number lock so only you can open the kitchen each morning.
+
+1 Auth landing first screen
+
+On screen: dark hero with spinning ring (2 critical / 3 low / 18 fresh badges orbiting a big “23 items”), headline “Never run out. Never waste.”, three feature chips (snap menu / predicts spoilage / auto-reorders), gold “Create your kitchen account” button, and a “Sign in” text link.
+
+Does: gold button → Sign up. “I already have an account” → Sign in.
+
+2 Sign up
+
+Fields: contact number, email (optional), create password. A Terms & Privacy checkbox. Continue button stays grey until valid, then navy.
+
+Rules: phone ≥ 6 chars, password ≥ 6, checkbox ticked. On valid → Onboarding step 1.
+
+3 Sign in
+
+Phone/email + password, a “Forgot?” link. Navy “Sign in” button goes straight into the app dashboard (demo skips real check).
+
+“Create an account” link → Sign up.
+
+4 Forgot password — 3 small steps
+
+a. Enter number
+Send a 6-digit code
+
+b. Enter code
+Demo code = 123456
+
+c. New password
+Confirm → back to sign in
+
+Watch out: passwords must match; wrong code shows a toast. Back button steps back one stage at a time.
+
+5 4-digit unlock PIN & lock screen
+
+A 4-digit PIN the owner sets (then re-enters to confirm). Each morning a lock screen greets “Hi {name}” and asks for it. Wrong PIN → shake + retry. Can be turned off in Settings.
+
+Wisbox Technology · Servora — Confidential
+07
+
+SERVORA · PRD
+
+CONFIDENTIAL
+
+Section 4 · Screen by screen
+
+Phase 2 · Setup (5 steps)
+
+🧬 Like I’m 6: Before cooking, we set the table. We tell Servora the restaurant’s name, show it the menu, tap how full the main jars are, and plug in the billing machine. A bar at the top fills up to 100% as you go.
+
+1
+Kitchen details
+Restaurant name, owner/vendor name, contact number. Required — can’t continue without name & owner (toast warns).
+
+2
+Add your menu — 4 ways
+Snap menu (photo/PDF), upload CSV/Excel, add by hand, or load a cuisine starter list (North/South Indian, Chinese, Café, Multi). Can skip — “Servora Mind fills it”.
+
+3
+How full are these now?
+Only the 5 items that matter most (rice, paneer, chicken, oil, milk). Tap a jar Full/Half/Low/Empty — the app instantly shows estimated days of cover. Mind guesses the rest.
+
+4
+Connect where orders happen
+Optional. Link Wisbox / Petpooja / Zomato / Swiggy so every sale auto-deducts ingredients. Skippable — can connect later from Settings.
+
+5
+You’re all set · “Kitchen mapped 100%”
+Celebration screen. Explains the 7-day learning window & what Mind will learn (burn rate, lead time, spoilage, par-levels). Gold “Enter Servora” → the live app.
+
+👨‍💻 For the developer: step lives in onbStep (1–5) ; progress dots & % derive from it. The same jar-fill selector and Add-flow components are reused here and inside the app — build once.
+
+Wisbox Technology · Servora — Confidential
+08
+
+SERVORA · PRD
+
+CONFIDENTIAL
+
+Section 4 · Phase 3 · Tab 1
+
+The Dashboard
+
+🧬 Like I’m 6: The home page. One big coloured donut shows if the kitchen is happy or needs help, then it tells you the one thing to do first, and a shopping list for today.
+
+What’s on it, top to bottom
+
+1 · Header
+“Hello, Sneha” + kitchen name. Bell icon (red badge = alert count) → Notifications. “SN” avatar → Profile.
+
+2 · Stock-health hero (the donut)
+Dark card. A 3-colour ring (green/amber/red) with the count that “needs you” in the middle. Side legend: fresh / running low / critical (each tappable → filtered Stock). Plus “Saved/month” & “On shelf” value.
+
+3 · “Do this first” focus card
+The single most urgent action. If something may spoil → red “Create an offer”. Else if low → amber “Reorder now”. Else green “All clear”. Pushed items become little green “offer is live” confirmations.
+
+4 · Two quick actions
+“Count stock (under 60s)” → Count tab. “Add items (photo·CSV·type)” → Add chooser.
+
+5 · Live sync / Connect banner
+If POS connected → pulsing “Live order sync” (orders auto-deducted today) → Live feed. If none → gold “Connect POS & delivery” → Connections hub.
+
+6 · Today’s order list
+Items queued to buy with −/+ steppers, supplier & line cost, running total, and “Place order”. Empty state nudges to browse stock.
+
+7 · Ask the neighbourhood
+A quick post box (“Need 2kg paneer urgently?”) with shortcut tags. Posts go to 14 nearby kitchens; offers come back.
+
+⚠️ Watch out: the donut and every count are computed live — tapping a jar anywhere instantly recolours this ring. No stale data, no manual refresh.
+
+Wisbox Technology · Servora — Confidential
+09
+
+SERVORA · PRD
+
+CONFIDENTIAL
+
+Section 4 · Phase 3 · Tab 2
+
+Stock · “Needs you”
+
+🧬 Like I’m 6: Stock has two tabs. The first shows only the things that need help right now — food about to spoil, and things about to run out. Everything healthy is hidden so you’re never overwhelmed.
+
+Sections of this tab
+
+Learning / Autopilot banner
+During days 1–7: dark “Servora Mind is learning · day 3 of 7” with a progress bar. After: green “Autopilot ON” banner. (Toggled by the learningMode prop.)
+
+🔥 Use before it spoils ₹··· at risk
+Red-topped card per perishable: name, expiry, money at risk. Pick dishes to promote (checkable chips) → “Push offer” (becomes “Offer is live” & the card disappears after ~1.3s). “Update” opens the item to fix its fullness.
+
+🛒 Order today
+A side-scrolling row of cards for low/critical items: big “days left” number, Mind’s suggested quantity, and “Add to order” (queues it & opens My orders for the final decision). “Review orders” link top-right.
+
+✅ Empty state
+“Nothing needs you” when all clear — Mind is auto-managing via POS. Button to browse all items.
+
+👨‍💻 For the developer: “Needs you” = items where status ≠ green. Spoilage = perishable, expiry ≤ 1 day, density ≥ Half. Reorder = density ≤ Low and not green. The tab badge counts spoilage + reorder items.
+
+Wisbox Technology · Servora — Confidential
+10
+
+SERVORA · PRD
+
+CONFIDENTIAL
+
+Section 4 · Phase 3 · Tab 2
+
+Stock · “All items”
+
+🧬 Like I’m 6: The full cupboard — every single item with its colour dot and how many days it’ll last. Tap one to open its full card.
+
+The list
+
+Filter chips
+All · Order now · Expiring · Fresh. Plus a colour legend (Fresh / Use soon / Low / Critical). “+ Add” opens the Add chooser.
+
+Item rows (sorted most-urgent first)
+Each: category emoji + colour dot, name, category · “powers N dishes”, quantity (e.g. “2 sacks · ~280 servings”), a big days-left number, a fill meter, and a status word. Tap → Item detail.
+
+Item detail (bottom sheet, opens anywhere)
+
+Shows: status line, in stock now (units + approx servings), runs out in , supplier, suggested reorder, value per unit, a jar-fill selector to update fullness , the dishes it powers, and a primary action — “All good” if healthy, else “Add to order list” (which queues it and jumps you to the highlighted item inside Stock).
+
+⚠️ Watch out: changing the jar level in this sheet writes straight to densities — the row, the dashboard ring, and counts all update at once. The highlighted item glows gold for ~2.6s so the user sees where they landed.
+
+Wisbox Technology · Servora — Confidential
+11
+
+SERVORA · PRD
+
+CONFIDENTIAL
+
+Section 4 · Phase 3 · Tab 3
+
+Count & the Report
+
+🧬 Like I’m 6: Once a day you do a super-fast count. The app shows one jar at a time and you tap how full it is. After the last one, you get a little party screen and a printable report.
+
+The flow
+
+1 · One item at a time
+Progress dots + “Item 3 of 24 · ~63s left”. Big icon, name, last count, and the 4 jars with quantity hints. Buttons: Back, Confirm & next. “Skip the rest → summary” jumps to the end. Perishables are ordered first.
+
+2 · “Count done!” celebration
+Dark card with fresh/low/critical totals. Buttons: Generate kitchen item list , See updated dashboard, Count again.
+
+3 · Editable report
+Mind pre-fills quantities (Empty=0, Low=1, Half=2, Full=4). Items grouped by category, each with an editable number box. A free-text “Note for the kitchen”. Save report downloads a branded PDF.
+
+📄 The PDF report (built with jsPDF)
+
+A4 document with a navy header band (gold S logo, “SERVORA MIND · KITCHEN STOCK REPORT”, kitchen name & date), three stat cards (counted / fresh / need-you), then every item grouped by category with a colour dot, status word and quantity. The kitchen note is boxed in gold. Auto-paginates. Filename: Servora-stock-report-{date}.pdf .
+
+⚠️ Watch out: jsPDF must be loaded before “Save report” is tapped — if not ready, show a toast (“PDF engine still loading”) instead of crashing.
+
+Wisbox Technology · Servora — Confidential
+12
+
+SERVORA · PRD
+
+CONFIDENTIAL
+
+Section 5 · Flows & drawers
+
+Adding items — 3 ways
+
+🧬 Like I’m 6: Tap “Add” and pick: take a photo of the menu, upload a list, or type. The robot reads it and you just tick what’s right.
+
+A · Snap the menu (the magic one)
+
+Capture
+Camera frame with corner guides over a menu. “Capture menu” or upload PDF.
+
+Scanning
+Green scan-line sweeps; spinner; “Reading your menu…” (~1.5s).
+
+Review
+“N dishes → M raw materials”. Tick dishes, toggle ingredient chips, +Add missing. Confidence % per dish.
+
+B · Upload CSV / Excel
+
+Drop a .csv/.xlsx (≤5MB). Columns: item · category · unit · quantity (any order). Parsing spinner → review list: matched vs. new, tick to import, “Import N items”.
+
+C · Add by hand
+
+Item name, category chips, and a jar-fill level. One tap to add. Mind still links it to the dishes that use it.
+
+D · Cuisine starter list (onboarding only)
+
+Pick cuisines (North/South Indian, Chinese, Café, Multi). Each loads a ready raw-material list (~50–74 items) instantly — the fastest possible setup.
+
+👨‍💻 For the developer: the Add flow is one component driven by addMethod + addStage (capture → scanning → review, etc.). Reused identically in onboarding step 2 and the in-app “+ Add”. The confirm button label is dynamic (counts ticked dishes/items).
+
+Wisbox Technology · Servora — Confidential
+13
+
+SERVORA · PRD
+
+CONFIDENTIAL
+
+Section 5 · Flows & drawers
+
+Connections & live orders
+
+🧬 Like I’m 6: Plug the billing machine into Servora. Then every time a dish is sold, Servora subtracts the ingredients all by itself — you can watch it happen live.
+
+Connections hub (Plugins)
+
+Lists 4 sources: Wisbox (dine-in & takeaway POS), Petpooja (online hub), and under it Zomato & Swiggy (routed through Petpooja). Each: brand mono badge, connected status dot, and a Connect button or on/off toggle. A “Live order feed” entry sits on top.
+
+Rule: connecting Petpooja auto-connects Zomato & Swiggy; disconnecting it removes them too.
+
+Connect flow (per provider)
+
+1 · Authorise
+Restaurant ID + phone. Shows what Mind will read (orders, menu, modifiers) & what it never reads (payments, customer data).
+
+2 · Syncing
+Spinner & checklist: importing menu, auto-mapping recipes, subscribing to live orders (~2s).
+
+3 · Done
+“84 dishes mapped · 312 ingredient links”. Toast confirms; stock now auto-updates.
+
+Live order feed
+
+A “LIVE · auto-deducting stock” header with connected-channel pills, two stats (orders synced / sales captured), and a “Fire sample orders” button that streams demo orders every ~2.6s. Each order card shows the dish, channel, and the exact ingredient amounts deducted (e.g. −250g chicken). Stock drops & the dashboard ring recolours in real time.
+
+👨‍💻 For the developer: auto-deduct walks each sold dish’s recipe, adds a fractional “depletion” per ingredient, and drops one density bucket whenever depletion crosses 1.0. Only fires for connected channels. In production this is driven by a POS webhook, not a timer.
+
+Wisbox Technology · Servora — Confidential
+14
+
+SERVORA · PRD
+
+CONFIDENTIAL
+
+Section 5 · Flows & drawers
+
+Profile, Orders & Alerts
+
+🧬 Like I’m 6: Three side-rooms. Your profile shows your stats and a diary of everything the robot did. My orders is your final yes/no before buying. Alerts is the bell — warnings plus messages from nearby kitchens.
+
+Profile overlay
+
+Navy hero: avatar, name, “Owner · kitchen”, an Autopilot ACTIVE badge, and 3 stats (waste prevented / items tracked / covers today). Below: My orders hero, quick actions, a live “Today, from your POS” card (covers served, bar chart, top mover), the Servora report entry, Workspace links (connected systems, suppliers, notifications), Settings & legal links, and Log out.
+
+Servora report modal (the AI diary)
+
+Bottom sheet listing everything Mind did today — auto-ordered paneer, pushed a combo, flagged chicken, synced bills — each with a time and value. Top stats: saved / tasks done / covers.
+
+My orders
+
+Mind-queued items. Per card: quantity stepper, line total, remove. A grand total & “Approve & place order” . The owner always has the final say on quantity & supplier.
+
+Notifications & neighbourhood
+
+Mind alerts (spoilage, reorder, autopilot — tap to open the item) and neighbourhood activity : nearby requests you can help, and your own posts collecting offers to accept.
+
+Wisbox Technology · Servora — Confidential
+15
+
+SERVORA · PRD
+
+CONFIDENTIAL
+
+Section 5 · Flows & drawers
+
+The spoilage→push loop
+
+🧬 Like I’m 6: If the cream might go bad tomorrow, the app says “sell cream dishes today!” You pick which dishes to put on a deal, push it, and the food gets used instead of wasted. This is the money-saving superpower.
+
+Push offer modal
+
+Opens from the dashboard focus card or a spoilage card. Shows the at-risk item (name, expiry, money at risk), then a menu of dishes — dishes that use that item are suggested first with a “Uses {item}” tag. Tick dishes, then “Push offer for N dishes” . A toast confirms and the dashboard shows an “offer is live” confirmation.
+
+👨‍💻 For the developer: in production a pushed offer creates a temporary discount on the POS/aggregator for the selected dishes until a cutoff time, and links it back to the at-risk item so Mind can measure how much waste it prevented.
+
+Settings & legal sheet
+
+Settings
+Daily PIN unlock toggle, change password, low-stock/spoilage alerts toggle, Autopilot toggle, language, connected plugins, log out.
+
+Terms & Privacy
+Full plain-English sections (acceptance, account, connected systems, predictions, data use, your control). “Last updated” date.
+
+Toast (global confirmation)
+
+Navy pill with a green tick, ~2.2s, above the bottom nav. Confirms nearly every action (added to order, offer pushed, connected, report saved…). Never blocks the UI.
+
+⚠️ Watch out: only one toast at a time — a new one resets the timer. Don’t stack them.
+
+Wisbox Technology · Servora — Confidential
+16
+
+SERVORA · PRD
+
+CONFIDENTIAL
+
+Section 6 · Data & logic
+
+The data model · Items
+
+Item schema (one raw material): id, name, cat, unit, cpl (days cover per fullness level), perish, expiry (days), price, sup (supplier), dishes[], def (default fullness 0–3).
+
+The seed catalogue ships with 24 items across 13 categories — food & non-food (gas, parcel boxes, cups). Production replaces this with the kitchen’s own catalogue from menu OCR.
+
+Item
+Category
+Unit
+Perish
+Expiry
+Value
+Supplier
+
+🍚 Basmati rice
+Grains
+sacks
+–
+—
+₹2,400
+Sri Maa Traders
+
+🍞 Wheat flour (atta)
+Grains
+sacks
+–
+—
+₹1,100
+Sri Maa Traders
+
+🧇 Toor dal
+Pulses
+kg
+–
+—
+₹1,600
+Sri Maa Traders
+
+🛢 Refined oil
+Oils
+tins
+–
+—
+₹1,900
+Annapurna Wholesale
+
+🥛 Paneer
+Dairy
+trays
+yes
+1d
+₹600
+Milkmaid Dairy
+
+🍗 Chicken
+Proteins
+kg
+yes
+2d
+₹1,800
+Fresh Meat Co.
+
+🥛 Milk
+Dairy
+crates
+yes
+2d
+₹700
+Milkmaid Dairy
+
+🍅 Tomato
+Vegetables
+crates
+yes
+2d
+₹500
+Unit-1 Mandi
+
+🦧 Onion
+Vegetables
+sacks
+–
+—
+₹600
+Unit-1 Mandi
+
+🥜 Cashew
+Nuts & seeds
+packs
+–
+—
+₹1,300
+Annapurna Wholesale
+
+🌶 Spices (garam, turmeric…)
+Spices
+packs
+–
+—
+₹250–400
+Annapurna Wholesale
+
+🥝 Dairy perishables (curd, butter, cream)
+Dairy
+tubs/packs
+yes
+1–6d
+₹300–450
+Milkmaid Dairy
+
+☕ Café & pantry (coffee, sugar)
+Café / Pantry
+packs/sacks
+–
+—
+₹700–900
+Roastery / Annapurna
+
+📦 Non-food (boxes, cups, LPG, drinks)
+Disposables / Utilities
+bundles+
+–
+—
+₹300–1,100
+PackRight / Indane
+
+Rows grouped for the page; the live seed has 24 individual rows. Red-tinted rows are perishables that drive the spoilage loop.
+
+🧬 Like I’m 6: Each item is a little index card. It remembers what it is, how long it lasts, who sells it, and which dishes need it.
+
+Wisbox Technology · Servora — Confidential
+17
+
+SERVORA · PRD
+
+CONFIDENTIAL
+
+Section 6 · Data & logic
+
+How Servora Mind thinks
+
+1 · Density → quantity → days of cover
+
+A tapped fullness (0=Empty…3=Full) maps to a fraction of a typical pack, then to real units & servings. Days of cover = fullness × cover-per-level (cpl) , capped at expiry for perishables.
+
+cover = density > 0 ? round(density × cpl) : 0
+if perishable: cover = min(cover, expiryDays)
+
+2 · Status (the traffic light)
+
+if density==0 → red (out)
+else if perishable & expiry≤2 & density≥Half → aging (use soon)
+else if cover<1.5 → red
+else if cover<4 or (perishable & expiry≤2) → yellow
+else → green
+
+This is why a Half sack of rice is green but a Half tray of paneer is red — same fullness, the perishable’s short expiry forces urgency.
+
+3 · The donut ring
+
+Three arcs sized by the share of green / yellow / red items. Built from circumference 502.6 with a small gap between segments. Centre shows the “needs you” count.
+
+4 · 7-day calibration
+
+Learns true per-dish use, burn rate by weekday, supplier lead time, spoilage curve. After day 7, generic cpl defaults are replaced by personalised par-levels & autopilot.
+
+5 · Recipes, fills & posts (supporting data)
+
+RECIPES
+Dish → channel, price, and ingredient list with grams & a depletion weight. Drives auto-deduct & offer suggestions.
+
+FILL
+The 5 onboarding “hero” items the owner taps first (rice, paneer, chicken, oil, milk).
+
+POSTS
+Neighbourhood requests & the owner’s own posts with incoming offers.
+
+👨‍💻 For the developer: all of this is pure functions of state — compute(item) returns {density, cover, status}. The UI never stores derived values; it recomputes on every render so one tap ripples everywhere consistently.
+
+Wisbox Technology · Servora — Confidential
+18
+
+SERVORA · PRD
+
+CONFIDENTIAL
+
+Section 7 · Build it for real
+
+What the backend must do
+
+⚠️ The current build is a front-end prototype — all data lives in memory and resets on reload. These are the real services to stand up for production.
+
+🔐 Auth & accounts
+Phone/OTP + password sign-up & sign-in, password reset, device-stored 4-digit PIN, sessions. Stores kitchen profile (name, owner, contact, type, cuisines).
+
+📷 Menu OCR & ingredient graph
+Image/PDF → dishes (LLM + food ontology) → raw materials with quantities & a confidence score. Generates the item master + recipe BOM. CSV/Excel import path too.
+
+📊 Stock & prediction engine
+Stores densities & counts, computes cover/status, runs the 7-day calibration, learns burn rate & par-levels, and produces reorder & spoilage suggestions per outlet.
+
+📡 POS / delivery connectors
+OAuth + webhooks for Wisbox, Petpooja, Zomato, Swiggy. On each bill, map dish→recipe→ingredients and auto-deduct. Scopes: orders & menu only — never payments or customer identity.
+
+🛒 Orders & suppliers
+Queue, edit, approve & send purchase orders to suppliers (with an alternate-supplier choice). Track lead time back into the prediction engine.
+
+🔥 Offers & neighbourhood
+Push time-boxed dish discounts to the POS/aggregator and measure waste prevented. Geo-scoped neighbourhood posts, offers & accept/decline.
+
+🔔 Notifications & reports
+Push/SMS alerts (low stock, spoilage, autopilot actions). Server-side PDF stock report generation & the daily “Servora report” activity log.
+
+Wisbox Technology · Servora — Confidential
+19
+
+SERVORA · PRD
+
+CONFIDENTIAL
+
+Section 8 · Ship it
+
+Edge cases & checklist
+
+Don’t ship without handling
+
+Empty states for orders, needs-you, live feed & neighbourhood.
+
+Validation : phone≥6, password≥6, terms ticked, PINs match, code=123456 (demo).
+
+PDF not loaded yet → show toast, never crash.
+
+Petpooja cascade : connect/disconnect carries Zomato & Swiggy.
+
+Auto-deduct only fires for connected channels; density floors at 0.
+
+Overlay stacking & back buttons must close the right layer.
+
+One toast at a time; resets timer.
+
+Skip paths in onboarding & count must still land somewhere valid.
+
+Definition of done (per screen)
+
+✓ Matches palette, type scale & spacing in Section 2.
+
+✓ All hit targets ≥ 44px; body text ≥ 14px.
+
+✓ Status uses colour + tint + word together (never colour alone).
+
+✓ Every action gives feedback (toast / state change).
+
+✓ No dead space — every screen fills its frame edge to edge.
+
+🧬 Like I’m 6: The whole app is one promise — tap how full your jars are, and Servora makes sure you never run out and never waste. Everything else just makes that easy.
+
+Document owner
+
+Raja Sahoo
+
+Founder & CEO · Ideation, Artwork & Design
+
+WISBOX TECHNOLOGY
+
+Servora PRD · Internal & Confidential
+
+June 2026 · v2.0
+
+Wisbox Technology · Servora — Confidential
+20

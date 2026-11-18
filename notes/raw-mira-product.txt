@@ -1,0 +1,144 @@
+9:41
+
+🔒
+on-device · your face stays here
+
+Your mirror needs the camera —
+and only your phone ever sees it.
+
+Nothing is uploaded, stored, or sent. Promise.
+
+Open the mirror
+
+reading the light…
+
+{{ affirmation }}
+
+{{ outro }}
+
+✨ want a tip?
+
+Check me again
+
+Ask me honestly
+Not feeling it
+
+Since you asked
+
+{{ honestText }}
+
+Thanks — I'm good
+
+🤍
+
+{{ badDayText }}
+
+okay
+
+Get me ready
+
+Where are you
+headed?
+
+The bigger the moment, the more honesty you invite. I'll keep it gentle.
+
+{{ o.icon }}
+{{ o.label }} {{ o.sub }}
+
+{{ occLabel }}
+
+✕
+
+Step {{ occStepNum }} of {{ occTotal }}
+
+{{ occStep }}
+
+Save this look ✓
+
+Next
+
+Saved on this phone
+
+My looks
+
+{{ l.favLabel }}
+
+{{ l.occasion }}
+
+{{ l.note }}
+
+🪞
+
+Nothing saved yet
+
+Looks only live here when you choose to keep one — never automatically, never in the cloud.
+
+Open the mirror
+
+Privacy & data
+
+Your face never leaves this phone.
+
+Not a setting we ship off by default — the architecture itself never uploads, stores, or transmits an image. Ever.
+
+Save looks locally
+Kept only in this app, only when you tap save.
+
+Anonymous analytics
+Aggregate counts only — never an image, never PII.
+
+Skin insights · v2
+Off by default. Sends derived text only, e.g. “warm undertone.”
+
+Delete everything on this device
+
+DPDP Act ✓
+GDPR Art. 9 ✓
+One-tap erasure ✓
+
+One gentle add · {{ tipCat }}
+
+{{ tipLine }}
+
+{{ tipName }}
+
+{{ tipBrand }} · {{ tipFinish }} · {{ tipShade }}
+
+{{ tipPrice }}
+
+{{ saveLabel }}
+Shop
+
+Shown only because you asked. Never invented to sell.
+
+Mira
+
+The mirror that leads with confidence — and never grades you.
+
+Most days it just tells you you're good and gets out of your way. The truth is here too — but only when you ask for it.
+
+Continue
+
+🔒
+
+Before the camera, a promise.
+
+✓ Your face is read entirely on this phone — like a calculator, not a website.
+
+✓ No image is ever uploaded, stored, or sent anywhere.
+
+✓ One tap erases everything, whenever you like.
+
+Next, your browser will ask for the camera. That's the only permission Mira ever needs.
+
+Open my mirror
+
+Mirror
+
+Get ready
+
+Looks
+
+Privacy
+
+{{ toastMsg }}

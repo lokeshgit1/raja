@@ -1,0 +1,195 @@
+/* ============================================================
+   JAI MATA DI FITNESS — flagship landing page
+   Design tokens + base styles
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@400;500;600;700;800;900&family=Oswald:wght@400;500;600;700&family=Anton&family=Manrope:wght@300;400;500;600;700;800&family=Tiro+Devanagari+Sanskrit:ital@0;1&family=Rozha+One&display=swap');
+
+:root {
+  /* base */
+  --black: #0B0706;
+  --black-2: #120A09;
+  --oxblood: #3A0B0B;
+  --oxblood-deep: #260707;
+  --oxblood-2: #4A1010;
+
+  /* text */
+  --cream: #F4ECDD;
+  --cream-dim: #D8C7B2;
+  --muted: #9C8676;
+  --muted-deep: #6E5A4D;
+
+  /* accents */
+  --saffron: #F4A300;
+  --marigold: #F0820C;
+  --gold: #C9A227;
+  --gold-light: #E6C865;
+  --gold-deep: #9A7A1C;
+
+  /* accent driver (swapped by tweaks) */
+  --accent: var(--gold);
+  --accent-bright: var(--gold-light);
+  --accent-cta: var(--saffron);
+
+  /* fonts (display swapped by tweaks) */
+  --font-display: 'Saira Condensed', 'Oswald', sans-serif;
+  --font-body: 'Manrope', system-ui, sans-serif;
+  --font-deva: 'Tiro Devanagari Sanskrit', serif;
+  --font-deva-bold: 'Rozha One', 'Tiro Devanagari Sanskrit', serif;
+
+  /* motion */
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --reveal-dur: 1100ms;
+  --motion-scale: 1; /* multiplied into reveal distances by tweaks */
+
+  /* layout */
+  --pad-x: clamp(20px, 6vw, 120px);
+  --section-y: clamp(90px, 13vh, 200px);
+  --maxw: 1320px;
+
+  /* lines */
+  --hair: rgba(201, 162, 39, 0.18);
+  --hair-soft: rgba(244, 236, 221, 0.09);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+body {
+  background: var(--black);
+  color: var(--cream);
+  font-family: var(--font-body);
+  font-weight: 400;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+/* warm film-grain / temple-stone texture overlay */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+::selection { background: var(--saffron); color: var(--black); }
+
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+img { display: block; max-width: 100%; }
+
+/* ---------- typography helpers ---------- */
+.display {
+  font-family: var(--font-display);
+  font-weight: 800;
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+.eyebrow {
+  font-family: var(--font-display);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.32em;
+  font-size: clamp(11px, 1vw, 13px);
+  color: var(--accent);
+}
+.deva { font-family: var(--font-deva); text-transform: none; letter-spacing: 0; }
+.gold-text { color: var(--accent); }
+.serif-num { font-variant-numeric: tabular-nums; }
+
+.shell { max-width: var(--maxw); margin: 0 auto; padding-inline: var(--pad-x); width: 100%; }
+
+/* ---------- buttons ---------- */
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: clamp(13px, 1vw, 15px);
+  padding: 18px 32px;
+  border-radius: 12px;
+  transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease), background 0.4s var(--ease), color 0.4s var(--ease);
+  will-change: transform;
+}
+.btn--gold {
+  background: linear-gradient(180deg, var(--accent-bright), var(--accent));
+  color: #221704;
+  box-shadow: 0 8px 30px -8px rgba(244, 163, 0, 0.5), inset 0 1px 0 rgba(255,255,255,0.4);
+}
+.btn--gold:hover { box-shadow: 0 16px 50px -10px rgba(244, 163, 0, 0.75), inset 0 1px 0 rgba(255,255,255,0.5); }
+.btn--ghost {
+  background: transparent;
+  color: var(--cream);
+  box-shadow: inset 0 0 0 1px rgba(244, 236, 221, 0.22);
+}
+.btn--ghost:hover { box-shadow: inset 0 0 0 1px var(--accent); color: var(--accent-bright); }
+.btn__arrow { transition: transform 0.5s var(--ease); }
+.btn:hover .btn__arrow { transform: translateX(5px); }
+
+/* ---------- reveal animations ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(calc(34px * var(--motion-scale)));
+  transition: opacity var(--reveal-dur) var(--ease), transform var(--reveal-dur) var(--ease);
+  will-change: opacity, transform;
+}
+.reveal.in { opacity: 1; transform: none; }
+.reveal[data-d="1"] { transition-delay: 0.08s; }
+.reveal[data-d="2"] { transition-delay: 0.16s; }
+.reveal[data-d="3"] { transition-delay: 0.24s; }
+.reveal[data-d="4"] { transition-delay: 0.32s; }
+.reveal[data-d="5"] { transition-delay: 0.40s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1 !important; transform: none !important; }
+}
+
+/* mask reveal for big headline lines */
+.line-mask { overflow: hidden; display: block; padding-block: 0.04em; }
+.line-mask > span {
+  display: block;
+  transform: translateY(110%);
+  transition: transform 1200ms var(--ease);
+}
+.line-mask.in > span { transform: none; }
+
+/* ---------- scroll progress ---------- */
+.scroll-prog {
+  position: fixed;
+  top: 0; left: 0;
+  height: 2px;
+  width: 0%;
+  background: linear-gradient(90deg, var(--accent), var(--saffron));
+  z-index: 9999;
+  box-shadow: 0 0 14px rgba(244,163,0,0.6);
+}
+
+/* ---------- spinning halo for motifs ---------- */
+@keyframes spin-slow { to { transform: rotate(360deg); } }
+@keyframes spin-rev { to { transform: rotate(-360deg); } }
+@keyframes float-y { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+@keyframes pulse-glow { 0%,100% { opacity: 0.5; } 50% { opacity: 0.9; } }
+
+.spin-slow { animation: spin-slow 90s linear infinite; transform-origin: center; }
+.spin-rev { animation: spin-rev 120s linear infinite; transform-origin: center; }
+
+/* utility */
+.hair-rule { height: 1px; background: var(--hair); border: 0; }
+.tnum { font-variant-numeric: tabular-nums; }
+.nowrap { white-space: nowrap; }
